@@ -3526,3 +3526,95 @@ body {
 .feature-tile:nth-of-type(7n) {
   background: linear-gradient(135deg, #c9f2d1, #f4f0b8);
 }
+
+/* Weather/time/stocks are utilities, so keep them as a tiny self-scrolling ticker. */
+.portal-header {
+  grid-template-columns: 96px minmax(0, 1fr);
+  grid-template-rows: 92px 58px 22px;
+}
+
+.portal-logo {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.module-nav {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.journey-actions {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.journey-actions a {
+  min-height: 58px;
+  font-size: clamp(15px, 1.05vw, 21px);
+}
+
+.market-strip {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  position: relative;
+  display: block;
+  min-height: 22px;
+  overflow: hidden;
+  padding: 0;
+  background: #071323;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.market-strip::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: max-content;
+  padding-left: 100%;
+  color: #eaf6ff;
+  content: "Weather 72F  •  Time 12:43 AM  •  Stocks: Innovation Index +2.4%  •  AI Deals +18  •  Robotics +1.6%  •  Health AI +3.1%  •  Quantum +0.7%";
+  animation: utilityTicker 28s linear infinite;
+}
+
+.market-strip span {
+  opacity: 0;
+}
+
+@keyframes utilityTicker {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@media (max-width: 900px) {
+  .portal-header {
+    grid-template-columns: 1fr;
+    grid-template-rows: 86px 54px 22px;
+  }
+
+  .module-nav,
+  .journey-actions,
+  .market-strip {
+    grid-column: 1;
+  }
+
+  .module-nav {
+    grid-row: 1;
+  }
+
+  .journey-actions {
+    grid-row: 2;
+  }
+
+  .market-strip {
+    grid-row: 3;
+  }
+}
