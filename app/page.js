@@ -187,6 +187,16 @@ const leaderGroups = {
     ["Michael Greeley", `${asset}/2022/08/Greeley_220x220_3-e1661219172983.jpg`],
     ["Matt Kozlov", `${asset}/2022/08/1110x740-md-starburst-matt-kozlov-e1661219143691.jpg`],
   ],
+  Startups: [
+    ["Digital Health", `${asset}/2021/03/1-2.png`],
+    ["Beam Dental", `${asset}/2022/05/Copy-of-Copy-of-Black-and-Yellow-Playful-TechIT-Trifold-Brochure-8.png`],
+    ["AI Compute", `${asset}/2022/03/Copy-of-Copy-of-Black-and-Yellow-Playful-TechIT-Trifold-Brochure-6.png`],
+  ],
+  Communities: [
+    ["Innovation Local", `${asset}/2025/06/Video-covers-HOME-PAGE-4.jpg`],
+    ["Founders Desk", `${asset}/2025/07/Video-covers-HOME-PAGE-8.jpg`],
+    ["Research Circle", `${asset}/2025/07/Video-covers-HOME-PAGE-6.jpg`],
+  ],
 };
 
 const initialIdeas = [
@@ -317,6 +327,7 @@ export default function InnovationDashboard() {
   const [activeCategory, setActiveCategory] = useState("Healthcare");
   const [activeAudience, setActiveAudience] = useState("Startups");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [modalVideo, setModalVideo] = useState(null);
   const [followed, setFollowed] = useState([]);
   const [ideas, setIdeas] = useState(initialIdeas);
@@ -352,7 +363,7 @@ export default function InnovationDashboard() {
   }
 
   return (
-    <main className="portal-shell">
+    <main className={cx("portal-shell", !sidebarOpen && "is-sidebar-collapsed")}>
       <section className="top-rail" aria-label="The Innovators masthead">
         <div className="masthead-brand">
           <img src={`${asset}/2021/02/logo-final-blac-k.png`} alt="" />
@@ -378,6 +389,16 @@ export default function InnovationDashboard() {
       </section>
 
       <header className="portal-header">
+        <button
+          className="sidebar-toggle"
+          onClick={() => setSidebarOpen((current) => !current)}
+          type="button"
+          aria-label={sidebarOpen ? "Close audience menu" : "Open audience menu"}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
         <a className="portal-logo" href="#top" aria-label="The Innovators">
           <img src={`${asset}/2021/02/logo-final-blac-k.png`} alt="The Innovators" />
         </a>
@@ -398,9 +419,19 @@ export default function InnovationDashboard() {
         </nav>
 
         <div className="market-strip">
-          <span>Weather</span>
-          <span>Time</span>
-          <span>Stocks</span>
+          <span className="ticker-copy">
+            Weather 72F | Time 12:43 AM | Stocks: Innovation Index +2.4% | AI Deals +18 |
+            Robotics +1.6% | Health AI +3.1% | Quantum +0.7%
+          </span>
+          <form
+            className="ticker-search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setActiveModule("Search");
+            }}
+          >
+            <input aria-label="Search ticker" placeholder="Search" />
+          </form>
         </div>
 
         <div className="journey-actions">
@@ -574,7 +605,9 @@ export default function InnovationDashboard() {
         <section className="leaders-panel">
           <div className="panel-heading">
             <h2>Leaders</h2>
-            <span>{followed.length ? `${followed.length} followed` : "Follow"}</span>
+            <button className="mini-action" onClick={() => setActiveModule("Leaders")} type="button">
+              {followed.length ? `${followed.length} followed` : "Follow"}
+            </button>
           </div>
           {Object.entries(leaderGroups).map(([group, people]) => (
             <div className="leader-row" key={group}>
@@ -605,20 +638,28 @@ export default function InnovationDashboard() {
         <section className="innovators-panel">
           <div className="panel-heading">
             <h2>Innovators</h2>
-            <button onClick={() => setActiveCategory("AI")} type="button">
+            <button className="mini-action" onClick={() => setActiveCategory("AI")} type="button">
               Discover
             </button>
           </div>
-          <div className="video-mosaic">
-            {filteredVideos.concat(videos).slice(0, 9).map((video, index) => (
-              <VideoCard
-                key={`${video.title}-${index}`}
-                video={video}
-                onPlay={(item) => {
-                  setActiveVideo(item);
-                  setModalVideo(item);
-                }}
-              />
+          <div className="innovator-lines">
+            {["Trending", "Featured", "Innovators this week"].map((label, rowIndex) => (
+              <div className="video-line" key={label}>
+                <span>{label}</span>
+                {filteredVideos
+                  .concat(videos)
+                  .slice(rowIndex * 3, rowIndex * 3 + 3)
+                  .map((video, index) => (
+                    <VideoCard
+                      key={`${label}-${video.title}-${index}`}
+                      video={video}
+                      onPlay={(item) => {
+                        setActiveVideo(item);
+                        setModalVideo(item);
+                      }}
+                    />
+                  ))}
+              </div>
             ))}
           </div>
         </section>
@@ -626,7 +667,9 @@ export default function InnovationDashboard() {
         <section className="ideas-panel">
           <div className="panel-heading">
             <h2>Everyone's</h2>
-            <span>Post</span>
+            <button className="mini-action" onClick={() => setActiveModule("Post")} type="button">
+              Post
+            </button>
           </div>
           <p>innovation ideas</p>
           <form onSubmit={postIdea}>
@@ -644,6 +687,11 @@ export default function InnovationDashboard() {
               <li key={idea}>{idea}</li>
             ))}
           </ul>
+          <div className="everyone-thumbs">
+            {videos.slice(0, 3).map((video) => (
+              <VideoCard key={`everyone-${video.title}`} video={video} onPlay={setModalVideo} />
+            ))}
+          </div>
         </section>
 
         <section className="bottom-videos">
@@ -691,7 +739,7 @@ export default function InnovationDashboard() {
               />
             )}
             <div className="ai-card-grid">
-              {row.cards.map(([title, media], index) =>
+              {row.cards.slice(0, 3).map(([title, media]) =>
                 typeof media === "string" ? (
                   <ImagePlayCard
                     image={media}
@@ -773,8 +821,7 @@ export default function InnovationDashboard() {
           ))}
         </div>
         <footer className="deals-footer">
-          <strong>The INNOVATORS</strong>
-          <span>2026 all rights reserved</span>
+          <strong>More innovation deal flow</strong>
         </footer>
       </section>
 
@@ -844,7 +891,31 @@ export default function InnovationDashboard() {
             </div>
           </article>
         ))}
-        <footer>Copyright 2026</footer>
+      </section>
+
+      <footer className="site-footer">
+        <strong>The INNOVATORS</strong>
+        <span>2026 all rights reserved</span>
+      </footer>
+
+      <section className="floating-copilot" aria-label="Site AI co-pilot">
+        <button
+          className="floating-copilot-orb"
+          onClick={() => setActiveModule("AI co-pilot")}
+          type="button"
+          aria-label="Open AI co-pilot"
+        >
+          AI
+        </button>
+        <form onSubmit={askCopilot}>
+          <input
+            aria-label="Ask the site co-pilot"
+            onChange={(event) => setCopilotPrompt(event.target.value)}
+            placeholder="Ask co-pilot..."
+            value={copilotPrompt}
+          />
+          <button type="submit">Ask</button>
+        </form>
       </section>
 
       {modalVideo && (
