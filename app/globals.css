@@ -1882,21 +1882,34 @@ body {
 }
 
 .innovation-row {
-  grid-template-columns: 170px minmax(0, 1fr);
-  gap: 22px;
+  grid-template-columns: minmax(150px, 0.22fr) minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 34px);
+  align-items: start;
   padding-top: 22px;
   border-top: 1px solid var(--line);
 }
 
 .innovation-row > h3 {
+  position: sticky;
+  top: 14px;
   color: #0f172a;
-  font-size: clamp(20px, 1.7vw, 30px);
+  font-size: clamp(22px, 2.2vw, 38px);
+  line-height: 1.04;
   text-align: left;
 }
 
 .innovation-row > div {
-  grid-template-columns: 1.5fr repeat(5, minmax(120px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.innovation-row .innovation-feature {
+  grid-column: span 2;
+}
+
+.innovation-row .captioned-video {
+  min-width: 0;
 }
 
 .on-innovation-section footer {
