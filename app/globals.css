@@ -4431,3 +4431,124 @@ input {
     grid-template-columns: 96px minmax(270px, 1fr) minmax(560px, 2fr);
   }
 }
+
+/* Strict media shelf pass: one feature + three visible cards, never wrapping. */
+:root {
+  --lane-feature-share: 42%;
+  --lane-small-share: calc((100% - var(--lane-feature-share) - (var(--lane-gap) * 3)) / 3);
+}
+
+.audience-sidebar {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0;
+}
+
+.portal-shell {
+  padding-left: calc(var(--rail-width) + 18px);
+}
+
+.bottom-videos,
+.shorts-video-row,
+.show-grid,
+.deals-grid,
+.innovation-row > div {
+  grid-auto-flow: column !important;
+  grid-template-rows: minmax(0, auto) !important;
+  grid-template-columns:
+    minmax(0, var(--lane-feature-share))
+    repeat(3, minmax(0, var(--lane-small-share))) !important;
+  grid-auto-columns: minmax(0, var(--lane-small-share)) !important;
+  align-items: start;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.shorts-strip {
+  --short-visible-width: calc((100% - (var(--lane-gap) * 5)) / 6);
+  grid-auto-flow: column !important;
+  grid-template-rows: minmax(0, auto) !important;
+  grid-template-columns: repeat(6, minmax(0, var(--short-visible-width))) !important;
+  grid-auto-columns: minmax(0, var(--short-visible-width)) !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.video-line {
+  grid-auto-flow: column;
+  grid-template-rows: minmax(0, auto);
+  grid-template-columns: 82px repeat(3, minmax(0, 1fr));
+  grid-auto-columns: minmax(0, 1fr);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.ai-row,
+.ai-row:not(:has(.wide-ai)),
+.ai-row:has(.wide-ai) {
+  grid-template-columns:
+    118px
+    minmax(0, var(--lane-feature-share))
+    minmax(0, calc(100% - 118px - var(--lane-feature-share) - (var(--lane-gap) * 2)));
+  overflow-x: hidden;
+}
+
+.ai-card-grid {
+  grid-auto-flow: column;
+  grid-template-rows: minmax(0, auto);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-columns: minmax(0, 1fr);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.bottom-videos > *,
+.shorts-video-row > *,
+.show-grid > *,
+.deals-grid > *,
+.innovation-row > div > *,
+.ai-card-grid > *,
+.video-line > * {
+  scroll-snap-align: start;
+}
+
+.bottom-videos > :first-child,
+.shorts-video-row > :first-child,
+.show-grid > :first-child,
+.deals-grid > :first-child,
+.innovation-row > div > :first-child {
+  min-width: 0;
+}
+
+.video-card,
+.image-play-card,
+.captioned-video,
+.captioned-video .video-card {
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --lane-feature-share: 48%;
+  }
+
+  .bottom-videos,
+  .shorts-video-row,
+  .show-grid,
+  .deals-grid,
+  .innovation-row > div {
+    min-width: 760px;
+  }
+
+  .video-line {
+    min-width: 650px;
+  }
+
+  .ai-row,
+  .ai-row:not(:has(.wide-ai)),
+  .ai-row:has(.wide-ai) {
+    grid-template-columns: 96px 320px 620px;
+    overflow-x: auto;
+  }
+}

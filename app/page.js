@@ -646,19 +646,19 @@ export default function InnovationDashboard() {
             {["Trending", "Featured", "Innovators this week"].map((label, rowIndex) => (
               <div className="video-line" key={label}>
                 <span>{label}</span>
-                {filteredVideos
-                  .concat(videos)
-                  .slice(rowIndex * 3, rowIndex * 3 + 3)
-                  .map((video, index) => (
-                    <VideoCard
-                      key={`${label}-${video.title}-${index}`}
-                      video={video}
-                      onPlay={(item) => {
-                        setActiveVideo(item);
-                        setModalVideo(item);
-                      }}
-                    />
-                  ))}
+                {Array.from(
+                  { length: 6 },
+                  (_, index) => videos[(rowIndex * 2 + index) % videos.length]
+                ).map((video, index) => (
+                  <VideoCard
+                    key={`${label}-${video.title}-${index}`}
+                    video={video}
+                    onPlay={(item) => {
+                      setActiveVideo(item);
+                      setModalVideo(item);
+                    }}
+                  />
+                ))}
               </div>
             ))}
           </div>
@@ -739,7 +739,7 @@ export default function InnovationDashboard() {
               />
             )}
             <div className="ai-card-grid">
-              {row.cards.slice(0, 3).map(([title, media]) =>
+              {row.cards.map(([title, media]) =>
                 typeof media === "string" ? (
                   <ImagePlayCard
                     image={media}
@@ -859,15 +859,14 @@ export default function InnovationDashboard() {
           <article className="innovation-row" key={column.title}>
             <h3>{column.title}</h3>
             <div>
-              {rowIndex === 0 && (
+              {rowIndex === 0 ? (
                 <VideoCard video={videos[0]} size="innovation-feature" onPlay={setModalVideo} />
-              )}
-              {rowIndex === 2 && (
+              ) : (
                 <ImagePlayCard
-                  image={softVisuals[3]}
+                  image={rowIndex === 1 ? softVisuals[0] : softVisuals[3]}
                   onPlay={setModalVideo}
                   size="innovation-feature"
-                  title="My community"
+                  title={rowIndex === 1 ? "Intelligence" : "My community"}
                 />
               )}
               {column.videos.map((video, index) => (
@@ -880,14 +879,6 @@ export default function InnovationDashboard() {
                   </h3>
                 </div>
               ))}
-              {rowIndex === 1 && (
-                <ImagePlayCard
-                  image={softVisuals[0]}
-                  onPlay={setModalVideo}
-                  size="innovation-feature"
-                  title="Intelligence"
-                />
-              )}
             </div>
           </article>
         ))}
