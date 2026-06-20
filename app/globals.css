@@ -6087,3 +6087,163 @@ input {
   color: #1c2736;
   background: transparent;
 }
+
+/* Equalize the main dashboard band: no tall panel should create empty space beside it. */
+.portal-grid,
+.is-sidebar-collapsed .portal-grid {
+  grid-template-rows: 348px 176px;
+  align-items: stretch;
+}
+
+.spotlight-panel,
+.leaders-panel,
+.innovators-panel,
+.ideas-panel {
+  min-height: 0;
+  height: 348px;
+  max-height: 348px;
+  overflow: hidden;
+}
+
+.leaders-panel,
+.ideas-panel {
+  overflow-y: auto;
+}
+
+.spotlight-panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.spotlight-panel .video-card.hero img {
+  height: 178px;
+  min-height: 0;
+}
+
+.spotlight-panel .news-block {
+  min-height: 0;
+  margin-top: 6px;
+}
+
+.news-thumbs .video-card img {
+  height: 34px;
+  min-height: 0;
+}
+
+.leaders-panel {
+  padding: 7px;
+}
+
+.leader-row {
+  gap: 3px;
+}
+
+.leader-row h3 {
+  margin: 2px 0 4px;
+  font-size: 11px;
+}
+
+.leader-row div {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 7px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.leader-row button {
+  flex: 0 0 calc(33.3333% - 5px);
+  min-height: 72px;
+}
+
+.leader-row img {
+  height: 72px;
+}
+
+.leader-row button span strong {
+  font-size: 9px;
+}
+
+.leader-row button span small {
+  font-size: 8px;
+}
+
+.innovators-panel {
+  padding: 7px;
+}
+
+.innovators-panel .panel-heading {
+  min-height: 26px;
+  margin-bottom: 4px;
+}
+
+.innovator-lines {
+  height: calc(100% - 30px);
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.video-line {
+  min-height: 0;
+  height: 100%;
+  align-items: stretch;
+}
+
+.video-line > span {
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-line > .video-card {
+  height: 100%;
+}
+
+.video-line .video-card img {
+  height: calc(100% - 18px);
+  min-height: 0;
+}
+
+.video-line .video-card strong {
+  min-height: 16px;
+  height: 16px;
+  overflow: hidden;
+}
+
+.ideas-panel {
+  padding: 7px;
+}
+
+.ideas-panel .panel-heading {
+  min-height: 26px;
+}
+
+.ideas-panel form {
+  margin-bottom: 4px;
+}
+
+.ideas-panel ul {
+  max-height: 150px;
+  margin: 3px 0 6px;
+}
+
+.everyone-thumbs .video-card img {
+  height: 38px;
+}
+
+.bottom-videos {
+  min-height: 176px;
+  height: 176px;
+  align-items: stretch;
+}
+
+.bottom-videos > * {
+  height: 100%;
+}
+
+.bottom-videos .video-card img {
+  height: calc(100% - 18px);
+}
