@@ -192,11 +192,6 @@ const leaderGroups = {
     ["Beam Dental", `${asset}/2022/05/Copy-of-Copy-of-Black-and-Yellow-Playful-TechIT-Trifold-Brochure-8.png`],
     ["AI Compute", `${asset}/2022/03/Copy-of-Copy-of-Black-and-Yellow-Playful-TechIT-Trifold-Brochure-6.png`],
   ],
-  Communities: [
-    ["Innovation Local", `${asset}/2025/06/Video-covers-HOME-PAGE-4.jpg`],
-    ["Founders Desk", `${asset}/2025/07/Video-covers-HOME-PAGE-8.jpg`],
-    ["Research Circle", `${asset}/2025/07/Video-covers-HOME-PAGE-6.jpg`],
-  ],
 };
 
 const initialIdeas = [
@@ -364,30 +359,6 @@ export default function InnovationDashboard() {
 
   return (
     <main className={cx("portal-shell", !sidebarOpen && "is-sidebar-collapsed")}>
-      <section className="top-rail" aria-label="The Innovators masthead">
-        <div className="masthead-brand">
-          <img src={`${asset}/2021/02/logo-final-blac-k.png`} alt="" />
-          <div>
-            <span>THE INNOVATORS</span>
-            <strong>Innovation markets, founders, leaders, and deal flow</strong>
-          </div>
-        </div>
-        <form
-          className="search-box"
-          onSubmit={(event) => {
-            event.preventDefault();
-            setActiveModule("Discover");
-          }}
-        >
-          <input aria-label="Search innovation stories" placeholder="Search sectors, leaders, startups..." />
-          <button type="submit">Search</button>
-        </form>
-        <div className="edition-box">
-          <span>Global Edition</span>
-          <strong>Fri, Jun 19, 2026</strong>
-        </div>
-      </section>
-
       <header className="portal-header">
         <button
           className="sidebar-toggle"
@@ -418,20 +389,21 @@ export default function InnovationDashboard() {
           ))}
         </nav>
 
+        <form
+          className="header-search"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setActiveModule("Search");
+          }}
+        >
+          <input aria-label="Search innovation stories" placeholder="Search" />
+        </form>
+
         <div className="market-strip">
           <span className="ticker-copy">
             Weather 72F | Time 12:43 AM | Stocks: Innovation Index +2.4% | AI Deals +18 |
             Robotics +1.6% | Health AI +3.1% | Quantum +0.7%
           </span>
-          <form
-            className="ticker-search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setActiveModule("Search");
-            }}
-          >
-            <input aria-label="Search ticker" placeholder="Search" />
-          </form>
         </div>
 
         <div className="journey-actions">
@@ -628,6 +600,10 @@ export default function InnovationDashboard() {
                     type="button"
                   >
                     <img src={image} alt={name} />
+                    <span>
+                      <strong>{name}</strong>
+                      <small>{group}</small>
+                    </span>
                   </button>
                 ))}
               </div>
@@ -739,7 +715,7 @@ export default function InnovationDashboard() {
               />
             )}
             <div className="ai-card-grid">
-              {row.cards.map(([title, media]) =>
+              {row.cards.slice(0, 3).map(([title, media]) =>
                 typeof media === "string" ? (
                   <ImagePlayCard
                     image={media}
