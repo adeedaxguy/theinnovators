@@ -4973,3 +4973,451 @@ body {
     grid-row: 3;
   }
 }
+
+/* Loom completion pass: top-menu collapse and strict non-wrapping content lanes. */
+.portal-shell {
+  width: min(100%, 1880px);
+  padding-top: 10px;
+  padding-left: calc(var(--rail-width) + 12px);
+}
+
+.sidebar-toggle {
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.sidebar-toggle[aria-pressed="true"] {
+  background: #171b22;
+}
+
+.sidebar-toggle[aria-pressed="true"] span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.sidebar-toggle[aria-pressed="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.sidebar-toggle[aria-pressed="true"] span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.is-menu-collapsed.portal-shell {
+  padding-left: calc(var(--rail-width) + 12px);
+}
+
+.is-menu-collapsed .portal-header {
+  grid-template-columns: 38px 92px minmax(0, 1fr);
+  grid-template-rows: 58px;
+  min-height: 58px;
+}
+
+.is-menu-collapsed .portal-logo {
+  min-height: 58px;
+  padding: 4px;
+}
+
+.is-menu-collapsed .portal-logo img {
+  width: 82px;
+  height: 48px;
+}
+
+.is-menu-collapsed .module-nav {
+  grid-column: 3;
+  grid-row: 1;
+  grid-template-columns: repeat(10, 44px);
+  justify-content: start;
+  overflow-x: auto;
+}
+
+.is-menu-collapsed .module-nav button {
+  min-height: 58px;
+  grid-template-rows: 1fr;
+  padding: 5px 4px;
+}
+
+.is-menu-collapsed .module-nav img {
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+}
+
+.is-menu-collapsed .module-nav span,
+.is-menu-collapsed .header-search,
+.is-menu-collapsed .journey-actions,
+.is-menu-collapsed .market-strip {
+  display: none;
+}
+
+.audience-sidebar {
+  top: 0;
+  padding-top: 8px;
+  z-index: 12;
+}
+
+.audience-sidebar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 3px 5px;
+  font-weight: 600;
+}
+
+.market-tape,
+.landing-lead,
+.landing-actions {
+  margin-top: 8px;
+}
+
+.landing-lead {
+  grid-template-columns: minmax(280px, 0.9fr) minmax(540px, 1.55fr) minmax(250px, 0.72fr);
+  gap: 12px;
+  padding: 12px;
+}
+
+.lead-copy h1 {
+  max-width: 760px;
+  font-size: clamp(30px, 3vw, 48px);
+  line-height: 0.98;
+}
+
+.lead-copy p,
+.lead-briefing li,
+.landing-actions strong {
+  font-size: 12px;
+  line-height: 1.28;
+}
+
+.lead-media {
+  grid-template-columns: 1.28fr 0.72fr;
+  gap: 8px;
+}
+
+.lead-stack {
+  gap: 7px;
+}
+
+.lead-story {
+  min-height: 0;
+  padding: 6px;
+}
+
+.feature-board,
+.category-bar,
+.portal-grid,
+.ai-section,
+.shorts-section,
+.show-section,
+.deals-section,
+.on-innovation-section {
+  scroll-margin-top: 70px;
+}
+
+.feature-tile,
+.category-bar button,
+.module-nav span,
+.journey-actions a {
+  letter-spacing: 0;
+}
+
+.video-line,
+.bottom-videos,
+.shorts-video-row,
+.show-grid,
+.deals-grid,
+.innovation-row > div,
+.shorts-strip,
+.leader-row div,
+.ai-card-grid {
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+
+.video-line::-webkit-scrollbar,
+.bottom-videos::-webkit-scrollbar,
+.shorts-video-row::-webkit-scrollbar,
+.show-grid::-webkit-scrollbar,
+.deals-grid::-webkit-scrollbar,
+.innovation-row > div::-webkit-scrollbar,
+.shorts-strip::-webkit-scrollbar,
+.leader-row div::-webkit-scrollbar,
+.ai-card-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.video-line::-webkit-scrollbar-thumb,
+.bottom-videos::-webkit-scrollbar-thumb,
+.shorts-video-row::-webkit-scrollbar-thumb,
+.show-grid::-webkit-scrollbar-thumb,
+.deals-grid::-webkit-scrollbar-thumb,
+.innovation-row > div::-webkit-scrollbar-thumb,
+.shorts-strip::-webkit-scrollbar-thumb,
+.leader-row div::-webkit-scrollbar-thumb,
+.ai-card-grid::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.25);
+}
+
+.video-line {
+  grid-template-columns:
+    84px
+    repeat(3, minmax(0, calc((100% - 84px - 24px) / 3)));
+  grid-auto-columns: minmax(0, calc((100% - 84px - 24px) / 3));
+  align-items: start;
+}
+
+.video-line > span {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-height: 86px;
+  padding-top: 3px;
+  background: #fff;
+  text-align: center;
+}
+
+.video-line .video-card {
+  min-width: 0;
+}
+
+.bottom-videos,
+.shorts-video-row {
+  grid-auto-flow: column;
+  grid-template-columns: repeat(4, minmax(0, calc((100% - 36px) / 4))) !important;
+  grid-auto-columns: minmax(0, calc((100% - 36px) / 4)) !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.show-grid,
+.deals-grid,
+.innovation-row > div {
+  --lane-feature-share: 38%;
+  grid-auto-flow: column;
+  grid-template-columns:
+    minmax(0, var(--lane-feature-share))
+    repeat(3, minmax(0, calc((100% - var(--lane-feature-share) - 36px) / 3))) !important;
+  grid-auto-columns: minmax(0, calc((100% - var(--lane-feature-share) - 36px) / 3)) !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.show-grid > :first-child,
+.deals-grid > :first-child,
+.innovation-row > div > :first-child {
+  min-width: 0;
+}
+
+.video-card img,
+.image-play-card img {
+  aspect-ratio: 16 / 9;
+  background: #edf4fa;
+  filter: saturate(0.94) contrast(1.03);
+}
+
+.captioned-video h3,
+.video-card strong,
+.image-play-card strong {
+  min-height: 30px;
+  margin-top: 5px;
+  font-size: 11px;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.ideas-panel {
+  align-content: start;
+}
+
+.ideas-panel ul {
+  max-height: 185px;
+  overflow-y: auto;
+}
+
+.everyone-thumbs {
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-columns: minmax(0, 1fr);
+  overflow-x: auto;
+}
+
+.everyone-thumbs .video-card strong {
+  display: none;
+}
+
+.ai-row,
+.ai-row:not(:has(.wide-ai)),
+.ai-row:has(.wide-ai) {
+  grid-template-columns:
+    100px
+    minmax(0, 38%)
+    minmax(0, calc(62% - 124px));
+  align-items: start;
+}
+
+.ai-row:has(.wide-ai) {
+  grid-template-columns:
+    100px
+    minmax(0, 38%)
+    minmax(0, calc(62% - 124px));
+}
+
+.ai-row:has(.wide-ai) .ai-card-grid {
+  order: 2;
+}
+
+.ai-row:has(.wide-ai) .wide-ai {
+  order: 1;
+}
+
+.ai-card-grid {
+  grid-template-columns: repeat(3, minmax(0, calc((100% - 24px) / 3)));
+  grid-auto-columns: minmax(0, calc((100% - 24px) / 3));
+}
+
+.shorts-strip {
+  --short-visible-width: calc((100% - 48px) / 5);
+  grid-template-columns: repeat(5, minmax(0, var(--short-visible-width))) !important;
+  grid-auto-columns: minmax(0, var(--short-visible-width)) !important;
+  overflow-x: auto;
+}
+
+.shorts-strip .image-play-card img {
+  aspect-ratio: 9 / 14;
+}
+
+@media (max-width: 1180px) {
+  .portal-shell {
+    min-width: 1100px;
+  }
+
+  .portal-header {
+    grid-template-columns: 38px 108px minmax(420px, 1fr) 165px;
+  }
+
+  .landing-lead,
+  .portal-grid,
+  .ai-section,
+  .shorts-section,
+  .show-section,
+  .deals-section,
+  .on-innovation-section {
+    min-width: 980px;
+  }
+}
+
+/* Final row discipline: give video shelves room and prevent accidental row wrapping. */
+.portal-grid,
+.is-sidebar-collapsed .portal-grid {
+  grid-template-columns:
+    minmax(360px, 0.92fr)
+    minmax(278px, 0.72fr)
+    minmax(540px, 1.2fr)
+    minmax(230px, 0.54fr);
+  gap: 10px;
+}
+
+.bottom-videos,
+.shorts-video-row,
+.show-grid,
+.deals-grid,
+.innovation-row > div,
+.video-line,
+.shorts-strip,
+.ai-card-grid {
+  grid-template-rows: auto !important;
+  grid-auto-flow: column !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.bottom-videos,
+.shorts-video-row {
+  max-width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-auto-columns: minmax(0, calc((100% - 36px) / 4)) !important;
+}
+
+.show-grid,
+.deals-grid,
+.innovation-row > div {
+  max-width: 100%;
+  grid-template-columns:
+    minmax(0, 38%)
+    repeat(3, minmax(0, calc(20.6667% - 12px))) !important;
+  grid-auto-columns: minmax(0, calc(20.6667% - 12px)) !important;
+}
+
+.video-line {
+  grid-template-columns:
+    82px
+    repeat(3, minmax(0, calc(33.3333% - 35.333px))) !important;
+  grid-auto-columns: minmax(0, calc(33.3333% - 35.333px)) !important;
+}
+
+.deals-grid > *,
+.show-grid > *,
+.innovation-row > div > *,
+.bottom-videos > *,
+.shorts-video-row > *,
+.video-line > * {
+  grid-row: 1 !important;
+}
+
+/* Hard lock content shelves to YouTube/MSN-style horizontal rows. */
+.bottom-videos,
+.shorts-video-row,
+.show-grid,
+.deals-grid,
+.innovation-row > div,
+.shorts-strip,
+.video-line,
+.ai-card-grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start;
+  gap: 12px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+.bottom-videos > *,
+.shorts-video-row > * {
+  flex: 0 0 calc(25% - 9px);
+  min-width: 0;
+}
+
+.show-grid > :first-child,
+.deals-grid > :first-child,
+.innovation-row > div > :first-child {
+  flex: 0 0 38%;
+  min-width: 0;
+}
+
+.show-grid > :not(:first-child),
+.deals-grid > :not(:first-child),
+.innovation-row > div > :not(:first-child) {
+  flex: 0 0 calc(20.6667% - 12px);
+  min-width: 0;
+}
+
+.video-line > span {
+  flex: 0 0 82px;
+}
+
+.video-line > .video-card {
+  flex: 0 0 calc(33.3333% - 35.333px);
+  min-width: 0;
+}
+
+.shorts-strip > * {
+  flex: 0 0 calc(20% - 9.6px);
+  min-width: 0;
+}
+
+.ai-card-grid > * {
+  flex: 0 0 calc(33.3333% - 8px);
+  min-width: 0;
+}

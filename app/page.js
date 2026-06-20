@@ -322,7 +322,7 @@ export default function InnovationDashboard() {
   const [activeCategory, setActiveCategory] = useState("Healthcare");
   const [activeAudience, setActiveAudience] = useState("Startups");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [menuCollapsed, setMenuCollapsed] = useState(false);
   const [modalVideo, setModalVideo] = useState(null);
   const [followed, setFollowed] = useState([]);
   const [ideas, setIdeas] = useState(initialIdeas);
@@ -358,13 +358,14 @@ export default function InnovationDashboard() {
   }
 
   return (
-    <main className={cx("portal-shell", !sidebarOpen && "is-sidebar-collapsed")}>
+    <main className={cx("portal-shell", menuCollapsed && "is-menu-collapsed")}>
       <header className="portal-header">
         <button
           className="sidebar-toggle"
-          onClick={() => setSidebarOpen((current) => !current)}
+          onClick={() => setMenuCollapsed((current) => !current)}
           type="button"
-          aria-label={sidebarOpen ? "Close audience menu" : "Open audience menu"}
+          aria-label={menuCollapsed ? "Expand top menu" : "Collapse top menu"}
+          aria-pressed={menuCollapsed}
         >
           <span />
           <span />
@@ -784,15 +785,13 @@ export default function InnovationDashboard() {
           {videos.concat(videos).concat(videos).slice(1, 12).map((video, index) => (
             <div className="captioned-video" key={`deal-${video.title}-${index}`}>
               <VideoCard video={video} onPlay={setModalVideo} />
-              {index > 4 && (
-                <h3>
-                  {index % 3 === 0
-                    ? "applying AI to transform how companies innovate."
-                    : index % 3 === 1
-                      ? "Trade secrets, operational data"
-                      : "Democratize AI's benefits to individuals and communities."}
-                </h3>
-              )}
+              <h3>
+                {index % 3 === 0
+                  ? "applying AI to transform how companies innovate."
+                  : index % 3 === 1
+                    ? "Trade secrets, operational data"
+                    : "Democratize AI's benefits to individuals and communities."}
+              </h3>
             </div>
           ))}
         </div>
