@@ -5421,3 +5421,283 @@ body {
   flex: 0 0 calc(33.3333% - 8px);
   min-width: 0;
 }
+
+/* Strict Loom tally pass: readability, lane ratios, and compact content density. */
+.portal-header {
+  grid-template-columns: 42px 144px minmax(760px, 1fr) 198px minmax(292px, 0.42fr);
+  grid-template-rows: 104px 20px;
+  gap: 2px;
+}
+
+.portal-logo {
+  min-height: 104px;
+  padding: 4px;
+}
+
+.portal-logo img {
+  width: 128px;
+  height: 94px;
+}
+
+.module-nav {
+  grid-template-columns: repeat(10, minmax(70px, 1fr));
+}
+
+.module-nav button {
+  min-height: 104px;
+  grid-template-rows: 66px 1fr;
+  padding: 6px 3px 7px;
+}
+
+.module-nav img {
+  width: 62px;
+  height: 62px;
+  padding: 6px;
+}
+
+.module-nav span {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.04;
+}
+
+.header-search {
+  padding: 18px 8px;
+}
+
+.header-search input {
+  height: 31px;
+  font-size: 12px;
+}
+
+.journey-actions a {
+  min-height: 104px;
+  font-size: 14px;
+  line-height: 1.04;
+}
+
+.market-strip {
+  min-height: 20px;
+  background: linear-gradient(90deg, #bdecff 0%, #68d1ff 46%, #15a2ee 100%);
+  color: #07395e;
+  font-size: 10px;
+  line-height: 20px;
+}
+
+.feature-board {
+  grid-template-columns: repeat(11, minmax(138px, 1fr));
+}
+
+.feature-tile {
+  min-height: 58px;
+  font-size: 15px;
+  line-height: 1.05;
+}
+
+.category-bar {
+  gap: 8px;
+  padding: 6px 26px;
+}
+
+.category-bar button {
+  font-size: 15px;
+}
+
+.portal-grid,
+.is-sidebar-collapsed .portal-grid {
+  grid-template-columns:
+    minmax(350px, 0.86fr)
+    minmax(270px, 0.66fr)
+    minmax(640px, 1.35fr)
+    minmax(190px, 0.46fr);
+  gap: 8px;
+}
+
+.spotlight-panel,
+.leaders-panel,
+.innovators-panel,
+.ideas-panel {
+  padding: 8px;
+}
+
+.leaders-panel {
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+.leader-row button {
+  min-height: 86px;
+}
+
+.leader-row h3 {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.innovators-panel {
+  min-width: 0;
+}
+
+.innovator-lines {
+  gap: 8px;
+}
+
+.video-line {
+  gap: 10px;
+}
+
+.video-line > span {
+  flex: 0 0 74px;
+  min-height: 80px;
+  font-size: 11px;
+}
+
+.video-line > .video-card {
+  flex: 0 0 calc(33.3333% - 31.333px);
+}
+
+.video-line .video-card img {
+  min-height: 88px;
+}
+
+.ideas-panel h2 {
+  font-size: 19px;
+}
+
+.ideas-panel p {
+  font-size: 13px;
+  line-height: 1.08;
+}
+
+.ideas-panel ul {
+  max-height: 126px;
+  padding-left: 15px;
+}
+
+.ideas-panel li {
+  font-size: 10px;
+  line-height: 1.14;
+}
+
+.everyone-thumbs {
+  gap: 5px;
+}
+
+.everyone-thumbs .video-card {
+  flex: 0 0 calc(33.3333% - 4px);
+}
+
+.everyone-thumbs .video-card img {
+  min-height: 36px;
+}
+
+.bottom-videos,
+.shorts-video-row {
+  gap: 10px;
+}
+
+.bottom-videos > *,
+.shorts-video-row > * {
+  flex-basis: calc(25% - 7.5px);
+}
+
+.show-grid,
+.deals-grid,
+.innovation-row > div {
+  gap: 12px;
+}
+
+.show-grid > :first-child,
+.deals-grid > :first-child,
+.innovation-row > div > :first-child {
+  flex-basis: 40%;
+}
+
+.show-grid > :not(:first-child),
+.deals-grid > :not(:first-child),
+.innovation-row > div > :not(:first-child) {
+  flex-basis: calc(20% - 8px);
+}
+
+.show-grid > :not(:first-child) img,
+.deals-grid > :not(:first-child) img,
+.innovation-row > div > :not(:first-child) img {
+  min-height: clamp(126px, 10vw, 156px);
+}
+
+.captioned-video h3,
+.video-card strong,
+.image-play-card strong {
+  min-height: 22px;
+  font-size: 10px;
+  line-height: 1.14;
+}
+
+.ai-section {
+  gap: 16px;
+  padding: 14px 18px;
+}
+
+.ai-row,
+.ai-row:not(:has(.wide-ai)),
+.ai-row:has(.wide-ai) {
+  grid-template-columns: 92px minmax(0, 40%) minmax(0, calc(60% - 116px));
+  gap: 12px;
+}
+
+.ai-label h2 {
+  font-size: 24px;
+}
+
+.ai-label p {
+  font-size: 11px;
+}
+
+.ai-card-grid {
+  gap: 10px;
+}
+
+.ai-card-grid > * {
+  flex-basis: calc(33.3333% - 6.667px);
+}
+
+.ai-card-grid img {
+  min-height: 80px;
+}
+
+.shorts-strip {
+  gap: 10px;
+}
+
+.shorts-strip > * {
+  flex-basis: calc(20% - 8px);
+}
+
+.shorts-section h2,
+.show-section h2,
+.deals-section h2 {
+  font-size: 20px;
+}
+
+@media (max-width: 1500px) {
+  .portal-header {
+    grid-template-columns: 42px 128px minmax(690px, 1fr) 178px minmax(260px, 0.4fr);
+  }
+
+  .module-nav {
+    grid-template-columns: repeat(10, minmax(62px, 1fr));
+  }
+
+  .module-nav span {
+    font-size: 11px;
+  }
+
+  .portal-grid,
+  .is-sidebar-collapsed .portal-grid {
+    grid-template-columns:
+      minmax(330px, 0.84fr)
+      minmax(250px, 0.64fr)
+      minmax(580px, 1.32fr)
+      minmax(180px, 0.44fr);
+  }
+}
