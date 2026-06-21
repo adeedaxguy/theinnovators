@@ -1831,7 +1831,12 @@ img {
   }
 
   .portal-grid {
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.18fr) minmax(0, 1.28fr) minmax(0, 0.58fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "spotlight leaders"
+      "innovators ideas"
+      "bottom bottom";
+    grid-template-rows: 520px 460px 220px;
   }
 
   .feature-tile {
@@ -1840,6 +1845,10 @@ img {
 
   .leader-strip .scroll-rail {
     height: 51px;
+  }
+
+  .innovators-panel .video-line-rail .scroll-rail {
+    grid-auto-columns: calc((100% - 16px) / 3);
   }
 }
 
@@ -1912,6 +1921,7 @@ img {
       "ideas"
       "bottom";
     grid-template-rows: auto;
+    overflow: visible;
   }
 
   .spotlight-panel,
@@ -1920,6 +1930,19 @@ img {
   .ideas-panel,
   .bottom-videos {
     min-height: auto;
+  }
+
+  .innovator-lines {
+    height: auto;
+    grid-template-rows: none;
+  }
+
+  .video-line {
+    min-height: 126px;
+  }
+
+  .portal-grid .bottom-videos {
+    height: 260px;
   }
 
   .ai-row,
@@ -1947,5 +1970,498 @@ img {
   .video-line-rail .scroll-rail,
   .leader-strip .scroll-rail {
     grid-auto-columns: calc((100% - 6px) / 2);
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --deck-gap: 10px;
+  }
+
+  .portal-shell,
+  .portal-shell.is-sidebar-collapsed {
+    --site-sidebar-open: 58px;
+    --site-sidebar-collapsed: 58px;
+    --site-offset: 66px;
+  }
+
+  .portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+    margin-right: 8px;
+  }
+
+  .audience-sidebar,
+  .is-sidebar-collapsed .audience-sidebar {
+    width: 58px;
+    align-items: center;
+    padding: 8px 6px 12px;
+  }
+
+  .audience-sidebar-title span,
+  .audience-label {
+    display: none;
+  }
+
+  .audience-sidebar-title {
+    justify-content: center;
+  }
+
+  .audience-sidebar > button,
+  .is-sidebar-collapsed .audience-sidebar > button {
+    width: 44px;
+    min-height: 42px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .audience-sidebar > button .ui-icon,
+  .is-sidebar-collapsed .audience-sidebar > button .ui-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .portal-header {
+    grid-template-columns: 40px 104px minmax(0, 1fr);
+  }
+
+  .sidebar-toggle {
+    min-width: 40px;
+  }
+
+  .portal-logo img {
+    width: 94px;
+    height: 76px;
+  }
+
+  .module-nav {
+    grid-template-columns: repeat(10, 54px);
+    gap: 4px;
+    padding-right: 8px;
+  }
+
+  .module-nav button {
+    min-height: 78px;
+  }
+
+  .module-nav img,
+  .module-play-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .module-play-icon::after {
+    border-top-width: 9px;
+    border-bottom-width: 9px;
+    border-left-width: 15px;
+  }
+
+  .journey-actions {
+    grid-template-columns: repeat(3, minmax(128px, 1fr));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .journey-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .journey-actions a {
+    min-height: 50px;
+    font-size: 12px;
+  }
+
+  .ticker-search {
+    width: 134px;
+  }
+
+  .feature-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .feature-tile {
+    min-height: 50px;
+    font-size: 12px;
+  }
+
+  .category-bar {
+    min-height: 40px;
+    padding-inline: 32px;
+  }
+
+  .category-bar button,
+  .on-innovation-section nav button {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .portal-grid,
+  .ai-section,
+  .shorts-section,
+  .show-section,
+  .deals-section,
+  .on-innovation-section {
+    padding: 9px;
+    border-radius: 6px;
+  }
+
+  .portal-grid {
+    gap: 9px;
+  }
+
+  .spotlight-panel > .video-card.hero .media-frame,
+  .spotlight-panel > .video-card.hero img {
+    min-height: 222px;
+  }
+
+  .news-block {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .news-thumbs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .news-block h2,
+  .panel-heading h2 {
+    font-size: 22px;
+  }
+
+  .leaders-panel,
+  .innovators-panel,
+  .ideas-panel {
+    padding: 10px;
+  }
+
+  .leader-row .scroll-rail-shell {
+    padding-inline: 28px;
+  }
+
+  .leader-strip .scroll-rail {
+    height: 68px;
+    grid-auto-columns: 46%;
+  }
+
+  .leader-row button:not(.rail-arrow) {
+    height: 68px;
+  }
+
+  .video-line {
+    min-height: 142px;
+  }
+
+  .portal-grid .video-line-rail .scroll-rail,
+  .video-line-rail .scroll-rail {
+    grid-auto-columns: 78%;
+  }
+
+  .ideas-panel ul {
+    max-height: 176px;
+  }
+
+  .portal-grid .bottom-videos,
+  .bottom-videos .scroll-rail {
+    height: 242px;
+  }
+
+  .bottom-videos .scroll-rail,
+  .shorts-video-row .scroll-rail,
+  .feature-small-rail .scroll-rail,
+  .portal-grid .bottom-videos .scroll-rail {
+    grid-auto-columns: 82%;
+  }
+
+  .ai-row {
+    gap: 10px;
+  }
+
+  .section-row-heading {
+    flex-wrap: wrap;
+  }
+
+  .ai-row-heading h2 {
+    white-space: normal;
+  }
+
+  .video-card.ai-feature,
+  .image-play-card.ai-feature {
+    min-height: 260px;
+  }
+
+  .ai-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: none;
+  }
+
+  .ai-card-grid .captioned-video {
+    grid-template-rows: minmax(0, 1fr) 58px;
+  }
+
+  .captioned-video h3,
+  .ai-card-grid .captioned-video h3 {
+    font-size: 14px;
+  }
+
+  .shorts-section h2,
+  .show-section h2,
+  .deals-section h2,
+  .on-innovation-section > h2 {
+    font-size: 26px;
+  }
+
+  .shorts-strip .scroll-rail {
+    grid-auto-columns: 42%;
+    gap: 10px;
+  }
+
+  .shorts-video-row,
+  .feature-small-rail,
+  .show-grid,
+  .deals-grid,
+  .innovation-row-layout {
+    --feature-card-height: 248px;
+  }
+
+  .on-innovation-section nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .on-innovation-section nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .innovation-icon-cloud {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .innovation-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .floating-copilot {
+    right: 8px;
+    bottom: 8px;
+    width: min(238px, calc(100vw - 84px));
+  }
+
+  .floating-copilot-orb {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 520px) {
+  .portal-shell,
+  .portal-shell.is-sidebar-collapsed {
+    --header-height: 156px;
+    --site-offset: 60px;
+  }
+
+  .portal-header {
+    grid-template-columns: 38px 84px minmax(0, 1fr);
+    grid-template-rows: 76px 54px 26px;
+  }
+
+  .sidebar-toggle {
+    min-width: 38px;
+    min-height: 76px;
+  }
+
+  .portal-logo img {
+    width: 76px;
+    height: 62px;
+  }
+
+  .module-nav {
+    grid-template-columns: repeat(10, 48px);
+    padding-block: 4px;
+  }
+
+  .module-nav button {
+    min-height: 68px;
+  }
+
+  .module-nav img,
+  .module-play-icon {
+    width: 44px;
+    height: 44px;
+    padding: 5px;
+  }
+
+  .module-play-icon::after {
+    border-top-width: 8px;
+    border-bottom-width: 8px;
+    border-left-width: 13px;
+  }
+
+  .journey-actions {
+    grid-template-columns: repeat(3, 128px);
+  }
+
+  .journey-actions a {
+    min-height: 44px;
+    font-size: 11px;
+  }
+
+  .ticker-search {
+    display: none;
+  }
+
+  .audience-sidebar,
+  .is-sidebar-collapsed .audience-sidebar {
+    width: 52px;
+    padding-inline: 4px;
+  }
+
+  .audience-sidebar-title button {
+    width: 28px;
+    height: 28px;
+  }
+
+  .audience-sidebar > button,
+  .is-sidebar-collapsed .audience-sidebar > button {
+    width: 42px;
+    min-height: 40px;
+  }
+
+  .portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+    margin-right: 6px;
+    margin-left: var(--site-offset);
+  }
+
+  .feature-tile {
+    min-height: 46px;
+    padding: 4px;
+    font-size: 11px;
+  }
+
+  .category-bar {
+    min-height: 38px;
+    gap: 10px;
+    padding-inline: 30px;
+  }
+
+  .category-bar button,
+  .on-innovation-section nav button {
+    font-size: 14px;
+  }
+
+  .portal-grid,
+  .ai-section,
+  .shorts-section,
+  .show-section,
+  .deals-section,
+  .on-innovation-section {
+    margin-top: 8px;
+    padding: 8px;
+  }
+
+  .spotlight-panel > .video-card.hero .media-frame,
+  .spotlight-panel > .video-card.hero img {
+    min-height: 190px;
+  }
+
+  .news-thumbs {
+    grid-template-columns: repeat(3, minmax(64px, 1fr));
+  }
+
+  .news-block h2,
+  .panel-heading h2 {
+    font-size: 20px;
+  }
+
+  .news-block ul,
+  .ideas-panel ul {
+    font-size: 11px;
+  }
+
+  .leader-strip .scroll-rail {
+    grid-auto-columns: 72%;
+  }
+
+  .portal-grid .video-line-rail .scroll-rail,
+  .video-line-rail .scroll-rail,
+  .bottom-videos .scroll-rail,
+  .shorts-video-row .scroll-rail,
+  .feature-small-rail .scroll-rail,
+  .portal-grid .bottom-videos .scroll-rail {
+    grid-auto-columns: 86%;
+  }
+
+  .video-line {
+    min-height: 136px;
+  }
+
+  .portal-grid .bottom-videos,
+  .bottom-videos .scroll-rail {
+    height: 224px;
+  }
+
+  .video-card.is-editorial {
+    grid-template-rows: minmax(0, 56%) minmax(104px, 44%);
+  }
+
+  .video-card.is-editorial .video-copy {
+    padding: 10px;
+  }
+
+  .video-card.is-editorial .video-copy strong {
+    font-size: 18px;
+  }
+
+  .source-line,
+  .video-card.is-editorial .source-line,
+  .video-card.is-editorial .reaction-line {
+    font-size: 11px;
+  }
+
+  .video-card.ai-feature,
+  .image-play-card.ai-feature {
+    min-height: 216px;
+  }
+
+  .ai-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-card-grid .captioned-video {
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .shorts-strip .scroll-rail {
+    grid-auto-columns: 54%;
+  }
+
+  .shorts-video-row,
+  .feature-small-rail,
+  .show-grid,
+  .deals-grid,
+  .innovation-row-layout {
+    --feature-card-height: 226px;
+  }
+
+  .innovation-icon-cloud {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .floating-copilot {
+    width: auto;
+  }
+
+  .floating-copilot form {
+    display: none;
+  }
+
+  .video-modal {
+    padding: 10px;
+  }
+
+  .video-modal h2 {
+    font-size: 22px;
   }
 }
