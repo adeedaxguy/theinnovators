@@ -659,7 +659,12 @@ export default function InnovationDashboard() {
             data-testid={`feature-${slug(tile)}`}
             key={tile}
             onClick={() => setActiveModule(tile)}
-            style={{ "--tile": index }}
+            style={{
+              "--glow-x": `${18 + (index % 5) * 16}%`,
+              "--glow-y": `${26 + (index % 3) * 18}%`,
+              "--tile-a": `${42 + index * 21}deg`,
+              "--tile-b": `${177 + index * 15}deg`,
+            }}
             type="button"
           >
             {tile}
