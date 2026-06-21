@@ -218,29 +218,34 @@ img {
   grid-column: 1 / -1;
   grid-row: 2;
   position: relative;
+  display: grid;
+  grid-template-columns: 44px 126px minmax(680px, 1fr) minmax(408px, 0.34fr);
+  align-items: center;
   height: 26px;
   overflow: hidden;
   background: linear-gradient(90deg, #86ddff, #25aeea 52%, #0b83d7);
   color: #08385b;
   font-size: 11px;
-  line-height: 26px;
+  line-height: 1;
 }
 
 .ticker-copy {
-  position: absolute;
-  top: 0;
-  left: 10px;
+  position: relative;
+  grid-column: 1 / 4;
+  justify-self: start;
   width: max-content;
   min-width: max-content;
-  padding-right: 220px;
+  padding: 0 220px 0 10px;
   animation: ticker-slide 26s linear infinite;
 }
 
 .ticker-search {
-  position: absolute;
-  top: 4px;
-  right: 10px;
-  width: 188px;
+  position: relative;
+  z-index: 2;
+  grid-column: 4;
+  width: 100%;
+  min-width: 0;
+  padding: 0 10px 0 4px;
 }
 
 .ticker-search input {
@@ -1820,6 +1825,10 @@ img {
     grid-template-columns: 44px 116px minmax(500px, 1fr) minmax(320px, 0.34fr);
   }
 
+  .market-strip {
+    grid-template-columns: 44px 116px minmax(500px, 1fr) minmax(320px, 0.34fr);
+  }
+
   .module-nav img,
   .module-play-icon {
     width: 56px;
@@ -1902,6 +1911,15 @@ img {
 
   .market-strip {
     grid-row: 3;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 42vw);
+  }
+
+  .ticker-copy {
+    grid-column: 1;
+  }
+
+  .ticker-search {
+    grid-column: 2;
   }
 
   .feature-board {
@@ -2076,7 +2094,7 @@ img {
   }
 
   .ticker-search {
-    width: 134px;
+    padding-right: 8px;
   }
 
   .feature-board {
