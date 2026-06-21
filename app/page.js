@@ -64,6 +64,17 @@ const marketStats = [
   ["Quantum", "+0.7%", "up"],
 ];
 
+const tickerItems = [
+  "Weather 72F",
+  "Time 12:43 AM",
+  "Stocks: Innovation Index +2.4%",
+  "AI Deals +18",
+  "Robotics +1.6%",
+  "Health AI +3.1%",
+  "Quantum +0.7%",
+  "Climate Tech -0.8%",
+];
+
 const landingStats = [
   ["11", "sectors tracked"],
   ["22", "innovation desks"],
@@ -606,10 +617,19 @@ export default function InnovationDashboard() {
         </nav>
 
         <div className="market-strip">
-          <span className="ticker-copy">
-            Weather 72F | Time 12:43 AM | Stocks: Innovation Index +2.4% | AI Deals +18 |
-            Robotics +1.6% | Health AI +3.1% | Quantum +0.7%
-          </span>
+          <div className="ticker-lane" aria-label={tickerItems.join(" | ")}>
+            <div className="ticker-copy" aria-hidden="true">
+              {[0, 1, 2, 3].map((group) => (
+                <span className="ticker-group" key={group}>
+                  {tickerItems.map((item) => (
+                    <span className="ticker-item" key={`${group}-${item}`}>
+                      {item}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </div>
+          </div>
           <form
             className="ticker-search"
             onSubmit={(event) => {
