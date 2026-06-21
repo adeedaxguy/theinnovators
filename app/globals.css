@@ -1409,6 +1409,15 @@ img {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: var(--deck-gap);
+  align-items: stretch;
+}
+
+.ai-card-grid > * {
+  min-height: 0;
+}
+
+.ai-card-grid :is(.video-card, .image-play-card) {
+  height: 100%;
 }
 
 .ai-card-grid .video-card img,
@@ -1417,11 +1426,26 @@ img {
   min-height: 0;
 }
 
+.ai-card-grid > .image-play-card img {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+.ai-card-grid > .image-play-card strong {
+  padding: 10px;
+  font-size: clamp(15px, 1.08vw, 21px);
+  line-height: 1.08;
+}
+
 .ai-card-grid .captioned-video {
   display: grid;
   height: 100%;
   min-height: 0;
   grid-template-rows: minmax(0, 1fr) 46px;
+}
+
+.ai-card-grid .captioned-video .media-frame {
+  height: 100%;
 }
 
 .ai-card-grid .captioned-video .video-card,
