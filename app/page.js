@@ -33,7 +33,7 @@ const iconMap = {
   discover: `${asset}/2021/03/2a-2.png`,
   community: `${asset}/2022/08/2d.png`,
   intelligence: `${asset}/2021/03/2a-2.png`,
-  demo: `${asset}/2021/03/play-button.png`,
+  demo: "play",
 };
 
 const topModules = [
@@ -595,8 +595,12 @@ export default function InnovationDashboard() {
               onClick={() => setActiveModule(label)}
               type="button"
             >
-              <img src={icon} alt="" />
-              <span>{label}</span>
+              {icon === "play" ? (
+                <span className="module-play-icon" aria-hidden="true" />
+              ) : (
+                <img src={icon} alt="" />
+              )}
+              <span className="module-label">{label}</span>
             </button>
           ))}
         </nav>

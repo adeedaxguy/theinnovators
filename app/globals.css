@@ -126,7 +126,8 @@ img {
   background: transparent;
 }
 
-.module-nav img {
+.module-nav img,
+.module-play-icon {
   width: 68px;
   height: 68px;
   border-radius: 50%;
@@ -135,13 +136,31 @@ img {
   padding: 7px;
 }
 
-.module-nav button.is-active img,
-.module-nav button:hover img {
+.module-play-icon {
+  position: relative;
+  display: block;
+}
+
+.module-play-icon::after {
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 20px solid #ffffff;
+  content: "";
+  transform: translate(-50%, -50%);
+}
+
+.module-nav button.is-active :is(img, .module-play-icon),
+.module-nav button:hover :is(img, .module-play-icon) {
   outline: 2px solid rgba(115, 205, 244, 0.75);
   outline-offset: 2px;
 }
 
-.module-nav span {
+.module-label {
   position: absolute;
   top: calc(100% - 2px);
   left: 50%;
@@ -162,8 +181,8 @@ img {
   transition: opacity 140ms ease;
 }
 
-.module-nav button:hover span,
-.module-nav button:focus-visible span {
+.module-nav button:hover .module-label,
+.module-nav button:focus-visible .module-label {
   opacity: 1;
 }
 
@@ -1795,9 +1814,16 @@ img {
     grid-template-columns: 44px 116px minmax(500px, 1fr) minmax(320px, 0.34fr);
   }
 
-  .module-nav img {
+  .module-nav img,
+  .module-play-icon {
     width: 56px;
     height: 56px;
+  }
+
+  .module-play-icon::after {
+    border-top-width: 10px;
+    border-bottom-width: 10px;
+    border-left-width: 16px;
   }
 
   .journey-actions a {
