@@ -1367,6 +1367,7 @@ img {
 }
 
 .ai-row {
+  --ai-row-media-height: clamp(426px, 31vw, 560px);
   display: grid;
   grid-template-columns: minmax(420px, 0.86fr) minmax(0, 1.14fr);
   gap: 10px 14px;
@@ -1419,12 +1420,13 @@ img {
 
 .video-card.ai-feature,
 .image-play-card.ai-feature {
-  height: 100%;
+  height: var(--ai-row-media-height);
   min-height: 426px;
 }
 
 .ai-card-grid {
   display: grid;
+  height: var(--ai-row-media-height);
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: var(--deck-gap);
@@ -1449,7 +1451,8 @@ img {
   display: grid;
   height: 100%;
   min-height: 0;
-  grid-template-rows: minmax(0, 1fr) 46px;
+  grid-template-rows: minmax(0, 1fr) 58px;
+  align-items: stretch;
 }
 
 .ai-card-grid .captioned-video .media-frame {
@@ -1468,7 +1471,10 @@ img {
 .ai-card-grid .captioned-video h3 {
   display: -webkit-box;
   overflow: hidden;
-  margin-top: 5px;
+  min-height: 0;
+  margin: 0;
+  padding-top: 8px;
+  align-self: start;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
 }
@@ -2173,6 +2179,7 @@ img {
   }
 
   .ai-row {
+    --ai-row-media-height: 260px;
     gap: 10px;
   }
 
@@ -2186,10 +2193,12 @@ img {
 
   .video-card.ai-feature,
   .image-play-card.ai-feature {
-    min-height: 260px;
+    height: var(--ai-row-media-height);
+    min-height: 0;
   }
 
   .ai-card-grid {
+    height: auto;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: none;
   }
@@ -2422,7 +2431,8 @@ img {
 
   .video-card.ai-feature,
   .image-play-card.ai-feature {
-    min-height: 216px;
+    height: 226px;
+    min-height: 0;
   }
 
   .ai-card-grid {
