@@ -479,7 +479,7 @@ function VideoCard({ video, size = "small", onPlay, layout = "overlay" }) {
   );
 }
 
-function ImagePlayCard({ title, image, size = "small", onPlay }) {
+function ImagePlayCard({ title, image, size = "small", onPlay, showTitle = true }) {
   return (
     <button
       className={cx("image-play-card", size)}
@@ -489,7 +489,7 @@ function ImagePlayCard({ title, image, size = "small", onPlay }) {
     >
       <img src={image} alt="" />
       <span className="play-chip" aria-hidden="true" />
-      <strong>{title}</strong>
+      {showTitle && <strong>{title}</strong>}
     </button>
   );
 }
@@ -864,12 +864,15 @@ export default function InnovationDashboard() {
               <div className="ai-card-grid">
                 {filledCards.map(([title, media], index) =>
                   typeof media === "string" ? (
-                    <ImagePlayCard
-                      image={media}
-                      key={`${row.label}-${title}-${index}`}
-                      onPlay={setModalVideo}
-                      title={title}
-                    />
+                    <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
+                      <ImagePlayCard
+                        image={media}
+                        onPlay={setModalVideo}
+                        showTitle={false}
+                        title={title}
+                      />
+                      <h3>{title}</h3>
+                    </div>
                   ) : (
                     <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
                       <VideoCard video={media} onPlay={setModalVideo} />

@@ -1420,48 +1420,10 @@ img {
   height: 100%;
 }
 
-.ai-card-grid > .image-play-card {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) 46px;
-  border: 1px solid #d8e5ef;
-  background: #ffffff;
-  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.08);
-}
-
 .ai-card-grid .video-card img,
 .ai-card-grid .image-play-card img {
   aspect-ratio: 16 / 9;
   min-height: 0;
-}
-
-.ai-card-grid > .image-play-card img {
-  height: 100%;
-  aspect-ratio: auto;
-}
-
-.ai-card-grid > .image-play-card::after {
-  bottom: 46px;
-  height: 48%;
-}
-
-.ai-card-grid > .image-play-card .play-chip {
-  top: calc((100% - 46px) / 2);
-}
-
-.ai-card-grid > .image-play-card strong {
-  position: static;
-  display: -webkit-box;
-  overflow: hidden;
-  place-items: unset;
-  padding: 6px 8px 0;
-  color: #152234;
-  font-size: clamp(12px, 0.92vw, 15px);
-  font-weight: 700;
-  line-height: 1.16;
-  text-align: left;
-  text-shadow: none;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
 }
 
 .ai-card-grid .captioned-video {
@@ -1475,12 +1437,12 @@ img {
   height: 100%;
 }
 
-.ai-card-grid .captioned-video .video-card,
-.ai-card-grid .captioned-video .video-card img {
+.ai-card-grid .captioned-video :is(.video-card, .image-play-card),
+.ai-card-grid .captioned-video :is(.video-card, .image-play-card) img {
   height: 100%;
 }
 
-.ai-card-grid .captioned-video .video-card img {
+.ai-card-grid .captioned-video :is(.video-card, .image-play-card) img {
   aspect-ratio: auto;
 }
 
