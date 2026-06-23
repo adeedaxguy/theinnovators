@@ -582,17 +582,6 @@ export default function InnovationDashboard() {
   return (
     <main className={cx("portal-shell", sidebarOpen ? "is-sidebar-open" : "is-sidebar-collapsed")}>
       <header className="portal-header">
-        <button
-          className="sidebar-toggle"
-          onClick={() => setSidebarOpen((current) => !current)}
-          type="button"
-          aria-label={sidebarOpen ? "Collapse audience sidebar" : "Open audience sidebar"}
-          aria-pressed={sidebarOpen}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
         <a className="portal-logo" href="#top" aria-label="The Innovators">
           <img src={`${asset}/2021/02/logo-final-blac-k.png`} alt="The Innovators" />
         </a>
@@ -630,15 +619,6 @@ export default function InnovationDashboard() {
               ))}
             </div>
           </div>
-          <form
-            className="ticker-search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setActiveModule("Search");
-            }}
-          >
-            <input aria-label="Search innovation stories" placeholder="Search" />
-          </form>
         </div>
 
         <div className="journey-actions">
@@ -698,21 +678,32 @@ export default function InnovationDashboard() {
 
       <nav className="category-bar" aria-label="Sector filters">
         <span>Markets</span>
-        {categories.map((category) => (
-          <button
-            className={cx(activeCategory === category && "is-active")}
-            data-testid={`category-${slug(category)}`}
-            key={category}
-            onClick={() => {
-              setActiveCategory(category);
-              const nextVideo = videos.find((video) => video.category === category);
-              if (nextVideo) setActiveVideo(nextVideo);
-            }}
-            type="button"
-          >
-            {category}
-          </button>
-        ))}
+        <div className="category-scroll">
+          {categories.map((category) => (
+            <button
+              className={cx(activeCategory === category && "is-active")}
+              data-testid={`category-${slug(category)}`}
+              key={category}
+              onClick={() => {
+                setActiveCategory(category);
+                const nextVideo = videos.find((video) => video.category === category);
+                if (nextVideo) setActiveVideo(nextVideo);
+              }}
+              type="button"
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+        <form
+          className="category-search"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setActiveModule("Search");
+          }}
+        >
+          <input aria-label="Search innovation stories" placeholder="Search" />
+        </form>
       </nav>
 
       <div className="portal-grid">
@@ -827,10 +818,8 @@ export default function InnovationDashboard() {
               <li key={idea}>{idea}</li>
             ))}
           </ul>
-          <div className="everyone-thumbs">
-            {videos.slice(0, 3).map((video) => (
-              <VideoCard key={`everyone-${video.title}`} video={video} onPlay={setModalVideo} />
-            ))}
+          <div className="everyone-feature">
+            <VideoCard video={videos[3]} layout="editorial" onPlay={setModalVideo} />
           </div>
         </section>
 
