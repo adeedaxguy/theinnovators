@@ -708,7 +708,9 @@ export default function InnovationDashboard() {
 
       <div className="portal-grid">
         <section className="spotlight-panel">
-          <div className="story-label">Top Story</div>
+          <div className="panel-heading spotlight-heading">
+            <h2>News</h2>
+          </div>
           <VideoCard video={activeVideo} size="hero" onPlay={setModalVideo} />
           <div className="news-block">
             <div className="news-thumbs">
@@ -717,7 +719,6 @@ export default function InnovationDashboard() {
               ))}
             </div>
             <div>
-              <h2>News</h2>
               <ul>
                 {news.map((item) => (
                   <li key={item}>{item}</li>
@@ -852,7 +853,7 @@ export default function InnovationDashboard() {
       </div>
 
       <section className="ai-section" aria-label="AI sections">
-        {aiRows.map((row) => {
+        {aiRows.map((row, rowIndex) => {
           const feature = row.hero ? (
             <ImagePlayCard
               image={softVisuals[0]}
@@ -865,10 +866,10 @@ export default function InnovationDashboard() {
           );
           const filledCards = row.cards
             .concat(videos.map((video) => [`${video.category} playbook`, video]))
-            .slice(0, 6);
+            .slice(0, 3);
 
           return (
-            <article className="ai-row" key={row.label}>
+            <article className={cx("ai-row", rowIndex % 2 === 1 && "is-reverse")} key={row.label}>
               <header className="section-row-heading ai-row-heading">
                 <h2>{row.label}</h2>
                 <p>{row.note}</p>
