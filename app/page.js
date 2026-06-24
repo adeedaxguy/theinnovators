@@ -505,13 +505,71 @@ function ImagePlayCard({ title, image, size = "small", onPlay, showTitle = true 
   );
 }
 
+function CtaCard({ title, body, action, onClick }) {
+  return (
+    <button className="cta-card" onClick={onClick} type="button">
+      <span>{action}</span>
+      <strong>{title}</strong>
+      <small>{body}</small>
+    </button>
+  );
+}
+
 function ScrollRail({ children, className = "", label }) {
   const railRef = useRef(null);
+  const dragRef = useRef({
+    active: false,
+    moved: false,
+    scrollLeft: 0,
+    startX: 0,
+  });
+  const suppressClickRef = useRef(false);
 
   function move(direction) {
     if (!railRef.current) return;
     const amount = railRef.current.clientWidth * 0.9;
     railRef.current.scrollBy({ left: direction * amount, behavior: "smooth" });
+  }
+
+  function startDrag(event) {
+    if (!railRef.current || (event.button !== undefined && event.button !== 0)) return;
+    dragRef.current = {
+      active: true,
+      moved: false,
+      scrollLeft: railRef.current.scrollLeft,
+      startX: event.clientX,
+    };
+    railRef.current.classList.add("is-dragging");
+    railRef.current.setPointerCapture?.(event.pointerId);
+  }
+
+  function drag(event) {
+    if (!dragRef.current.active || !railRef.current) return;
+    const distance = event.clientX - dragRef.current.startX;
+    if (Math.abs(distance) > 4) dragRef.current.moved = true;
+    railRef.current.scrollLeft = dragRef.current.scrollLeft - distance;
+    if (dragRef.current.moved) event.preventDefault();
+  }
+
+  function endDrag(event) {
+    if (!railRef.current) return;
+    if (!dragRef.current.active) return;
+    if (dragRef.current.moved) suppressClickRef.current = true;
+    dragRef.current.active = false;
+    railRef.current.classList.remove("is-dragging");
+    try {
+      railRef.current.releasePointerCapture?.(event.pointerId);
+    } catch {}
+    window.setTimeout(() => {
+      suppressClickRef.current = false;
+    }, 0);
+  }
+
+  function stopDragClick(event) {
+    if (!suppressClickRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClickRef.current = false;
   }
 
   return (
@@ -524,7 +582,16 @@ function ScrollRail({ children, className = "", label }) {
       >
         <Icon name="chevronLeft" />
       </button>
-      <div className="scroll-rail" ref={railRef}>
+      <div
+        className="scroll-rail"
+        onClickCapture={stopDragClick}
+        onPointerCancel={endDrag}
+        onPointerDown={startDrag}
+        onPointerLeave={endDrag}
+        onPointerMove={drag}
+        onPointerUp={endDrag}
+        ref={railRef}
+      >
         {children}
       </div>
       <button
@@ -833,6 +900,12 @@ export default function InnovationDashboard() {
               onPlay={setModalVideo}
             />
           ))}
+          <CtaCard
+            action="Explore"
+            body="Open the full video wall for this audience."
+            onClick={() => setActiveModule("Saved Videos")}
+            title="More saved videos"
+          />
         </ScrollRail>
 
         <section className="copilot-panel">
@@ -926,6 +999,12 @@ export default function InnovationDashboard() {
               </h3>
             </div>
           ))}
+          <CtaCard
+            action="Watch"
+            body="Browse the complete short-form innovation feed."
+            onClick={() => setActiveModule("Shorts")}
+            title="More shorts"
+          />
         </ScrollRail>
       </section>
 
@@ -946,6 +1025,12 @@ export default function InnovationDashboard() {
                 </h3>
               </div>
             ))}
+            <CtaCard
+              action="Schedule"
+              body="Reserve a slot for next week's innovation show."
+              onClick={() => setActiveModule("Broadcast My Innovation")}
+              title="Broadcast your story"
+            />
           </ScrollRail>
         </div>
       </section>
@@ -966,6 +1051,12 @@ export default function InnovationDashboard() {
                 </h3>
               </div>
             ))}
+            <CtaCard
+              action="Submit"
+              body="Add a product launch, funding update, or pilot win."
+              onClick={() => setActiveModule("Deal")}
+              title="Post a deal"
+            />
           </ScrollRail>
           <VideoCard video={videos[0]} size="deal-feature" onPlay={setModalVideo} />
         </div>
