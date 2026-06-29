@@ -611,7 +611,7 @@ export default function InnovationDashboard() {
   const [activeCategory, setActiveCategory] = useState("Healthcare");
   const [activeAudience, setActiveAudience] = useState("Startups");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modalVideo, setModalVideo] = useState(null);
   const [followed, setFollowed] = useState([]);
   const [ideas, setIdeas] = useState(initialIdeas);
@@ -744,7 +744,6 @@ export default function InnovationDashboard() {
       </section>
 
       <nav className="category-bar" aria-label="Sector filters">
-        <span>Markets</span>
         <div className="category-scroll">
           {categories.map((category) => (
             <button
@@ -864,13 +863,15 @@ export default function InnovationDashboard() {
         </section>
 
         <section className="ideas-panel">
-          <div className="panel-heading">
-            <h2>Everyone's</h2>
+          <div className="panel-heading ideas-heading">
+            <div className="ideas-title">
+              <h2>Everyone's</h2>
+              <p>innovation ideas</p>
+            </div>
             <button className="mini-action" onClick={() => setActiveModule("Post")} type="button">
               Post
             </button>
           </div>
-          <p>innovation ideas</p>
           <form onSubmit={postIdea}>
             <input
               aria-label="Post an innovation idea"
@@ -939,7 +940,7 @@ export default function InnovationDashboard() {
           );
           const filledCards = row.cards
             .concat(videos.map((video) => [`${video.category} playbook`, video]))
-            .slice(0, 3);
+            .slice(0, 7);
 
           return (
             <article className={cx("ai-row", rowIndex % 2 === 1 && "is-reverse")} key={row.label}>
@@ -949,24 +950,26 @@ export default function InnovationDashboard() {
               </header>
               {feature}
               <div className="ai-card-grid">
-                {filledCards.map(([title, media], index) =>
-                  typeof media === "string" ? (
-                    <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
-                      <ImagePlayCard
-                        image={media}
-                        onPlay={setModalVideo}
-                        showTitle={false}
-                        title={title}
-                      />
-                      <h3>{title}</h3>
-                    </div>
-                  ) : (
-                    <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
-                      <VideoCard video={media} onPlay={setModalVideo} />
-                      <h3>{title}</h3>
-                    </div>
-                  )
-                )}
+                <ScrollRail className="ai-card-rail" label={`${row.label} videos`}>
+                  {filledCards.map(([title, media], index) =>
+                    typeof media === "string" ? (
+                      <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
+                        <ImagePlayCard
+                          image={media}
+                          onPlay={setModalVideo}
+                          showTitle={false}
+                          title={title}
+                        />
+                        <h3>{title}</h3>
+                      </div>
+                    ) : (
+                      <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
+                        <VideoCard video={media} onPlay={setModalVideo} />
+                        <h3>{title}</h3>
+                      </div>
+                    )
+                  )}
+                </ScrollRail>
               </div>
             </article>
           );
@@ -1066,7 +1069,7 @@ export default function InnovationDashboard() {
       </section>
 
       <section className="on-innovation-section">
-        <h2>On Innovation</h2>
+        <h2>My Innovation Journey</h2>
         <nav aria-label="Innovation collections">
           {[
             "LEARN",
