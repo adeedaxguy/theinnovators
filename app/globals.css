@@ -7,6 +7,9 @@
   --blue: #73cdf4;
   --blue-2: #1ca6e8;
   --blue-3: #0f87d8;
+  --journey-blue-surface:
+    radial-gradient(circle at 50% 100%, rgba(0, 116, 255, 0.68), transparent 44%),
+    linear-gradient(135deg, #dff5ff, #75c8ff 62%, #0787de);
   --sky-radiant: linear-gradient(90deg, #bfeeff 0%, #61cdf8 42%, #1598e4 100%);
   --accent: #ef4056;
   --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
@@ -36,7 +39,7 @@ body {
   overflow-x: hidden;
   background: var(--paper);
   color: var(--ink);
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+  font-family: "Spartan", "League Spartan", "Arial Narrow", Arial, Helvetica, sans-serif;
   font-size: 16px;
 }
 
@@ -194,9 +197,7 @@ img {
   place-items: center;
   padding: 6px;
   border-radius: 5px;
-  background:
-    radial-gradient(circle at 50% 100%, rgba(0, 116, 255, 0.68), transparent 44%),
-    linear-gradient(135deg, #dff5ff, #75c8ff 62%, #0787de);
+  background: var(--journey-blue-surface);
   color: #07111f;
   font-size: 18px;
   font-weight: 800;
@@ -214,7 +215,7 @@ img {
   align-items: center;
   height: 36px;
   overflow: hidden;
-  background: var(--sky-radiant);
+  background: var(--journey-blue-surface);
   color: #08385b;
   font-size: 15px;
   font-weight: 800;
@@ -468,7 +469,7 @@ img {
   margin-top: 4px;
   padding: 0 14px;
   border-radius: 4px;
-  background: var(--sky-radiant);
+  background: var(--journey-blue-surface);
 }
 
 .category-bar > span {
@@ -504,8 +505,8 @@ img {
 }
 
 .category-bar button.is-active {
-  color: #ffffff;
-  text-shadow: 0 1px 2px rgba(15, 23, 42, 0.35);
+  color: #07111f;
+  text-shadow: none;
 }
 
 .category-search {
@@ -1006,7 +1007,7 @@ img {
 
 .portal-grid .leader-row h3,
 .portal-grid .video-line > span {
-  color: #1176b7;
+  color: #07111f;
 }
 
 .leader-strip .scroll-rail {
@@ -1119,7 +1120,7 @@ img {
 }
 
 .video-line > span {
-  color: #1181c9;
+  color: #07111f;
   font-size: 16px;
   font-weight: 800;
   line-height: 24px;
@@ -1462,20 +1463,16 @@ img {
   --ai-rail-height: clamp(304px, 20vw, 390px);
   display: grid;
   grid-template-columns: minmax(310px, 0.78fr) minmax(0, 1.22fr);
-  grid-template-areas:
-    "heading heading"
-    "feature cards";
+  grid-template-areas: "feature cards";
   gap: 8px 12px;
-  align-items: center;
+  align-items: start;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--line);
 }
 
 .ai-row.is-reverse {
   grid-template-columns: minmax(0, 1.22fr) minmax(310px, 0.78fr);
-  grid-template-areas:
-    "heading heading"
-    "cards feature";
+  grid-template-areas: "cards feature";
 }
 
 .ai-row:last-child {
@@ -1490,10 +1487,6 @@ img {
   text-align: left;
 }
 
-.ai-row-heading {
-  grid-area: heading;
-}
-
 .section-row-heading h2,
 .section-row-heading h3 {
   margin: 0;
@@ -1503,19 +1496,6 @@ img {
   text-transform: uppercase;
 }
 
-.ai-row-heading h2 {
-  font-size: clamp(23px, 1.8vw, 34px);
-  white-space: nowrap;
-}
-
-.section-row-heading p {
-  margin: 0;
-  color: #172235;
-  font-size: clamp(16px, 1vw, 20px);
-  font-weight: 800;
-  line-height: 1;
-}
-
 .video-card.ai-feature img,
 .image-play-card.ai-feature img {
   height: 100%;
@@ -1523,11 +1503,44 @@ img {
   aspect-ratio: auto;
 }
 
+.ai-feature-wrap {
+  grid-area: feature;
+  position: relative;
+}
+
 .video-card.ai-feature,
 .image-play-card.ai-feature {
-  grid-area: feature;
   height: var(--ai-feature-height);
   min-height: 0;
+}
+
+.ai-feature-heading {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  z-index: 6;
+  display: grid;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.ai-feature-heading h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(24px, 1.85vw, 34px);
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  text-transform: uppercase;
+}
+
+.ai-feature-heading p {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(15px, 0.95vw, 19px);
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
 }
 
 .ai-card-grid {
@@ -1835,7 +1848,7 @@ img {
   overflow-x: auto;
   overflow-y: hidden;
   border-radius: 5px;
-  background: var(--sky-radiant);
+  background: var(--journey-blue-surface);
   scrollbar-width: none;
 }
 
@@ -2203,7 +2216,6 @@ img {
   .ai-row,
   .ai-row.is-reverse {
     grid-template-areas:
-      "heading"
       "feature"
       "cards";
   }
@@ -2449,14 +2461,23 @@ img {
     flex-wrap: wrap;
   }
 
-  .ai-row-heading h2 {
-    white-space: normal;
-  }
-
   .video-card.ai-feature,
   .image-play-card.ai-feature {
     height: var(--ai-feature-height);
     min-height: 0;
+  }
+
+  .ai-feature-heading {
+    top: 14px;
+    left: 14px;
+  }
+
+  .ai-feature-heading h2 {
+    font-size: 28px;
+  }
+
+  .ai-feature-heading p {
+    font-size: 16px;
   }
 
   .ai-card-grid {
@@ -2690,6 +2711,19 @@ img {
   .image-play-card.ai-feature {
     height: 260px;
     min-height: 0;
+  }
+
+  .ai-feature-heading {
+    top: 12px;
+    left: 12px;
+  }
+
+  .ai-feature-heading h2 {
+    font-size: 24px;
+  }
+
+  .ai-feature-heading p {
+    font-size: 14px;
   }
 
   .ai-card-grid {

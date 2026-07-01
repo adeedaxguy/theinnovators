@@ -527,7 +527,12 @@ function ScrollRail({ children, className = "", label }) {
 
   function move(direction) {
     if (!railRef.current) return;
-    const amount = railRef.current.clientWidth * 0.9;
+    const firstItem = railRef.current.firstElementChild;
+    const railStyles = window.getComputedStyle(railRef.current);
+    const gap = Number.parseFloat(railStyles.columnGap || railStyles.gap || "0");
+    const amount = firstItem
+      ? firstItem.getBoundingClientRect().width + gap
+      : railRef.current.clientWidth * 0.9;
     railRef.current.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
@@ -888,7 +893,11 @@ export default function InnovationDashboard() {
             ))}
           </ul>
           <div className="everyone-feature">
-            <VideoCard video={videos[3]} layout="editorial" onPlay={setModalVideo} />
+            <VideoCard
+              video={{ ...videos[3], title: "Top Voices" }}
+              layout="editorial"
+              onPlay={setModalVideo}
+            />
           </div>
         </section>
 
@@ -944,11 +953,13 @@ export default function InnovationDashboard() {
 
           return (
             <article className={cx("ai-row", rowIndex % 2 === 1 && "is-reverse")} key={row.label}>
-              <header className="section-row-heading ai-row-heading">
-                <h2>{row.label}</h2>
-                <p>{row.note}</p>
-              </header>
-              {feature}
+              <div className="ai-feature-wrap">
+                {feature}
+                <div className="ai-feature-heading">
+                  <h2>{row.label}</h2>
+                  <p>{row.note}</p>
+                </div>
+              </div>
               <div className="ai-card-grid">
                 <ScrollRail className="ai-card-rail" label={`${row.label} videos`}>
                   {filledCards.map(([title, media], index) =>
