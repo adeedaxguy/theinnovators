@@ -461,13 +461,17 @@ img {
   border: 0;
   border-radius: 4px;
   background:
-    radial-gradient(circle at var(--glow-x, 28%) var(--glow-y, 38%), rgba(255, 255, 255, 0.76), transparent 34%),
-    linear-gradient(135deg, hsl(var(--tile-a, 42deg), 78%, 86%), hsl(var(--tile-b, 177deg), 70%, 84%));
+    radial-gradient(circle at var(--glow-x, 28%) var(--glow-y, 38%), rgba(255, 255, 255, 0.86), transparent 34%),
+    linear-gradient(135deg, hsla(var(--tile-a, 42deg), 78%, 88%, 0.88), hsla(var(--tile-b, 177deg), 70%, 86%, 0.88)),
+    var(--tile-image);
+  background-position: center;
+  background-size: auto, auto, cover;
   color: #121a27;
   font-size: clamp(14px, 0.86vw, 16px);
   font-weight: 500;
   line-height: 1.12;
   text-align: center;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.46);
 }
 
 .feature-tile:hover,
