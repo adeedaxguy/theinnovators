@@ -101,14 +101,14 @@ img {
 }
 
 .module-nav {
-  --module-icon-size: 96px;
+  --module-icon-size: 114px;
   grid-column: 2;
   grid-row: 1;
   display: grid;
-  grid-template-columns: repeat(10, minmax(76px, 1fr));
-  gap: 3px;
+  grid-template-columns: repeat(10, minmax(104px, 1fr));
+  gap: 2px;
   min-width: 0;
-  padding: 6px 5px;
+  padding: 3px;
   overflow: visible;
   background: #05070b;
 }
@@ -117,7 +117,7 @@ img {
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 108px;
+  min-height: 114px;
   place-items: center;
   border: 0;
   border-radius: 6px;
@@ -131,7 +131,7 @@ img {
   border-radius: 50%;
   background: #000;
   object-fit: contain;
-  padding: 7px;
+  padding: 6px;
   transition:
     opacity 140ms ease,
     transform 160ms ease;
@@ -148,9 +148,9 @@ img {
   left: 53%;
   width: 0;
   height: 0;
-  border-top: 18px solid transparent;
-  border-bottom: 18px solid transparent;
-  border-left: 28px solid #ffffff;
+  border-top: 22px solid transparent;
+  border-bottom: 22px solid transparent;
+  border-left: 34px solid #ffffff;
   content: "";
   transform: translate(-50%, -50%);
 }
@@ -174,7 +174,7 @@ img {
   border-radius: 50%;
   background: rgba(5, 7, 11, 0.92);
   color: #ffffff;
-  font-size: clamp(10px, 0.72vw, 13px);
+  font-size: clamp(11px, 0.78vw, 14px);
   font-weight: 600;
   line-height: 1.05;
   opacity: 0;
@@ -2336,8 +2336,9 @@ img {
   }
 
   .module-nav {
-    --module-icon-size: 86px;
-    grid-template-columns: repeat(10, 86px);
+    --module-icon-size: 100px;
+    grid-template-columns: repeat(10, 102px);
+    padding: 4px;
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -2383,22 +2384,22 @@ img {
   }
 
   .module-nav {
-    --module-icon-size: 74px;
-    grid-template-columns: repeat(10, 76px);
+    --module-icon-size: 84px;
+    grid-template-columns: repeat(10, 88px);
     overflow-x: auto;
     overflow-y: hidden;
   }
 
   .module-nav img,
   .module-play-icon {
-    width: 74px;
-    height: 74px;
+    width: var(--module-icon-size);
+    height: var(--module-icon-size);
   }
 
   .module-play-icon::after {
-    border-top-width: 14px;
-    border-bottom-width: 14px;
-    border-left-width: 22px;
+    border-top-width: 16px;
+    border-bottom-width: 16px;
+    border-left-width: 25px;
   }
 
   .journey-actions a {
@@ -2657,8 +2658,8 @@ img {
   }
 
   .module-nav {
-    --module-icon-size: 50px;
-    grid-template-columns: repeat(10, 54px);
+    --module-icon-size: 58px;
+    grid-template-columns: repeat(10, 62px);
     gap: 4px;
     padding-right: 8px;
   }
@@ -2668,9 +2669,9 @@ img {
   }
 
   .module-play-icon::after {
-    border-top-width: 9px;
-    border-bottom-width: 9px;
-    border-left-width: 15px;
+    border-top-width: 11px;
+    border-bottom-width: 11px;
+    border-left-width: 18px;
   }
 
   .journey-actions {
@@ -2938,8 +2939,8 @@ img {
   }
 
   .module-nav {
-    --module-icon-size: 44px;
-    grid-template-columns: repeat(10, 48px);
+    --module-icon-size: 48px;
+    grid-template-columns: repeat(10, 52px);
     padding-block: 4px;
   }
 
@@ -2953,9 +2954,9 @@ img {
   }
 
   .module-play-icon::after {
-    border-top-width: 8px;
-    border-bottom-width: 8px;
-    border-left-width: 13px;
+    border-top-width: 9px;
+    border-bottom-width: 9px;
+    border-left-width: 15px;
   }
 
   .journey-actions {
