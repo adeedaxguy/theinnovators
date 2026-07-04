@@ -127,16 +127,22 @@ const featureTiles = [
 
 const categories = [
   "Healthcare",
+  "Life Sciences & Biotech",
+  "MedTech",
   "Fintech",
+  "Digital Commerce",
   "AI",
-  "Manufacturing",
-  "Quantum",
-  "DeepTech",
-  "Biotech",
-  "New Materials",
   "Robotics",
+  "Clean Tech",
+  "Advanced Manufacturing",
   "Critical Minerals",
-  "Energy",
+  "Agriculture",
+  "Space",
+  "Quantum",
+  "New Materials",
+  "Cybersecurity",
+  "Enterprise Software",
+  "DeepTech",
 ];
 
 const audiences = [
@@ -288,7 +294,7 @@ const softVisuals = [
 
 const aiRows = [
   {
-    label: "AI for C",
+    label: "AI for Science",
     note: "Connect",
     hero: "institutions interoperability",
     cards: [
@@ -299,7 +305,7 @@ const aiRows = [
     ],
   },
   {
-    label: "AI for I",
+    label: "AI for Industries",
     note: "Deploy",
     cards: [
       ["applying AI to transform how companies operate, produce, and innovate.", videos[2]],
@@ -345,6 +351,14 @@ const innovationColumns = [
   {
     title: "MY COMMUNITY",
     videos: [videos[0], videos[2], videos[1], videos[2], videos[1]],
+  },
+  {
+    title: "FUNDRAISING",
+    videos: [videos[1], videos[2], videos[0], videos[4], videos[5]],
+  },
+  {
+    title: "MY FAVORITE",
+    videos: [videos[4], videos[0], videos[5], videos[2], videos[1]],
   },
 ];
 
@@ -490,6 +504,81 @@ function VideoCard({ video, size = "small", onPlay, layout = "overlay" }) {
   );
 }
 
+function NewsCarousel({ currentIndex, onIndexChange, onPlay, slides }) {
+  const current = slides[currentIndex % slides.length] || slides[0] || videos[0];
+
+  function move(direction) {
+    const nextIndex = (currentIndex + direction + slides.length) % slides.length;
+    onIndexChange(nextIndex);
+  }
+
+  return (
+    <section className="news-carousel" aria-label="Featured news videos">
+      <img src={current.image} alt="" />
+      <span className="news-carousel-shade" aria-hidden="true" />
+      <span className="news-carousel-kicker">{current.source || current.category}</span>
+
+      <button
+        aria-label="Previous featured news"
+        className="news-carousel-arrow is-left"
+        onClick={() => move(-1)}
+        type="button"
+      >
+        <Icon name="chevronLeft" />
+      </button>
+      <button
+        aria-label="Next featured news"
+        className="news-carousel-arrow is-right"
+        onClick={() => move(1)}
+        type="button"
+      >
+        <Icon name="chevronRight" />
+      </button>
+
+      <div className="news-carousel-tools">
+        <button aria-label="Reset featured news" onClick={() => onIndexChange(0)} type="button">
+          ×
+        </button>
+        <button aria-label="Open featured news" onClick={() => onPlay(current)} type="button">
+          ···
+        </button>
+      </div>
+
+      <button
+        aria-label={`Play ${current.title}`}
+        className="news-carousel-play"
+        onClick={() => onPlay(current)}
+        type="button"
+      >
+        <span aria-hidden="true" />
+      </button>
+
+      <div className="news-carousel-copy">
+        <p>
+          {current.source || current.category} · {current.age || "2w"}
+        </p>
+        <h3>{current.title}</h3>
+        <div className="news-carousel-reactions" aria-label={`${current.reactions || 106} reactions`}>
+          <span>♡ {current.reactions || 106}</span>
+          <span>♧</span>
+        </div>
+      </div>
+
+      <div className="news-carousel-dots" aria-label="Featured news slides">
+        {slides.map((slide, index) => (
+          <button
+            aria-label={`Show ${slide.title}`}
+            className={cx(index === currentIndex % slides.length && "is-active")}
+            key={`${slide.title}-${index}`}
+            onClick={() => onIndexChange(index)}
+            type="button"
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ImagePlayCard({ title, image, size = "small", onPlay, showTitle = true }) {
   return (
     <button
@@ -616,6 +705,7 @@ export default function InnovationDashboard() {
   const [activeCategory, setActiveCategory] = useState("Healthcare");
   const [activeAudience, setActiveAudience] = useState("Startups");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
+  const [newsIndex, setNewsIndex] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modalVideo, setModalVideo] = useState(null);
   const [followed, setFollowed] = useState([]);
@@ -625,6 +715,7 @@ export default function InnovationDashboard() {
   const [copilotAnswer, setCopilotAnswer] = useState(
     "Select a category, audience, or video and ask the co-pilot what to do next."
   );
+  const categoryScrollRef = useRef(null);
 
   const filteredVideos = useMemo(() => {
     const matches = videos.filter(
@@ -632,6 +723,23 @@ export default function InnovationDashboard() {
     );
     return matches.length ? matches : videos;
   }, [activeAudience, activeCategory]);
+
+  const newsSlides = useMemo(
+    () => [activeVideo, ...videos.filter((video) => video.title !== activeVideo.title)],
+    [activeVideo]
+  );
+
+  function scrollCategories(direction) {
+    if (!categoryScrollRef.current) return;
+    const scrollArea = categoryScrollRef.current;
+    const firstButton = scrollArea.firstElementChild;
+    const styles = window.getComputedStyle(scrollArea);
+    const gap = Number.parseFloat(styles.columnGap || styles.gap || "0");
+    const amount = firstButton
+      ? firstButton.getBoundingClientRect().width + gap
+      : 180;
+    scrollArea.scrollBy({ left: direction * amount, behavior: "smooth" });
+  }
 
   function postIdea(event) {
     event.preventDefault();
@@ -749,22 +857,43 @@ export default function InnovationDashboard() {
       </section>
 
       <nav className="category-bar" aria-label="Sector filters">
-        <div className="category-scroll">
-          {categories.map((category) => (
-            <button
-              className={cx(activeCategory === category && "is-active")}
-              data-testid={`category-${slug(category)}`}
-              key={category}
-              onClick={() => {
-                setActiveCategory(category);
-                const nextVideo = videos.find((video) => video.category === category);
-                if (nextVideo) setActiveVideo(nextVideo);
-              }}
-              type="button"
-            >
-              {category}
-            </button>
-          ))}
+        <div className="category-scroll-shell">
+          <button
+            aria-label="Previous categories"
+            className="category-arrow category-arrow-left"
+            onClick={() => scrollCategories(-1)}
+            type="button"
+          >
+            <Icon name="chevronLeft" />
+          </button>
+          <div className="category-scroll" ref={categoryScrollRef}>
+            {categories.map((category) => (
+              <button
+                className={cx(activeCategory === category && "is-active")}
+                data-testid={`category-${slug(category)}`}
+                key={category}
+                onClick={() => {
+                  setActiveCategory(category);
+                  const nextVideo = videos.find((video) => video.category === category);
+                  if (nextVideo) {
+                    setActiveVideo(nextVideo);
+                    setNewsIndex(0);
+                  }
+                }}
+                type="button"
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <button
+            aria-label="Next categories"
+            className="category-arrow category-arrow-right"
+            onClick={() => scrollCategories(1)}
+            type="button"
+          >
+            <Icon name="chevronRight" />
+          </button>
         </div>
         <form
           className="category-search"
@@ -782,7 +911,12 @@ export default function InnovationDashboard() {
           <div className="panel-heading spotlight-heading">
             <h2>News</h2>
           </div>
-          <VideoCard video={activeVideo} size="hero" onPlay={setModalVideo} />
+          <NewsCarousel
+            currentIndex={newsIndex}
+            onIndexChange={setNewsIndex}
+            onPlay={setModalVideo}
+            slides={newsSlides}
+          />
           <div className="news-block">
             <div className="news-thumbs">
               {videos.slice(1, 4).map((video) => (
@@ -953,12 +1087,12 @@ export default function InnovationDashboard() {
 
           return (
             <article className={cx("ai-row", rowIndex % 2 === 1 && "is-reverse")} key={row.label}>
+              <header className="section-row-heading ai-row-heading">
+                <h2>{row.label}</h2>
+                <p>{row.note}</p>
+              </header>
               <div className="ai-feature-wrap">
                 {feature}
-                <div className="ai-feature-heading">
-                  <h2>{row.label}</h2>
-                  <p>{row.note}</p>
-                </div>
               </div>
               <div className="ai-card-grid">
                 <ScrollRail className="ai-card-rail" label={`${row.label} videos`}>
@@ -1065,12 +1199,6 @@ export default function InnovationDashboard() {
                 </h3>
               </div>
             ))}
-            <CtaCard
-              action="Submit"
-              body="Add a product launch, funding update, or pilot win."
-              onClick={() => setActiveModule("Deal")}
-              title="Post a deal"
-            />
           </ScrollRail>
           <VideoCard video={videos[0]} size="deal-feature" onPlay={setModalVideo} />
         </div>
@@ -1091,6 +1219,7 @@ export default function InnovationDashboard() {
             "Marketing",
             "Sales",
             "My Community",
+            "My Favorite",
             "My Cart",
             "Intelligence",
           ].map((item) => (
