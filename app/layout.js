@@ -1,4 +1,5 @@
 import "./globals.css";
+import FontSettingsProvider from "./FontSettingsProvider";
 
 export const metadata = {
   title: "The Innovators - Virtual & Visual Innovation Ecosystem",
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
-      <body>{children}</body>
+      <body>
+        <FontSettingsProvider>{children}</FontSettingsProvider>
+      </body>
     </html>
   );
 }
