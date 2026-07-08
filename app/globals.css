@@ -195,26 +195,33 @@ img {
   grid-column: 3;
   grid-row: 1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 4px;
-  padding: 6px 8px 6px 0;
+  grid-template-columns: repeat(3, minmax(118px, 1fr));
+  align-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 0 8px;
 }
 
 .journey-actions a {
   display: grid;
   min-width: 0;
-  min-height: 120px;
+  height: 48px;
+  min-height: 48px;
   place-items: center;
-  padding: 6px;
-  border-radius: 5px;
+  padding: 5px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
   background: var(--journey-blue-surface);
   color: #07111f;
-  font-size: clamp(14px, 0.94vw, 16px);
+  font-size: clamp(13px, 0.78vw, 15px);
   font-weight: 600;
-  line-height: 1.08;
+  line-height: 1.05;
   text-align: center;
   text-decoration: none;
   white-space: pre-line;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 6px 16px rgba(14, 130, 213, 0.22);
 }
 
 .market-strip {
@@ -441,12 +448,12 @@ img {
 .feature-board {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: calc((100% - 30px) / 7);
-  grid-template-rows: repeat(2, minmax(112px, auto));
-  gap: 4px;
+  grid-auto-columns: calc((100% - 50px) / 6);
+  grid-template-rows: repeat(2, minmax(116px, 126px));
+  gap: 10px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding-top: 4px;
+  padding: 12px;
   background: #ffffff;
   scrollbar-width: none;
 }
@@ -456,22 +463,49 @@ img {
 }
 
 .feature-tile {
-  min-height: 112px;
-  padding: 12px 10px;
+  position: relative;
+  display: flex;
+  min-height: 116px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 12px;
+  overflow: hidden;
+  padding: 15px 16px;
   border: 0;
-  border-radius: 4px;
+  border-radius: 8px;
   background:
-    radial-gradient(circle at var(--glow-x, 28%) var(--glow-y, 38%), rgba(255, 255, 255, 0.86), transparent 34%),
-    linear-gradient(135deg, hsla(var(--tile-a, 42deg), 78%, 88%, 0.88), hsla(var(--tile-b, 177deg), 70%, 86%, 0.88)),
+    linear-gradient(90deg, rgba(5, 8, 20, 0.9), rgba(5, 8, 20, 0.5) 54%, rgba(5, 8, 20, 0.1)),
+    radial-gradient(circle at 76% 36%, hsla(var(--tile-a, 42deg), 95%, 64%, 0.42), transparent 34%),
     var(--tile-image);
   background-position: center;
   background-size: auto, auto, cover;
-  color: #121a27;
-  font-size: clamp(14px, 0.86vw, 16px);
-  font-weight: 500;
-  line-height: 1.12;
-  text-align: center;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.46);
+  color: #ffffff;
+  font-size: clamp(14px, 0.9vw, 17px);
+  font-weight: 600;
+  line-height: 1.05;
+  text-align: left;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.48);
+  text-transform: uppercase;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+.feature-tile::after {
+  display: inline-flex;
+  min-width: 76px;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  padding: 6px 10px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #e9f7ff, #55bdf8);
+  color: #07111f;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: none;
+  text-transform: none;
+  content: attr(data-cta);
 }
 
 .feature-tile:hover,
@@ -590,14 +624,14 @@ img {
 .portal-grid {
   display: grid;
   grid-template-columns:
-    minmax(310px, 0.96fr)
-    minmax(360px, 1.08fr)
-    minmax(520px, 1.5fr)
-    minmax(310px, 0.84fr);
+    minmax(340px, 1fr)
+    minmax(380px, 1.08fr)
+    minmax(500px, 1.36fr)
+    minmax(300px, 0.82fr);
   grid-template-areas:
     "spotlight leaders innovators ideas"
     "bottom bottom bottom bottom";
-  grid-template-rows: 620px var(--content-card-height);
+  grid-template-rows: minmax(620px, auto) var(--content-card-height);
   gap: 8px;
   min-width: 0;
   margin-top: 8px;
@@ -628,7 +662,8 @@ img {
 .spotlight-panel {
   grid-area: spotlight;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(270px, 330px) minmax(170px, auto);
+  gap: 10px;
   padding: 10px;
 }
 
@@ -857,7 +892,7 @@ img {
 .news-carousel {
   position: relative;
   height: 100%;
-  min-height: 260px;
+  min-height: 270px;
   overflow: hidden;
   border-radius: 10px;
   background: #101827;
@@ -868,7 +903,7 @@ img {
 .news-carousel img {
   width: 100%;
   height: 100%;
-  min-height: 260px;
+  min-height: 270px;
   object-fit: cover;
   transform: scale(1.01);
 }
@@ -1140,16 +1175,31 @@ img {
 
 .news-block {
   display: grid;
-  grid-template-columns: 86px minmax(0, 1fr);
-  gap: 12px;
-  margin-top: 10px;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 14px;
+  min-height: 0;
+  margin-top: 0;
   padding: 0;
   background: transparent;
 }
 
 .news-thumbs {
   display: grid;
-  gap: 6px;
+  grid-auto-rows: 66px;
+  gap: 7px;
+  min-height: 0;
+}
+
+.news-thumbs .video-card {
+  height: 66px;
+  min-height: 66px;
+  border-radius: 7px;
+}
+
+.news-thumbs .video-card .media-frame,
+.news-thumbs .video-card img {
+  height: 66px;
+  min-height: 66px;
 }
 
 .news-thumbs .video-card .video-copy {
@@ -1201,6 +1251,12 @@ img {
   font-size: var(--reader-text);
   font-weight: 400;
   line-height: 1.42;
+}
+
+.news-block ul {
+  max-height: 174px;
+  overflow: auto;
+  padding-right: 6px;
 }
 
 .portal-grid .news-block ul,
@@ -1267,8 +1323,8 @@ img {
 .leader-row h3 {
   margin: 0 0 6px;
   color: #172235;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   line-height: 1;
   text-align: center;
   text-transform: uppercase;
@@ -1362,7 +1418,7 @@ img {
   display: block;
   overflow: hidden;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1370,7 +1426,7 @@ img {
 
 .leader-row small {
   margin-top: 2px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 400;
 }
 
@@ -1390,8 +1446,8 @@ img {
 
 .video-line > span {
   color: #07111f;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 700;
   line-height: 24px;
   text-align: center;
 }
@@ -2349,7 +2405,9 @@ img {
   }
 
   .journey-actions a {
-    font-size: 16px;
+    height: 46px;
+    min-height: 46px;
+    font-size: 15px;
   }
 
   .portal-grid {
@@ -2361,7 +2419,7 @@ img {
     grid-template-areas:
       "spotlight leaders innovators ideas"
       "bottom bottom bottom bottom";
-    grid-template-rows: 600px var(--content-card-height);
+    grid-template-rows: minmax(600px, auto) var(--content-card-height);
     gap: 6px;
     padding: 8px;
   }
@@ -2403,6 +2461,8 @@ img {
   }
 
   .journey-actions a {
+    height: 44px;
+    min-height: 44px;
     font-size: 14px;
   }
 
@@ -2506,7 +2566,8 @@ img {
   }
 
   .journey-actions a {
-    min-height: 60px;
+    height: 46px;
+    min-height: 46px;
   }
 
   .market-strip {
@@ -2516,12 +2577,12 @@ img {
   .feature-board {
     grid-auto-columns: calc((100% - 18px) / 4);
     grid-template-columns: none;
-    grid-template-rows: repeat(2, minmax(88px, auto));
+    grid-template-rows: repeat(2, minmax(104px, auto));
     gap: 6px;
   }
 
   .feature-tile {
-    min-height: 88px;
+    min-height: 104px;
   }
 
   .category-bar {
@@ -2685,16 +2746,17 @@ img {
   }
 
   .journey-actions a {
-    min-height: 58px;
+    height: 44px;
+    min-height: 44px;
     font-size: 13px;
   }
 
   .feature-board {
     grid-auto-flow: column;
-    grid-auto-columns: minmax(132px, 1fr);
+    grid-auto-columns: minmax(170px, 1fr);
     grid-template-columns: none;
-    grid-template-rows: repeat(2, 64px);
-    gap: 3px;
+    grid-template-rows: repeat(2, 92px);
+    gap: 6px;
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -2704,7 +2766,7 @@ img {
   }
 
   .feature-tile {
-    min-height: 64px;
+    min-height: 92px;
     font-size: 15px;
   }
 
@@ -2964,7 +3026,8 @@ img {
   }
 
   .journey-actions a {
-    min-height: 54px;
+    height: 42px;
+    min-height: 42px;
     font-size: 12px;
   }
 
@@ -2991,8 +3054,8 @@ img {
   }
 
   .feature-tile {
-    min-height: 58px;
-    padding: 4px;
+    min-height: 82px;
+    padding: 10px;
     font-size: 14px;
   }
 
@@ -3206,7 +3269,7 @@ textarea {
 
 .journey-actions a {
   font-family: var(--admin-font-top-actions-family, var(--font-ui)) !important;
-  font-size: var(--admin-font-top-actions-size, 16px) !important;
+  font-size: var(--admin-font-top-actions-size, 14px) !important;
   font-style: var(--admin-font-top-actions-style, normal) !important;
   font-weight: var(--admin-font-top-actions-weight, 600) !important;
 }
@@ -3256,14 +3319,27 @@ textarea {
   font-weight: var(--admin-font-section-titles-weight, 540) !important;
 }
 
-.leader-row h3,
+.leader-row h3 {
+  font-family: var(--admin-font-leader-group-titles-family, var(--font-ui)) !important;
+  font-size: var(--admin-font-leader-group-titles-size, 17px) !important;
+  font-style: var(--admin-font-leader-group-titles-style, normal) !important;
+  font-weight: var(--admin-font-leader-group-titles-weight, 700) !important;
+}
+
 .leader-row button span,
 .leader-row button strong,
 .leader-row button small {
-  font-family: var(--admin-font-leader-text-family, var(--font-ui)) !important;
-  font-size: var(--admin-font-leader-text-size, 15px) !important;
-  font-style: var(--admin-font-leader-text-style, normal) !important;
-  font-weight: var(--admin-font-leader-text-weight, 600) !important;
+  font-family: var(--admin-font-leader-card-text-family, var(--font-ui)) !important;
+  font-size: var(--admin-font-leader-card-text-size, 12px) !important;
+  font-style: var(--admin-font-leader-card-text-style, normal) !important;
+  font-weight: var(--admin-font-leader-card-text-weight, 500) !important;
+}
+
+.video-line > span {
+  font-family: var(--admin-font-innovator-row-labels-family, var(--font-ui)) !important;
+  font-size: var(--admin-font-innovator-row-labels-size, 17px) !important;
+  font-style: var(--admin-font-innovator-row-labels-style, normal) !important;
+  font-weight: var(--admin-font-innovator-row-labels-weight, 700) !important;
 }
 
 .video-card .video-copy strong,

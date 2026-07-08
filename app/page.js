@@ -170,6 +170,31 @@ const featureTiles = [
 
 const featureVisuals = featureTiles.map((_, index) => editorialImages[(index + 8) % editorialImages.length]);
 
+const featureCtas = [
+  "Nominate",
+  "Explore",
+  "Read",
+  "Discover",
+  "Discover",
+  "Discover",
+  "Register",
+  "View Deals",
+  "Explore",
+  "Apply",
+  "Explore",
+  "Explore",
+  "Read More",
+  "Start",
+  "Learn",
+  "Open",
+  "Browse",
+  "Join",
+  "Participate",
+  "Watch",
+  "View",
+  "Try Now",
+];
+
 const categories = [
   "Healthcare",
   "Life Sciences & Biotech",
@@ -1195,6 +1220,7 @@ export default function InnovationDashboard() {
         {featureTiles.map((tile, index) => (
           <button
             className={cx("feature-tile", activeModule === tile && "is-active")}
+            data-cta={featureCtas[index] ?? "Explore"}
             data-testid={`feature-${slug(tile)}`}
             key={tile}
             onClick={() => setActiveModule(tile)}
