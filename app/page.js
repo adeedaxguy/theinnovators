@@ -93,9 +93,9 @@ const topModules = [
 ];
 
 const journeyActions = [
-  ["Broadcast\nMy Innovation", "https://innovators.ventures/pricing/"],
-  ["My innovation\njourney", "https://www.innovators.ventures/innovators"],
-  ["Signin\nSignup", "https://innovators.ventures/log-in/"],
+  ["Broadcast\nMy\nInnovation", "https://innovators.ventures/pricing/"],
+  ["My\nInnovation\nJourney", "https://www.innovators.ventures/innovators"],
+  ["Sign in\nSign up", "https://innovators.ventures/log-in/"],
 ];
 
 const marketStats = [
@@ -672,7 +672,7 @@ const softVisuals = [
 
 const aiRows = [
   {
-    label: "AI for Science",
+    label: "AI for Sciences",
     note: "Connect",
     hero: "institutions interoperability",
     cards: [
@@ -695,7 +695,7 @@ const aiRows = [
   },
   {
     label: "AI for P",
-    note: "Harness Benefit",
+    note: "Harness",
     hero: "Discovery",
     cards: [
       ["Democratize AI's benefits to individuals and communities.", videos[13]],
