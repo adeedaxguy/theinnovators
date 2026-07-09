@@ -1,0 +1,61 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip-my_cart">
+      <circle cx="200" cy="200" r="188"/>
+    </clipPath>
+    <linearGradient id="base-my_cart" x1="10%" y1="0%" x2="95%" y2="100%">
+      <stop offset="0%" stop-color="#4F8CF7"/>
+      <stop offset="100%" stop-color="#F2534F"/>
+    </linearGradient>
+    <filter id="blur-soft-my_cart" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+    <filter id="blur-glow-my_cart" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="chip-shadow-my_cart" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#F2534F" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- ambient outer halo -->
+  <circle cx="200" cy="200" r="196" fill="#F2534F" opacity="0.16" filter="url(#blur-soft-my_cart)"/>
+
+  <g clip-path="url(#clip-my_cart)">
+    <!-- base diagonal gradient -->
+    <rect x="0" y="0" width="400" height="400" fill="url(#base-my_cart)"/>
+
+    <!-- soft mesh blobs, mimicking the blurred gradient reference photos -->
+    <ellipse cx="120" cy="110" rx="150" ry="130" fill="#B7D0FB" opacity="0.75" filter="url(#blur-soft-my_cart)"/>
+    <ellipse cx="300" cy="300" rx="150" ry="140" fill="#FBA9A6" opacity="0.55" filter="url(#blur-soft-my_cart)"/>
+    <ellipse cx="290" cy="90" rx="90" ry="80" fill="#ffffff" opacity="0.20" filter="url(#blur-soft-my_cart)"/>
+
+    <!-- gentle bottom vignette for depth -->
+    <ellipse cx="200" cy="380" rx="220" ry="120" fill="#000000" opacity="0.10" filter="url(#blur-soft-my_cart)"/>
+
+    <!-- glass gloss highlight -->
+    <ellipse cx="150" cy="110" rx="120" ry="70" fill="#ffffff" opacity="0.22" filter="url(#blur-glow-my_cart)"/>
+  </g>
+
+  <!-- thin outer ring -->
+  <circle cx="200" cy="200" r="187" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <!-- frosted glass chip -->
+  <rect x="128" y="128" width="144" height="144" rx="34" fill="#ffffff" fill-opacity="0.86" filter="url(#chip-shadow-my_cart)"/>
+  <rect x="128" y="128" width="144" height="144" rx="34" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.5"/>
+
+  <!-- glyph, scaled 0.5 about center, recolored to accent -->
+  <g transform="translate(200,200) scale(0.52) translate(-200,-200)"
+     fill="none" stroke="#C4342F" color="#C4342F" stroke-width="11"
+     stroke-linecap="round" stroke-linejoin="round">
+    
+<path d="M130,146 L156,146 L172,224 L246,224 L262,172 L164,172"/>
+<circle cx="178" cy="252" r="13" stroke-width="18"/>
+<circle cx="232" cy="252" r="13" stroke-width="18"/>
+<g stroke-width="14">
+  <line x1="252" y1="120" x2="252" y2="140"/>
+  <line x1="242" y1="130" x2="262" y2="130"/>
+</g>
+
+  </g>
+</svg>

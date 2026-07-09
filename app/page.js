@@ -93,8 +93,8 @@ const topModules = [
 ];
 
 const journeyActions = [
-  ["Broadcast\nMy\nInnovation", "https://innovators.ventures/pricing/"],
-  ["My\nInnovation\nJourney", "https://www.innovators.ventures/innovators"],
+  ["Broadcast\nMy Innovation", "https://innovators.ventures/pricing/"],
+  ["My Innovation\nJourney", "https://www.innovators.ventures/innovators"],
   ["Sign in\nSign up", "https://innovators.ventures/log-in/"],
 ];
 
@@ -147,8 +147,8 @@ const featureTiles = [
   "Leaders of the Month",
   "Innovators of the Month",
   "Mission",
-  "AI for S",
-  "AI for I",
+  "AI for Sciences",
+  "AI for Industries",
   "AI for P",
   "INNOverse Show",
   "Deal",
@@ -740,6 +740,22 @@ const innovationColumns = [
     title: "MY FAVORITE",
     videos: [videos[4], videos[24], videos[31], videos[14], videos[11]],
   },
+];
+
+const journeyIcon = (name) => `/assets/journey-icons/${name}.svg`;
+
+const journeyNavItems = [
+  { label: "LEARN", icon: journeyIcon("learn") },
+  { label: "RESEARCH", icon: journeyIcon("research") },
+  { label: "Build", icon: journeyIcon("build") },
+  { label: "Productivity", icon: journeyIcon("productivity") },
+  { label: "Fundraising", icon: journeyIcon("fundraising") },
+  { label: "Marketing", icon: journeyIcon("marketing") },
+  { label: "Sales", icon: journeyIcon("sales") },
+  { label: "My Community", icon: journeyIcon("my_community") },
+  { label: "My Favorite", icon: journeyIcon("data_intelligence") },
+  { label: "My Cart", icon: journeyIcon("my_cart") },
+  { label: "Intelligence", icon: journeyIcon("data_intelligence") },
 ];
 
 function cx(...classes) {
@@ -1592,32 +1608,25 @@ export default function InnovationDashboard() {
       <section className="on-innovation-section">
         <h2>My Innovation Journey</h2>
         <nav aria-label="Innovation collections">
-          {[
-            "LEARN",
-            "RESEARCH",
-            "Build",
-            "Productivity",
-            "Fundraising",
-            "Marketing",
-            "Sales",
-            "My Community",
-            "My Favorite",
-            "My Cart",
-            "Intelligence",
-          ].map((item) => (
-            <button key={item} onClick={() => setActiveModule(item)} type="button">
-              {item}
+          {journeyNavItems.map((item) => (
+            <button key={item.label} onClick={() => setActiveModule(item.label)} type="button">
+              <img src={item.icon} alt="" />
+              <span>{item.label}</span>
             </button>
           ))}
         </nav>
         <div className="innovation-icon-cloud">
-          {Array.from({ length: 20 }, (_, index) => (
+          {journeyNavItems.map((item) => (
             <button
-              className={`innovation-icon icon-${index % 5}`}
-              key={index}
-              onClick={() => setActiveModule(["Learn", "Research", "Build", "Marketing", "Sales"][index % 5])}
+              className="innovation-icon"
+              key={`icon-${item.label}`}
+              onClick={() => setActiveModule(item.label)}
+              title={item.label}
               type="button"
-            />
+            >
+              <img src={item.icon} alt="" />
+              <span>{item.label}</span>
+            </button>
           ))}
         </div>
         {innovationColumns.map((column, rowIndex) => {

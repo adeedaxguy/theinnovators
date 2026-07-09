@@ -1,0 +1,59 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip-marketing">
+      <circle cx="200" cy="200" r="188"/>
+    </clipPath>
+    <linearGradient id="base-marketing" x1="10%" y1="0%" x2="95%" y2="100%">
+      <stop offset="0%" stop-color="#4FA9F7"/>
+      <stop offset="100%" stop-color="#F2588A"/>
+    </linearGradient>
+    <filter id="blur-soft-marketing" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+    <filter id="blur-glow-marketing" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="chip-shadow-marketing" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#F2588A" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- ambient outer halo -->
+  <circle cx="200" cy="200" r="196" fill="#F2588A" opacity="0.16" filter="url(#blur-soft-marketing)"/>
+
+  <g clip-path="url(#clip-marketing)">
+    <!-- base diagonal gradient -->
+    <rect x="0" y="0" width="400" height="400" fill="url(#base-marketing)"/>
+
+    <!-- soft mesh blobs, mimicking the blurred gradient reference photos -->
+    <ellipse cx="120" cy="110" rx="150" ry="130" fill="#BADAFB" opacity="0.75" filter="url(#blur-soft-marketing)"/>
+    <ellipse cx="300" cy="300" rx="150" ry="140" fill="#FBB6CF" opacity="0.55" filter="url(#blur-soft-marketing)"/>
+    <ellipse cx="290" cy="90" rx="90" ry="80" fill="#ffffff" opacity="0.20" filter="url(#blur-soft-marketing)"/>
+
+    <!-- gentle bottom vignette for depth -->
+    <ellipse cx="200" cy="380" rx="220" ry="120" fill="#000000" opacity="0.10" filter="url(#blur-soft-marketing)"/>
+
+    <!-- glass gloss highlight -->
+    <ellipse cx="150" cy="110" rx="120" ry="70" fill="#ffffff" opacity="0.22" filter="url(#blur-glow-marketing)"/>
+  </g>
+
+  <!-- thin outer ring -->
+  <circle cx="200" cy="200" r="187" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <!-- frosted glass chip -->
+  <rect x="128" y="128" width="144" height="144" rx="34" fill="#ffffff" fill-opacity="0.86" filter="url(#chip-shadow-marketing)"/>
+  <rect x="128" y="128" width="144" height="144" rx="34" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.5"/>
+
+  <!-- glyph, scaled 0.5 about center, recolored to accent -->
+  <g transform="translate(200,200) scale(0.52) translate(-200,-200)"
+     fill="none" stroke="#D13567" color="#D13567" stroke-width="11"
+     stroke-linecap="round" stroke-linejoin="round">
+    
+<path d="M136,188 L136,214 L182,232 L182,170 Z"/>
+<rect x="122" y="192" width="16" height="18" rx="5" stroke-width="16"/>
+<path d="M198,178 C210,190 210,212 198,224" stroke-width="16"/>
+<path d="M216,164 C238,184 238,218 216,238" stroke-width="16"/>
+<path d="M234,150 C264,178 264,224 234,252" stroke-width="16"/>
+
+  </g>
+</svg>

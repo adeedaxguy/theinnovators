@@ -1,0 +1,61 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="clip-research">
+      <circle cx="200" cy="200" r="188"/>
+    </clipPath>
+    <linearGradient id="base-research" x1="10%" y1="0%" x2="95%" y2="100%">
+      <stop offset="0%" stop-color="#4FA3F7"/>
+      <stop offset="100%" stop-color="#9B6BF2"/>
+    </linearGradient>
+    <filter id="blur-soft-research" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+    <filter id="blur-glow-research" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="chip-shadow-research" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#9B6BF2" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- ambient outer halo -->
+  <circle cx="200" cy="200" r="196" fill="#9B6BF2" opacity="0.16" filter="url(#blur-soft-research)"/>
+
+  <g clip-path="url(#clip-research)">
+    <!-- base diagonal gradient -->
+    <rect x="0" y="0" width="400" height="400" fill="url(#base-research)"/>
+
+    <!-- soft mesh blobs, mimicking the blurred gradient reference photos -->
+    <ellipse cx="120" cy="110" rx="150" ry="130" fill="#B9DBFB" opacity="0.75" filter="url(#blur-soft-research)"/>
+    <ellipse cx="300" cy="300" rx="150" ry="140" fill="#C9AEF7" opacity="0.55" filter="url(#blur-soft-research)"/>
+    <ellipse cx="290" cy="90" rx="90" ry="80" fill="#ffffff" opacity="0.20" filter="url(#blur-soft-research)"/>
+
+    <!-- gentle bottom vignette for depth -->
+    <ellipse cx="200" cy="380" rx="220" ry="120" fill="#000000" opacity="0.10" filter="url(#blur-soft-research)"/>
+
+    <!-- glass gloss highlight -->
+    <ellipse cx="150" cy="110" rx="120" ry="70" fill="#ffffff" opacity="0.22" filter="url(#blur-glow-research)"/>
+  </g>
+
+  <!-- thin outer ring -->
+  <circle cx="200" cy="200" r="187" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5"/>
+
+  <!-- frosted glass chip -->
+  <rect x="128" y="128" width="144" height="144" rx="34" fill="#ffffff" fill-opacity="0.86" filter="url(#chip-shadow-research)"/>
+  <rect x="128" y="128" width="144" height="144" rx="34" fill="none" stroke="#ffffff" stroke-opacity="0.6" stroke-width="1.5"/>
+
+  <!-- glyph, scaled 0.5 about center, recolored to accent -->
+  <g transform="translate(200,200) scale(0.52) translate(-200,-200)"
+     fill="none" stroke="#6D3FC7" color="#6D3FC7" stroke-width="11"
+     stroke-linecap="round" stroke-linejoin="round">
+    
+<circle cx="178" cy="178" r="54"/>
+<line x1="216" y1="216" x2="268" y2="268" stroke-width="24"/>
+<g stroke-width="16">
+  <line x1="158" y1="198" x2="158" y2="163"/>
+  <line x1="178" y1="198" x2="178" y2="148"/>
+  <line x1="198" y1="198" x2="198" y2="175"/>
+</g>
+
+  </g>
+</svg>
