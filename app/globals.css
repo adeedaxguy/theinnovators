@@ -77,7 +77,7 @@ img {
   top: 0;
   z-index: 100;
   display: grid;
-  grid-template-columns: 220px minmax(760px, 1fr) minmax(480px, 0.36fr);
+  grid-template-columns: 220px minmax(0, 1fr) minmax(420px, 0.36fr);
   grid-template-rows: 114px 36px;
   width: 100%;
   height: var(--header-height);
@@ -105,12 +105,19 @@ img {
   grid-column: 2;
   grid-row: 1;
   display: grid;
-  grid-template-columns: repeat(10, minmax(104px, 1fr));
+  grid-template-columns: repeat(10, minmax(104px, 112px));
   gap: 2px;
   min-width: 0;
   padding: 3px;
-  overflow: visible;
+  overflow-x: auto;
+  overflow-y: hidden;
   background: #05070b;
+  contain: layout paint;
+  scrollbar-width: none;
+}
+
+.module-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .module-nav button {
@@ -157,7 +164,7 @@ img {
 
 .module-nav button:hover :is(img, .module-play-icon),
 .module-nav button:focus-visible :is(img, .module-play-icon) {
-  transform: translateY(-9px) scale(0.92);
+  transform: scale(0.94);
 }
 
 .module-label {
@@ -197,12 +204,15 @@ img {
 .journey-actions {
   grid-column: 3;
   grid-row: 1;
+  position: relative;
+  z-index: 5;
   display: grid;
-  grid-template-columns: repeat(3, minmax(118px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-content: center;
   align-items: center;
   gap: 10px;
   padding: 0 16px 0 8px;
+  background: #05070b;
 }
 
 .journey-actions a {
@@ -2435,7 +2445,7 @@ img {
 
 @media (max-width: 1500px) {
   .portal-header {
-    grid-template-columns: 200px minmax(0, 1fr) minmax(360px, 0.32fr);
+    grid-template-columns: 200px minmax(0, 1fr) minmax(400px, 0.34fr);
   }
 
   .portal-logo img {
@@ -2486,7 +2496,7 @@ img {
 
 @media (max-width: 1180px) {
   .portal-header {
-    grid-template-columns: 176px minmax(0, 1fr) minmax(270px, 0.3fr);
+    grid-template-columns: 176px minmax(0, 1fr) minmax(340px, 0.32fr);
   }
 
   .portal-logo img {
@@ -2516,7 +2526,7 @@ img {
   .journey-actions a {
     height: 42px;
     min-height: 42px;
-    font-size: 13px;
+    font-size: 12px;
   }
 
   .feature-tile {
