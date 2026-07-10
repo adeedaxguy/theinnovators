@@ -1317,7 +1317,7 @@ export default function InnovationDashboard() {
           />
           <div className="news-block">
             <div className="news-thumbs">
-              {videos.slice(1, 4).map((video) => (
+              {videos.slice(1, 5).map((video) => (
                 <VideoCard key={video.title} video={video} onPlay={setModalVideo} />
               ))}
             </div>
