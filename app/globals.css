@@ -488,21 +488,29 @@ img {
   padding: 12px;
   border: 0;
   border-radius: 0;
-  background:
-    linear-gradient(90deg, rgba(5, 18, 30, 0.44), rgba(5, 18, 30, 0.16) 52%, rgba(5, 18, 30, 0.04)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(10, 25, 38, 0.22)),
-    radial-gradient(circle at 76% 36%, hsla(var(--tile-a, 42deg), 95%, 64%, 0.18), transparent 34%),
-    var(--tile-image);
+  background: var(--tile-image);
   background-position: center;
-  background-size: auto, auto, auto, cover;
+  background-size: cover;
   color: #ffffff;
   font-size: clamp(14px, 0.9vw, 17px);
   font-weight: 560;
   line-height: 1.05;
   text-align: left;
-  text-shadow: 0 2px 7px rgba(0, 0, 0, 0.38);
+  text-shadow: none;
   text-transform: uppercase;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.feature-title {
+  display: inline;
+  max-width: 95%;
+  padding: 2px 5px 3px;
+  background: rgba(8, 14, 24, 0.62);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  color: #ffffff;
+  line-height: 1.18;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.42);
 }
 
 .feature-tile::after {

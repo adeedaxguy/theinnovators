@@ -168,7 +168,32 @@ const featureTiles = [
   "AI co-pilot",
 ];
 
-const featureVisuals = featureTiles.map((_, index) => editorialImages[(index + 8) % editorialImages.length]);
+const billboard = (name) => `/assets/billboards/${name}.jpg`;
+
+const featureVisuals = [
+  billboard("city-square"),
+  billboard("gateway-arch"),
+  billboard("innovation-campus"),
+  billboard("circuit-state"),
+  billboard("robotics-lab"),
+  realImages.ai,
+  billboard("broadcast-stage"),
+  billboard("innovation-bulb"),
+  billboard("robotics-lab"),
+  billboard("city-river"),
+  billboard("us-energy-map"),
+  billboard("us-photo-map"),
+  billboard("us-network-map"),
+  realImages.research,
+  realImages.ai,
+  billboard("innovation-bulb"),
+  realImages.community,
+  billboard("city-waterfront"),
+  billboard("gateway-arch"),
+  billboard("broadcast-stage"),
+  realImages.community,
+  realImages.robotics,
+];
 
 const featureCtas = [
   "Nominate",
@@ -1249,7 +1274,7 @@ export default function InnovationDashboard() {
             }}
             type="button"
           >
-            {tile}
+            <span className="feature-title">{tile}</span>
           </button>
         ))}
       </section>
