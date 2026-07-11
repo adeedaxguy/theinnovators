@@ -2276,62 +2276,6 @@ img {
   object-fit: contain;
 }
 
-.innovation-icon-cloud {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(58px, 1fr));
-  gap: 8px;
-  margin: 0 0 16px;
-}
-
-.innovation-icon {
-  position: relative;
-  display: grid;
-  width: 56px;
-  height: 56px;
-  place-items: center;
-  margin: 0 auto;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  padding: 0;
-}
-
-.innovation-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 10px rgba(15, 23, 42, 0.12));
-}
-
-.innovation-icon span {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
-.icon-0 {
-  background: radial-gradient(circle at 50% 42%, #ffffff 0 9%, transparent 10%), #f47f75;
-}
-
-.icon-1 {
-  background: radial-gradient(circle at 55% 38%, #e9f7ff 0 14%, transparent 15%), #22c4ad;
-}
-
-.icon-2 {
-  background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(183, 122, 36, 0.35) 10px 14px), #ffd081;
-}
-
-.icon-3 {
-  background: radial-gradient(circle at 50% 50%, transparent 0 23%, #ffffff 24% 29%, transparent 30%), #69c7de;
-}
-
-.icon-4 {
-  background: radial-gradient(circle at 50% 35%, #ffffff 0 13%, transparent 14%), #8b63d9;
-}
-
 .innovation-row {
   margin-top: 14px;
   text-align: left;
@@ -3070,16 +3014,6 @@ img {
     display: none;
   }
 
-  .innovation-icon-cloud {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .innovation-icon {
-    width: 40px;
-    height: 40px;
-  }
-
   .floating-copilot {
     right: 8px;
     bottom: 8px;
@@ -3336,10 +3270,6 @@ img {
   .deals-grid,
   .innovation-row-layout {
     --feature-card-height: 226px;
-  }
-
-  .innovation-icon-cloud {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .floating-copilot {

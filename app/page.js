@@ -1640,20 +1640,6 @@ export default function InnovationDashboard() {
             </button>
           ))}
         </nav>
-        <div className="innovation-icon-cloud">
-          {journeyNavItems.map((item) => (
-            <button
-              className="innovation-icon"
-              key={`icon-${item.label}`}
-              onClick={() => setActiveModule(item.label)}
-              title={item.label}
-              type="button"
-            >
-              <img src={item.icon} alt="" />
-              <span>{item.label}</span>
-            </button>
-          ))}
-        </div>
         {innovationColumns.map((column, rowIndex) => {
           const feature =
             rowIndex === 0 ? (
