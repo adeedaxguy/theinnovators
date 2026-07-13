@@ -1,3 +1,6 @@
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --ink: #101827;
   --muted: #536170;
@@ -26,6 +29,24 @@
   --reader-text: clamp(14px, 0.82vw, 16px);
   --font-ui: Arial, "Helvetica Neue", Helvetica, sans-serif;
   --font-editorial: Georgia, "Times New Roman", serif;
+  --radius: 8px;
+  --ui-background: #ffffff;
+  --ui-foreground: #101827;
+  --ui-card: #ffffff;
+  --ui-card-foreground: #101827;
+  --ui-primary: #1ca6e8;
+  --ui-primary-foreground: #07111f;
+  --ui-secondary: #e9f7ff;
+  --ui-secondary-foreground: #101827;
+  --ui-muted: #eef6fc;
+  --ui-muted-foreground: #536170;
+  --ui-accent: #ef4056;
+  --ui-accent-foreground: #ffffff;
+  --ui-destructive: #dc2626;
+  --ui-destructive-foreground: #ffffff;
+  --ui-border: #dbe5ef;
+  --ui-input: #dbe5ef;
+  --ui-ring: #1ca6e8;
 }
 
 * {
@@ -453,10 +474,22 @@ img {
   background: #f6eadf;
 }
 
-.portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+.portal-shell > :is(.portal-sticky-nav, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
   margin-right: 12px;
   margin-left: var(--site-offset);
   transition: margin-left 180ms ease;
+}
+
+.portal-sticky-nav {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 92;
+  display: grid;
+  gap: 4px;
+  overflow: hidden;
+  background: rgba(243, 246, 250, 0.96);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .feature-board {
@@ -2726,7 +2759,7 @@ img {
     --site-offset: 76px;
   }
 
-  .portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+  .portal-shell > :is(.portal-sticky-nav, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
     margin-right: 8px;
   }
 
@@ -3093,7 +3126,7 @@ img {
     min-height: 50px;
   }
 
-  .portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+  .portal-shell > :is(.portal-sticky-nav, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
     margin-right: 6px;
     margin-left: var(--site-offset);
   }

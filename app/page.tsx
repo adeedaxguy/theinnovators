@@ -1,10 +1,13 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import type { CSSProperties, SVGProps } from "react";
 
 const asset = "https://innovators.ventures/wp-content/uploads";
 const photo = (id, width = 1200) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
+
+type CSSVars = CSSProperties & Record<`--${string}`, string | number>;
 
 const realImages = {
   healthcare: photo("photo-1576091160399-112ba8d25d1d"),
@@ -783,24 +786,24 @@ const journeyNavItems = [
   { label: "Intelligence", icon: journeyIcon("data_intelligence") },
 ];
 
-function cx(...classes) {
+function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
-function slug(value) {
+function slug(value: string) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
-function Icon({ name }) {
-  const common = {
+function Icon({ name }: { name: string }) {
+  const common: SVGProps<SVGSVGElement> = {
     className: "ui-icon",
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: "1.9",
+    strokeWidth: 1.9,
     strokeLinecap: "round",
     strokeLinejoin: "round",
-    "aria-hidden": "true",
+    "aria-hidden": true,
   };
 
   const icons = {
@@ -1257,77 +1260,79 @@ export default function InnovationDashboard() {
         ))}
       </aside>
 
-      <section className="feature-board" aria-label="Innovation feature board">
-        {featureTiles.map((tile, index) => (
-          <button
-            className={cx("feature-tile", activeModule === tile && "is-active")}
-            data-cta={featureCtas[index] ?? "Explore"}
-            data-testid={`feature-${slug(tile)}`}
-            key={tile}
-            onClick={() => setActiveModule(tile)}
-            style={{
-              "--glow-x": `${18 + (index % 5) * 16}%`,
-              "--glow-y": `${26 + (index % 3) * 18}%`,
-              "--tile-image": `url("${featureVisuals[index]}")`,
-              "--tile-a": `${42 + index * 21}deg`,
-              "--tile-b": `${177 + index * 15}deg`,
-            }}
-            type="button"
-          >
-            <span className="feature-title">{tile}</span>
-          </button>
-        ))}
-      </section>
+      <div className="portal-sticky-nav">
+        <section className="feature-board" aria-label="Innovation feature board">
+          {featureTiles.map((tile, index) => (
+            <button
+              className={cx("feature-tile", activeModule === tile && "is-active")}
+              data-cta={featureCtas[index] ?? "Explore"}
+              data-testid={`feature-${slug(tile)}`}
+              key={tile}
+              onClick={() => setActiveModule(tile)}
+              style={{
+                "--glow-x": `${18 + (index % 5) * 16}%`,
+                "--glow-y": `${26 + (index % 3) * 18}%`,
+                "--tile-image": `url("${featureVisuals[index]}")`,
+                "--tile-a": `${42 + index * 21}deg`,
+                "--tile-b": `${177 + index * 15}deg`,
+              } as CSSVars}
+              type="button"
+            >
+              <span className="feature-title">{tile}</span>
+            </button>
+          ))}
+        </section>
 
-      <nav className="category-bar" aria-label="Sector filters">
-        <div className="category-scroll-shell">
-          <button
-            aria-label="Previous categories"
-            className="category-arrow category-arrow-left"
-            onClick={() => scrollCategories(-1)}
-            type="button"
-          >
-            <Icon name="chevronLeft" />
-          </button>
-          <div className="category-scroll" ref={categoryScrollRef}>
-            {categories.map((category) => (
-              <button
-                className={cx(activeCategory === category && "is-active")}
-                data-testid={`category-${slug(category)}`}
-                key={category}
-                onClick={() => {
-                  setActiveCategory(category);
-                  const nextVideo = videos.find((video) => video.category === category);
-                  if (nextVideo) {
-                    setActiveVideo(nextVideo);
-                    setNewsIndex(0);
-                  }
-                }}
-                type="button"
-              >
-                {category}
-              </button>
-            ))}
+        <nav className="category-bar" aria-label="Sector filters">
+          <div className="category-scroll-shell">
+            <button
+              aria-label="Previous categories"
+              className="category-arrow category-arrow-left"
+              onClick={() => scrollCategories(-1)}
+              type="button"
+            >
+              <Icon name="chevronLeft" />
+            </button>
+            <div className="category-scroll" ref={categoryScrollRef}>
+              {categories.map((category) => (
+                <button
+                  className={cx(activeCategory === category && "is-active")}
+                  data-testid={`category-${slug(category)}`}
+                  key={category}
+                  onClick={() => {
+                    setActiveCategory(category);
+                    const nextVideo = videos.find((video) => video.category === category);
+                    if (nextVideo) {
+                      setActiveVideo(nextVideo);
+                      setNewsIndex(0);
+                    }
+                  }}
+                  type="button"
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+            <button
+              aria-label="Next categories"
+              className="category-arrow category-arrow-right"
+              onClick={() => scrollCategories(1)}
+              type="button"
+            >
+              <Icon name="chevronRight" />
+            </button>
           </div>
-          <button
-            aria-label="Next categories"
-            className="category-arrow category-arrow-right"
-            onClick={() => scrollCategories(1)}
-            type="button"
+          <form
+            className="category-search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setActiveModule("Search");
+            }}
           >
-            <Icon name="chevronRight" />
-          </button>
-        </div>
-        <form
-          className="category-search"
-          onSubmit={(event) => {
-            event.preventDefault();
-            setActiveModule("Search");
-          }}
-        >
-          <input aria-label="Search innovation stories" placeholder="Search" />
-        </form>
-      </nav>
+            <input aria-label="Search innovation stories" placeholder="Search" />
+          </form>
+        </nav>
+      </div>
 
       <div className="portal-grid">
         <section className="spotlight-panel">
@@ -1505,7 +1510,8 @@ export default function InnovationDashboard() {
             <VideoCard video={row.wide} size="ai-feature" onPlay={setModalVideo} />
           );
           const filledCards = row.cards
-            .concat(videos.map((video) => [`${video.category} playbook`, video]))
+            .map(([title, media]) => ({ media, title: String(title) }))
+            .concat(videos.map((video) => ({ media: video, title: `${video.category} playbook` })))
             .slice(0, 7);
 
           return (
@@ -1519,7 +1525,7 @@ export default function InnovationDashboard() {
               </div>
               <div className="ai-card-grid">
                 <ScrollRail className="ai-card-rail" label={`${row.label} videos`}>
-                  {filledCards.map(([title, media], index) =>
+                  {filledCards.map(({ title, media }, index) =>
                     typeof media === "string" ? (
                       <div className="captioned-video" key={`${row.label}-${title}-${index}`}>
                         <ImagePlayCard

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   DEFAULT_TYPOGRAPHY_SETTINGS,
   FONT_FAMILIES,
@@ -104,10 +105,12 @@ export default function AdminTypographyPanel() {
           </span>
         </div>
         <nav aria-label="Admin actions">
-          <a href="/">View Site</a>
-          <button onClick={resetAll} type="button">
+          <Button asChild size="sm" variant="secondary">
+            <a href="/">View Site</a>
+          </Button>
+          <Button onClick={resetAll} size="sm" type="button" variant="outline">
             Reset All
-          </button>
+          </Button>
         </nav>
       </header>
 
@@ -122,21 +125,21 @@ export default function AdminTypographyPanel() {
           />
         </div>
         <div className="admin-quick-actions">
-          <button onClick={() => nudgeAll(1)} type="button">
+          <Button onClick={() => nudgeAll(1)} size="sm" type="button" variant="secondary">
             Increase All +1
-          </button>
-          <button onClick={() => nudgeAll(-1)} type="button">
+          </Button>
+          <Button onClick={() => nudgeAll(-1)} size="sm" type="button" variant="secondary">
             Decrease All -1
-          </button>
+          </Button>
         </div>
       </section>
 
       <section className="admin-presets" aria-label="Typography presets">
         {Object.entries(TYPOGRAPHY_PRESETS).map(([key, preset]) => (
-          <button key={key} onClick={() => applyPreset(key)} type="button">
+          <Button key={key} onClick={() => applyPreset(key)} type="button" variant="ghost">
             <strong>{preset.label}</strong>
             <span>{preset.description}</span>
-          </button>
+          </Button>
         ))}
       </section>
 
@@ -150,9 +153,9 @@ export default function AdminTypographyPanel() {
                   <h2>{area.name}</h2>
                   <p>{area.description}</p>
                 </div>
-                <button onClick={() => resetArea(area)} type="button">
+                <Button onClick={() => resetArea(area)} size="sm" type="button" variant="outline">
                   Reset
-                </button>
+                </Button>
               </div>
 
               <div className="admin-control-row">
