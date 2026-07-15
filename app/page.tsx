@@ -1260,79 +1260,77 @@ export default function InnovationDashboard() {
         ))}
       </aside>
 
-      <div className="portal-sticky-nav">
-        <section className="feature-board" aria-label="Innovation feature board">
-          {featureTiles.map((tile, index) => (
-            <button
-              className={cx("feature-tile", activeModule === tile && "is-active")}
-              data-cta={featureCtas[index] ?? "Explore"}
-              data-testid={`feature-${slug(tile)}`}
-              key={tile}
-              onClick={() => setActiveModule(tile)}
-              style={{
-                "--glow-x": `${18 + (index % 5) * 16}%`,
-                "--glow-y": `${26 + (index % 3) * 18}%`,
-                "--tile-image": `url("${featureVisuals[index]}")`,
-                "--tile-a": `${42 + index * 21}deg`,
-                "--tile-b": `${177 + index * 15}deg`,
-              } as CSSVars}
-              type="button"
-            >
-              <span className="feature-title">{tile}</span>
-            </button>
-          ))}
-        </section>
-
-        <nav className="category-bar" aria-label="Sector filters">
-          <div className="category-scroll-shell">
-            <button
-              aria-label="Previous categories"
-              className="category-arrow category-arrow-left"
-              onClick={() => scrollCategories(-1)}
-              type="button"
-            >
-              <Icon name="chevronLeft" />
-            </button>
-            <div className="category-scroll" ref={categoryScrollRef}>
-              {categories.map((category) => (
-                <button
-                  className={cx(activeCategory === category && "is-active")}
-                  data-testid={`category-${slug(category)}`}
-                  key={category}
-                  onClick={() => {
-                    setActiveCategory(category);
-                    const nextVideo = videos.find((video) => video.category === category);
-                    if (nextVideo) {
-                      setActiveVideo(nextVideo);
-                      setNewsIndex(0);
-                    }
-                  }}
-                  type="button"
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-            <button
-              aria-label="Next categories"
-              className="category-arrow category-arrow-right"
-              onClick={() => scrollCategories(1)}
-              type="button"
-            >
-              <Icon name="chevronRight" />
-            </button>
-          </div>
-          <form
-            className="category-search"
-            onSubmit={(event) => {
-              event.preventDefault();
-              setActiveModule("Search");
-            }}
+      <section className="feature-board" aria-label="Innovation feature board">
+        {featureTiles.map((tile, index) => (
+          <button
+            className={cx("feature-tile", activeModule === tile && "is-active")}
+            data-cta={featureCtas[index] ?? "Explore"}
+            data-testid={`feature-${slug(tile)}`}
+            key={tile}
+            onClick={() => setActiveModule(tile)}
+            style={{
+              "--glow-x": `${18 + (index % 5) * 16}%`,
+              "--glow-y": `${26 + (index % 3) * 18}%`,
+              "--tile-image": `url("${featureVisuals[index]}")`,
+              "--tile-a": `${42 + index * 21}deg`,
+              "--tile-b": `${177 + index * 15}deg`,
+            } as CSSVars}
+            type="button"
           >
-            <input aria-label="Search innovation stories" placeholder="Search" />
-          </form>
-        </nav>
-      </div>
+            <span className="feature-title">{tile}</span>
+          </button>
+        ))}
+      </section>
+
+      <nav className="category-bar" aria-label="Sector filters">
+        <div className="category-scroll-shell">
+          <button
+            aria-label="Previous categories"
+            className="category-arrow category-arrow-left"
+            onClick={() => scrollCategories(-1)}
+            type="button"
+          >
+            <Icon name="chevronLeft" />
+          </button>
+          <div className="category-scroll" ref={categoryScrollRef}>
+            {categories.map((category) => (
+              <button
+                className={cx(activeCategory === category && "is-active")}
+                data-testid={`category-${slug(category)}`}
+                key={category}
+                onClick={() => {
+                  setActiveCategory(category);
+                  const nextVideo = videos.find((video) => video.category === category);
+                  if (nextVideo) {
+                    setActiveVideo(nextVideo);
+                    setNewsIndex(0);
+                  }
+                }}
+                type="button"
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+          <button
+            aria-label="Next categories"
+            className="category-arrow category-arrow-right"
+            onClick={() => scrollCategories(1)}
+            type="button"
+          >
+            <Icon name="chevronRight" />
+          </button>
+        </div>
+        <form
+          className="category-search"
+          onSubmit={(event) => {
+            event.preventDefault();
+            setActiveModule("Search");
+          }}
+        >
+          <input aria-label="Search innovation stories" placeholder="Search" />
+        </form>
+      </nav>
 
       <div className="portal-grid">
         <section className="spotlight-panel">
