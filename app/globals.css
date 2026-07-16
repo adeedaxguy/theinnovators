@@ -474,7 +474,7 @@ img {
   background: #f6eadf;
 }
 
-.portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+.portal-shell > :is(.feature-board, .compact-feature-nav, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
   margin-right: 12px;
   margin-left: var(--site-offset);
   transition: margin-left 180ms ease;
@@ -557,6 +557,66 @@ img {
 .feature-tile.is-active {
   outline: 2px solid rgba(10, 127, 199, 0.72);
   outline-offset: -2px;
+}
+
+.compact-feature-nav {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 94;
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 8px;
+  border: 1px solid rgba(178, 210, 230, 0.9);
+  border-top: 0;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(12px);
+  scrollbar-width: none;
+}
+
+.compact-feature-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.compact-feature-nav button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 4px 12px 4px 7px;
+  border: 0;
+  border-right: 1px solid rgba(7, 17, 31, 0.13);
+  background: transparent;
+  color: #07111f;
+  font-size: clamp(12px, 0.76vw, 14px);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.compact-feature-nav button::before {
+  display: block;
+  width: 26px;
+  height: 20px;
+  flex: 0 0 26px;
+  border: 1px solid rgba(7, 17, 31, 0.12);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.18), rgba(7, 17, 31, 0.2)), var(--tile-image);
+  background-position: center;
+  background-size: cover;
+  content: "";
+}
+
+.compact-feature-nav button:hover,
+.compact-feature-nav button:focus-visible,
+.compact-feature-nav button.is-active {
+  background: linear-gradient(135deg, rgba(227, 247, 255, 0.95), rgba(175, 228, 255, 0.9));
+  color: #07111f;
+  outline: 0;
 }
 
 .category-bar {
@@ -2747,7 +2807,7 @@ img {
     --site-offset: 76px;
   }
 
-  .portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+  .portal-shell > :is(.feature-board, .compact-feature-nav, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
     margin-right: 8px;
   }
 
@@ -2840,6 +2900,23 @@ img {
   .feature-tile {
     min-height: 92px;
     font-size: 15px;
+  }
+
+  .compact-feature-nav {
+    min-height: 40px;
+    padding-inline: 6px;
+  }
+
+  .compact-feature-nav button {
+    min-height: 30px;
+    padding-right: 10px;
+    font-size: 13px;
+  }
+
+  .compact-feature-nav button::before {
+    width: 24px;
+    height: 18px;
+    flex-basis: 24px;
   }
 
   .category-bar {
@@ -3114,7 +3191,7 @@ img {
     min-height: 50px;
   }
 
-  .portal-shell > :is(.feature-board, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
+  .portal-shell > :is(.feature-board, .compact-feature-nav, .category-bar, .portal-grid, .ai-section, .shorts-section, .show-section, .deals-section, .on-innovation-section, .site-footer) {
     margin-right: 6px;
     margin-left: var(--site-offset);
   }
@@ -3123,6 +3200,24 @@ img {
     min-height: 82px;
     padding: 10px;
     font-size: 14px;
+  }
+
+  .compact-feature-nav {
+    min-height: 38px;
+    padding: 4px 5px;
+  }
+
+  .compact-feature-nav button {
+    min-height: 29px;
+    gap: 6px;
+    padding: 4px 9px 4px 5px;
+    font-size: 12px;
+  }
+
+  .compact-feature-nav button::before {
+    width: 22px;
+    height: 17px;
+    flex-basis: 22px;
   }
 
   .category-bar {

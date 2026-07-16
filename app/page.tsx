@@ -1282,6 +1282,23 @@ export default function InnovationDashboard() {
         ))}
       </section>
 
+      <nav className="compact-feature-nav" aria-label="Compact innovation feature menu">
+        {featureTiles.map((tile, index) => (
+          <button
+            className={cx(activeModule === tile && "is-active")}
+            data-testid={`compact-feature-${slug(tile)}`}
+            key={tile}
+            onClick={() => setActiveModule(tile)}
+            style={{
+              "--tile-image": `url("${featureVisuals[index]}")`,
+            } as CSSVars}
+            type="button"
+          >
+            {tile}
+          </button>
+        ))}
+      </nav>
+
       <nav className="category-bar" aria-label="Sector filters">
         <div className="category-scroll-shell">
           <button
