@@ -1209,22 +1209,6 @@ export default function InnovationDashboard() {
           ))}
         </nav>
 
-        <div className="market-strip">
-          <div className="ticker-lane" aria-label={tickerItems.join(" | ")}>
-            <div className="ticker-copy" aria-hidden="true">
-              {[0, 1, 2, 3].map((group) => (
-                <span className="ticker-group" key={group}>
-                  {tickerItems.map((item) => (
-                    <span className="ticker-item" key={`${group}-${item}`}>
-                      {item}
-                    </span>
-                  ))}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
         <div className="journey-actions">
           {journeyActions.map(([label, href]) => (
             <a href={href} key={label}>
@@ -1233,6 +1217,22 @@ export default function InnovationDashboard() {
           ))}
         </div>
       </header>
+
+      <div className="market-strip">
+        <div className="ticker-lane" aria-label={tickerItems.join(" | ")}>
+          <div className="ticker-copy" aria-hidden="true">
+            {[0, 1, 2, 3].map((group) => (
+              <span className="ticker-group" key={group}>
+                {tickerItems.map((item) => (
+                  <span className="ticker-item" key={`${group}-${item}`}>
+                    {item}
+                  </span>
+                ))}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
 
       <aside className="audience-sidebar" aria-label="Audience filters">
         <div className="audience-sidebar-title">
@@ -1283,15 +1283,12 @@ export default function InnovationDashboard() {
       </section>
 
       <nav className="compact-feature-nav" aria-label="Compact innovation feature menu">
-        {featureTiles.map((tile, index) => (
+        {featureTiles.map((tile) => (
           <button
             className={cx(activeModule === tile && "is-active")}
             data-testid={`compact-feature-${slug(tile)}`}
             key={tile}
             onClick={() => setActiveModule(tile)}
-            style={{
-              "--tile-image": `url("${featureVisuals[index]}")`,
-            } as CSSVars}
             type="button"
           >
             {tile}

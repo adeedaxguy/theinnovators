@@ -81,7 +81,7 @@ img {
 }
 
 .portal-shell {
-  --header-height: 150px;
+  --header-height: 114px;
   --site-sidebar-open: 210px;
   --site-sidebar-collapsed: 72px;
   --site-offset: calc(var(--site-sidebar-open) + 12px);
@@ -99,7 +99,7 @@ img {
   z-index: 100;
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr) minmax(420px, 0.36fr);
-  grid-template-rows: 114px 36px;
+  grid-template-rows: 114px;
   width: 100%;
   height: var(--header-height);
   background: #05070b;
@@ -260,9 +260,8 @@ img {
 }
 
 .market-strip {
-  grid-column: 1 / -1;
-  grid-row: 2;
   position: relative;
+  z-index: 90;
   display: block;
   align-items: center;
   height: 36px;
@@ -586,9 +585,8 @@ img {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
-  gap: 8px;
   min-height: 32px;
-  padding: 4px 12px 4px 7px;
+  padding: 4px 14px;
   border: 0;
   border-right: 1px solid rgba(7, 17, 31, 0.13);
   background: transparent;
@@ -597,18 +595,6 @@ img {
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
-}
-
-.compact-feature-nav button::before {
-  display: block;
-  width: 26px;
-  height: 20px;
-  flex: 0 0 26px;
-  border: 1px solid rgba(7, 17, 31, 0.12);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.18), rgba(7, 17, 31, 0.2)), var(--tile-image);
-  background-position: center;
-  background-size: cover;
-  content: "";
 }
 
 .compact-feature-nav button:hover,
@@ -2640,14 +2626,14 @@ img {
 
 @media (max-width: 900px) {
   .portal-shell {
-    --header-height: 210px;
+    --header-height: 174px;
     --site-sidebar-open: 178px;
     --site-sidebar-collapsed: 68px;
   }
 
   .portal-header {
     grid-template-columns: 178px minmax(0, 1fr);
-    grid-template-rows: 104px 70px 36px;
+    grid-template-rows: 104px 70px;
     height: var(--header-height);
   }
 
@@ -2684,10 +2670,6 @@ img {
   .journey-actions a {
     height: 60px;
     min-height: 60px;
-  }
-
-  .market-strip {
-    grid-row: 3;
   }
 
   .feature-board {
@@ -2913,12 +2895,6 @@ img {
     font-size: 13px;
   }
 
-  .compact-feature-nav button::before {
-    width: 24px;
-    height: 18px;
-    flex-basis: 24px;
-  }
-
   .category-bar {
     grid-template-columns: 1fr;
     grid-template-rows: 36px 34px;
@@ -3127,7 +3103,7 @@ img {
 @media (max-width: 520px) {
   .portal-shell,
   .portal-shell.is-sidebar-collapsed {
-    --header-height: 184px;
+    --header-height: 148px;
     --site-sidebar-open: 60px;
     --site-sidebar-collapsed: 60px;
     --site-offset: 68px;
@@ -3135,7 +3111,7 @@ img {
 
   .portal-header {
     grid-template-columns: 112px minmax(0, 1fr);
-    grid-template-rows: 84px 64px 36px;
+    grid-template-rows: 84px 64px;
   }
 
   .portal-logo img {
@@ -3209,15 +3185,8 @@ img {
 
   .compact-feature-nav button {
     min-height: 29px;
-    gap: 6px;
-    padding: 4px 9px 4px 5px;
+    padding: 4px 9px;
     font-size: 12px;
-  }
-
-  .compact-feature-nav button::before {
-    width: 22px;
-    height: 17px;
-    flex-basis: 22px;
   }
 
   .category-bar {
