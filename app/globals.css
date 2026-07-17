@@ -559,9 +559,6 @@ img {
 }
 
 .compact-feature-nav {
-  position: sticky;
-  top: var(--header-height);
-  z-index: 94;
   display: flex;
   min-height: 42px;
   align-items: center;
@@ -606,7 +603,9 @@ img {
 }
 
 .category-bar {
-  position: relative;
+  position: sticky;
+  top: var(--header-height);
+  z-index: 96;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(120px, 168px);
   min-height: 38px;
