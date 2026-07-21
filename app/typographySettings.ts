@@ -1,6 +1,26 @@
 export const TYPOGRAPHY_STORAGE_KEY = "innovatorsTypographySettings:v1";
 
-export const FONT_FAMILIES = [
+export type FontStyle = "normal" | "italic";
+
+export type TypographySetting = {
+  family: string;
+  size: number;
+  style: FontStyle;
+  weight: number;
+};
+
+export type TypographySettings = Record<string, TypographySetting>;
+
+export type TypographyArea = TypographySetting & {
+  id: string;
+  name: string;
+  description: string;
+  preview: string;
+  min: number;
+  max: number;
+};
+
+export const FONT_FAMILIES: Array<{ label: string; value: string }> = [
   {
     label: "Clean website - Arial",
     value: 'Arial, "Helvetica Neue", Helvetica, sans-serif',
@@ -21,7 +41,7 @@ export const FONT_FAMILIES = [
 
 export const FONT_WEIGHTS = [300, 400, 500, 540, 560, 600, 650, 700, 800];
 
-export const TYPOGRAPHY_AREAS = [
+export const TYPOGRAPHY_AREAS: TypographyArea[] = [
   {
     id: "body",
     name: "Overall Page Text",
@@ -216,7 +236,7 @@ export const TYPOGRAPHY_AREAS = [
   },
 ];
 
-export const DEFAULT_TYPOGRAPHY_SETTINGS = TYPOGRAPHY_AREAS.reduce((settings, area) => {
+export const DEFAULT_TYPOGRAPHY_SETTINGS: TypographySettings = TYPOGRAPHY_AREAS.reduce<TypographySettings>((settings, area) => {
   settings[area.id] = {
     family: area.family,
     size: area.size,
@@ -226,7 +246,13 @@ export const DEFAULT_TYPOGRAPHY_SETTINGS = TYPOGRAPHY_AREAS.reduce((settings, ar
   return settings;
 }, {});
 
-export const TYPOGRAPHY_PRESETS = {
+type TypographyPreset = {
+  label: string;
+  description: string;
+  values: TypographySettings;
+};
+
+export const TYPOGRAPHY_PRESETS: Record<string, TypographyPreset> = {
   balanced: {
     label: "Balanced Website",
     description: "Clean readable defaults for the current layout.",
@@ -257,23 +283,30 @@ export const TYPOGRAPHY_PRESETS = {
           weight: area.weight,
         },
       ])
-    ),
+    ) as TypographySettings,
   },
 };
 
-function clamp(number, min, max) {
+function clamp(number: number, min: number, max: number) {
   return Math.min(Math.max(number, min), max);
 }
 
-export function normalizeTypographySettings(input) {
-  return TYPOGRAPHY_AREAS.reduce((settings, area) => {
-    const incoming = input?.[area.id] || {};
+function isTypographyInput(input: unknown): input is Record<string, Partial<TypographySetting>> {
+  return Boolean(input && typeof input === "object" && !Array.isArray(input));
+}
+
+export function normalizeTypographySettings(input: unknown): TypographySettings {
+  const source = isTypographyInput(input) ? input : {};
+
+  return TYPOGRAPHY_AREAS.reduce<TypographySettings>((settings, area) => {
+    const incoming = source[area.id] || {};
     const size = Number(incoming.size);
     const weight = Number(incoming.weight);
     const familyValues = FONT_FAMILIES.map((font) => font.value);
+    const family = typeof incoming.family === "string" ? incoming.family : "";
 
     settings[area.id] = {
-      family: familyValues.includes(incoming.family) ? incoming.family : area.family,
+      family: familyValues.includes(family) ? family : area.family,
       size: Number.isFinite(size) ? clamp(size, area.min, area.max) : area.size,
       style: incoming.style === "italic" ? "italic" : "normal",
       weight: FONT_WEIGHTS.includes(weight) ? weight : area.weight,
@@ -282,7 +315,7 @@ export function normalizeTypographySettings(input) {
   }, {});
 }
 
-export function applyTypographySettings(settings) {
+export function applyTypographySettings(settings: unknown) {
   if (typeof document === "undefined") return;
   const normalized = normalizeTypographySettings(settings);
   const root = document.documentElement;

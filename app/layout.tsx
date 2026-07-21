@@ -1,18 +1,21 @@
 import "./globals.css";
+import "./styles/typography-admin.css";
 import FontSettingsProvider from "./FontSettingsProvider";
+import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "The Innovators - Virtual & Visual Innovation Ecosystem",
   description:
     "A React and Next.js rebuild of The INNOVATORS, the virtual and visual innovation ecosystem.",
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   DEFAULT_TYPOGRAPHY_SETTINGS,
@@ -11,9 +12,12 @@ import {
   TYPOGRAPHY_STORAGE_KEY,
   applyTypographySettings,
   normalizeTypographySettings,
+  type TypographyArea,
+  type TypographySetting,
+  type TypographySettings,
 } from "../typographySettings";
 
-function loadInitialSettings() {
+function loadInitialSettings(): TypographySettings {
   if (typeof window === "undefined") return DEFAULT_TYPOGRAPHY_SETTINGS;
   try {
     const raw = window.localStorage.getItem(TYPOGRAPHY_STORAGE_KEY);
@@ -24,23 +28,14 @@ function loadInitialSettings() {
 }
 
 export default function AdminTypographyPanel() {
-  const [settings, setSettings] = useState(DEFAULT_TYPOGRAPHY_SETTINGS);
-  const [ready, setReady] = useState(false);
+  const [settings, setSettings] = useState<TypographySettings>(() => loadInitialSettings());
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const saved = loadInitialSettings();
-    setSettings(saved);
-    applyTypographySettings(saved);
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) return;
     const normalized = normalizeTypographySettings(settings);
     applyTypographySettings(normalized);
     window.localStorage.setItem(TYPOGRAPHY_STORAGE_KEY, JSON.stringify(normalized));
-  }, [ready, settings]);
+  }, [settings]);
 
   const filteredAreas = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -50,7 +45,7 @@ export default function AdminTypographyPanel() {
     );
   }, [search]);
 
-  function updateArea(areaId, field, value) {
+  function updateArea(areaId: string, field: keyof TypographySetting, value: string) {
     setSettings((current) =>
       normalizeTypographySettings({
         ...current,
@@ -62,11 +57,11 @@ export default function AdminTypographyPanel() {
     );
   }
 
-  function applyPreset(presetKey) {
+  function applyPreset(presetKey: string) {
     setSettings(normalizeTypographySettings(TYPOGRAPHY_PRESETS[presetKey].values));
   }
 
-  function resetArea(area) {
+  function resetArea(area: TypographyArea) {
     setSettings((current) =>
       normalizeTypographySettings({
         ...current,
@@ -79,10 +74,10 @@ export default function AdminTypographyPanel() {
     setSettings(DEFAULT_TYPOGRAPHY_SETTINGS);
   }
 
-  function nudgeAll(direction) {
+  function nudgeAll(direction: number) {
     setSettings((current) =>
       normalizeTypographySettings(
-        TYPOGRAPHY_AREAS.reduce((next, area) => {
+        TYPOGRAPHY_AREAS.reduce<TypographySettings>((next, area) => {
           next[area.id] = {
             ...current[area.id],
             size: Number(current[area.id].size) + direction,
@@ -106,7 +101,7 @@ export default function AdminTypographyPanel() {
         </div>
         <nav aria-label="Admin actions">
           <Button asChild size="sm" variant="secondary">
-            <a href="/">View Site</a>
+            <Link href="/">View Site</Link>
           </Button>
           <Button onClick={resetAll} size="sm" type="button" variant="outline">
             Reset All

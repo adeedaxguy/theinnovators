@@ -1,0 +1,72 @@
+# The Innovators Landing Page
+
+Next.js rebuild of The Innovators landing experience. The app is built with React, TypeScript, Tailwind-compatible project setup, shadcn-style primitives in `components/ui`, and a componentized landing page under `components/landing`.
+
+## Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run locally:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Run the production build locally:
+
+```bash
+npm run start
+```
+
+Run quality checks:
+
+```bash
+npm run typecheck
+npm run lint
+npm run test
+```
+
+Deploy to the client Vercel project:
+
+```bash
+vercel deploy --prod --yes --scope innovatorsinstitute
+```
+
+## Folder Structure
+
+- `app/page.tsx`: Small landing-page route entry that renders the dashboard component.
+- `app/admin`: Typography admin UI. It is protected by `proxy.ts` and only works when admin credentials are configured.
+- `app/styles`: Global stylesheet splits that are shared by routes, including admin typography controls.
+- `components/landing`: Landing-page data, media cards, icons, rails, and the main dashboard composition.
+- `components/ui`: Shared UI primitives following shadcn-style component conventions.
+- `public/assets`: Local billboard and journey icon assets used by the landing page.
+- `tests`: Basic smoke tests for repository structure and client-facing route safeguards.
+
+## Admin Route
+
+`/admin` is a browser-local typography control panel for reviewing and tuning global font families, font sizes, weights, and styles by page area. It stores settings in `localStorage` so designers can test typography without changing source code.
+
+The route is not public by default. Set both environment variables below to enable Basic Auth:
+
+```bash
+ADMIN_USERNAME=your-user
+ADMIN_PASSWORD=your-password
+```
+
+If either value is missing, `/admin` returns a disabled response. Do not commit real credentials.
+
+## Notes
+
+- Dependency versions are pinned in `package.json` for reproducible installs.
+- TypeScript strict mode is enabled.
+- Keep visual changes scoped: this page has been tuned against client-provided Canva and Loom references, so layout ratios and content density are intentional.
