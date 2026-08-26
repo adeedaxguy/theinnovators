@@ -20,6 +20,8 @@ import {
 } from "./chrome";
 import { VideoCard } from "./media-cards";
 import { ScrollRail } from "./ScrollRail";
+import { GeographicMap } from "./GeographicMap";
+import { IntelligenceAnalytics } from "./IntelligenceAnalytics";
 import type {
   IntelligenceCard,
   IntelligenceLeader,
@@ -65,97 +67,24 @@ function LeaderCard({ leader }: { leader: IntelligenceLeader }) {
 function DataMapSurface({
   content,
   mode,
+  onSelectPoint,
+  selectedPoint,
 }: {
   content: IntelligencePageContent;
   mode: "hero" | "map" | "briefing";
+  onSelectPoint?: (point: IntelligencePoint) => void;
+  selectedPoint?: IntelligencePoint;
 }) {
   const isUsa = content.slug === "usa";
-  const title = isUsa ? "United States innovation map" : "World innovation map";
 
   return (
     <div className={cx("data-map-surface", isUsa ? "is-usa" : "is-world", `is-${mode}`)}>
-      <svg aria-label={title} role="img" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <linearGradient id={`${content.slug}-${mode}-ocean`} x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor={isUsa ? "#07142a" : "#102a43"} />
-            <stop offset="48%" stopColor={isUsa ? "#0b64a9" : "#2786c8"} />
-            <stop offset="100%" stopColor={isUsa ? "#f19a53" : "#f4d06f"} />
-          </linearGradient>
-          <linearGradient id={`${content.slug}-${mode}-land`} x1="0%" x2="100%" y1="0%" y2="100%">
-            <stop offset="0%" stopColor={isUsa ? "#78d4ff" : "#d9eef9"} />
-            <stop offset="46%" stopColor={isUsa ? "#1d9fe5" : "#5db9e8"} />
-            <stop offset="100%" stopColor={isUsa ? "#0e3d7d" : "#165c94"} />
-          </linearGradient>
-          <clipPath id={`${content.slug}-${mode}-usa`}>
-            <path d="M111 295 139 250 209 218 290 217 336 190 433 203 500 197 559 216 629 213 696 239 775 245 854 284 884 324 833 354 748 347 686 385 620 373 562 408 488 392 428 414 358 382 292 388 234 360 171 348Z" />
-          </clipPath>
-          <clipPath id={`${content.slug}-${mode}-world`}>
-            <path d="M91 183 162 129 237 136 287 170 257 218 166 235 109 216ZM349 129 462 96 560 124 596 185 545 241 438 236 358 199ZM628 166 764 118 899 174 866 246 732 262 641 222ZM435 260 514 286 489 379 417 394 361 337ZM592 276 681 304 748 394 697 465 615 410ZM182 312 281 339 336 440 245 493 159 432Z" />
-          </clipPath>
-        </defs>
-        <rect width="1000" height="560" fill={`url(#${content.slug}-${mode}-ocean)`} />
-        <g className="map-grid">
-          {Array.from({ length: 8 }, (_, index) => (
-            <path
-              d={`M${120 + index * 96} 48 C${96 + index * 86} 170 ${110 + index * 92} 350 ${82 + index * 104} 528`}
-              key={`v-${index}`}
-            />
-          ))}
-          {Array.from({ length: 5 }, (_, index) => (
-            <path d={`M46 ${104 + index * 86} C260 ${82 + index * 78} 672 ${128 + index * 62} 954 ${92 + index * 82}`} key={`h-${index}`} />
-          ))}
-        </g>
-        {isUsa ? (
-          <g>
-            <g clipPath={`url(#${content.slug}-${mode}-usa)`}>
-              <rect x="88" y="165" width="820" height="300" fill={`url(#${content.slug}-${mode}-land)`} />
-              {[
-                [118, 213, 120, 82, "#e95f65"],
-                [245, 219, 112, 74, "#42c7f3"],
-                [365, 205, 124, 88, "#193f8b"],
-                [497, 211, 112, 78, "#ef9a45"],
-                [618, 226, 126, 78, "#2ab06e"],
-                [746, 251, 104, 76, "#2451a4"],
-                [161, 306, 130, 82, "#17376d"],
-                [303, 311, 132, 76, "#55d2ff"],
-                [447, 302, 110, 88, "#e85d89"],
-                [568, 313, 126, 78, "#0e7cc1"],
-                [704, 325, 118, 64, "#f2b24f"],
-              ].map(([x, y, width, height, fill], index) => (
-                <rect fill={String(fill)} height={Number(height)} key={index} opacity="0.78" width={Number(width)} x={Number(x)} y={Number(y)} />
-              ))}
-              <path className="network-line" d="M130 302 245 252 394 280 514 236 641 286 802 310" />
-              <path className="network-line" d="M210 363 338 306 486 348 604 298 748 364" />
-              <path className="network-line" d="M278 226 356 370 493 226 602 382 698 258" />
-            </g>
-            <path className="map-outline" d="M111 295 139 250 209 218 290 217 336 190 433 203 500 197 559 216 629 213 696 239 775 245 854 284 884 324 833 354 748 347 686 385 620 373 562 408 488 392 428 414 358 382 292 388 234 360 171 348Z" />
-          </g>
-        ) : (
-          <g>
-            <g clipPath={`url(#${content.slug}-${mode}-world)`}>
-              <rect x="70" y="78" width="860" height="430" fill={`url(#${content.slug}-${mode}-land)`} />
-              <path className="network-line" d="M128 211 240 176 420 202 552 177 713 209 865 199" />
-              <path className="network-line" d="M206 402 375 336 504 314 642 354 721 431" />
-              <path className="network-line" d="M462 118 520 240 615 304 674 443" />
-            </g>
-            {[
-              "M91 183 162 129 237 136 287 170 257 218 166 235 109 216Z",
-              "M349 129 462 96 560 124 596 185 545 241 438 236 358 199Z",
-              "M628 166 764 118 899 174 866 246 732 262 641 222Z",
-              "M435 260 514 286 489 379 417 394 361 337Z",
-              "M592 276 681 304 748 394 697 465 615 410Z",
-              "M182 312 281 339 336 440 245 493 159 432Z",
-            ].map((d) => (
-              <path className="map-outline" d={d} key={d} />
-            ))}
-          </g>
-        )}
-        <g className="map-nodes" aria-hidden="true">
-          {content.map.points.map((point) => (
-            <circle cx={point.x * 10} cy={point.y * 5.6} key={point.id} r={mode === "hero" ? 8 : 6} />
-          ))}
-        </g>
-      </svg>
+      <GeographicMap
+        mode={content.slug}
+        onSelectPoint={mode === "map" ? onSelectPoint : undefined}
+        points={content.map.points}
+        selectedPoint={selectedPoint}
+      />
       <div className="map-surface-caption">
         <strong>{content.slug === "usa" ? "AMERICA INNOVATES" : "GLOBAL INNOVATION INDEX"}</strong>
         <span>policy · ecosystem · industries · leaders · video library</span>
@@ -331,6 +260,30 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
     );
   }
 
+  function activateTab(tab: string) {
+    const targetByTab: Record<string, string> = {
+      History: "top",
+      Overview: "overview",
+      Landscape: "landscape-map",
+      "World Map": "landscape-map",
+      Economies: "economies",
+      Policy: "intelligence-profile",
+      Ecosystem: "ecosystem-data",
+      "Gov Agencies": "intelligence-profile",
+      Institutions: "intelligence-profile",
+      Academia: "ecosystem-data",
+      Industry: "innovation-industries",
+      Industries: "innovation-industries",
+      Companies: "ecosystem-data",
+      Communities: "innovation-playlist",
+      Programs: "support-actions",
+      Events: "innovation-playlist",
+    };
+
+    setActiveTab(tab);
+    document.getElementById(targetByTab[tab] ?? "top")?.scrollIntoView({ behavior: "auto", block: "start" });
+  }
+
   return (
     <main className={cx("portal-shell intelligence-shell", sidebarOpen ? "is-sidebar-open" : "is-sidebar-collapsed")}>
       <PortalHeader activeModule={activeModule} setActiveModule={setActiveModule} />
@@ -351,8 +304,8 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
         setNewsIndex={setNewsIndex}
       />
 
-      <div className="intelligence-page-main">
-        <section className="intelligence-hero" id="top">
+      <div className="intelligence-page-main" id="top">
+        <section className="intelligence-hero" id="overview">
           <div className="intelligence-hero-copy">
             <h1>{content.title}</h1>
             <p className="route-label">{content.routeLabel}</p>
@@ -370,7 +323,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
                 <button
                   className={cx(tab === activeTab && "is-active")}
                   key={tab}
-                  onClick={() => setActiveTab(tab)}
+                  onClick={() => activateTab(tab)}
                   type="button"
                 >
                   {tab}
@@ -389,7 +342,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
         )}
 
         {mapOpen && (
-          <section className="intelligence-map-layer" aria-label={content.map.title}>
+          <section className="intelligence-map-layer" aria-label={content.map.title} id="landscape-map">
             <div className="map-copy">
               <h2>{content.map.title}</h2>
               <p>{content.map.body}</p>
@@ -398,7 +351,12 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </button>
             </div>
             <div className="intelligence-map-stage">
-              <DataMapSurface content={content} mode="map" />
+              <DataMapSurface
+                content={content}
+                mode="map"
+                onSelectPoint={setSelectedPoint}
+                selectedPoint={selectedPoint}
+              />
               {content.map.points.map((point) => (
                 <MapPointButton
                   key={point.id}
@@ -459,7 +417,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
             </section>
           </aside>
 
-          <section className="intelligence-core">
+          <section className="intelligence-core" id="economies">
             <div className="core-heading">
               <h2>{content.spotlightTitle}</h2>
               <button onClick={() => setModalVideo(content.heroVideo)} type="button">
@@ -475,7 +433,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               ))}
             </ScrollRail>
 
-            <section className="intelligence-profile">
+            <section className="intelligence-profile" id="intelligence-profile">
               <div>
                 <h2>{content.profileTitle}</h2>
                 <p>
@@ -513,8 +471,10 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </section>
             )}
 
+            <IntelligenceAnalytics scope={content.slug} selectedPoint={selectedPoint} />
+
             {content.actionCards && (
-              <section className="intelligence-actions" aria-label="USA support actions">
+              <section className="intelligence-actions" aria-label="USA support actions" id="support-actions">
                 {content.actionCards.map((card) => (
                   <button key={card.title} type="button">
                     <strong>{card.title}</strong>
@@ -524,7 +484,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </section>
             )}
 
-            <section className="intelligence-industries">
+            <section className="intelligence-industries" id="innovation-industries">
               <h2>{content.slug === "usa" ? "U.S. Innovation Industries" : "Major Innovation Industries"}</h2>
               <ScrollRail className="industry-card-rail" label="innovation industries">
                 {content.industries.map((card) => (
@@ -533,7 +493,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </ScrollRail>
             </section>
 
-            <section className="intelligence-playlist">
+            <section className="intelligence-playlist" id="innovation-playlist">
               <div className="core-heading">
                 <h2>{content.playlistTitle}</h2>
                 <button onClick={() => setActiveModule("Saved Videos")} type="button">

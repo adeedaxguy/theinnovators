@@ -18,6 +18,8 @@ test("critical landing component files exist", () => {
   for (const file of [
     "components/landing/InnovationDashboard.tsx",
     "components/landing/IntelligencePage.tsx",
+    "components/landing/GeographicMap.tsx",
+    "components/landing/IntelligenceAnalytics.tsx",
     "components/landing/data.ts",
     "components/landing/intelligence-data.ts",
     "components/landing/media-cards.tsx",
@@ -36,6 +38,18 @@ test("world and USA landscape routes are wired from landing data", async () => {
   const data = await readProjectFile("components/landing/data.ts");
   assert.match(data, /"US Innovation Landscape": "\/usa"/);
   assert.match(data, /"World Innovation Landscape": "\/world"/);
+});
+
+test("intelligence pages use real atlas geography and interactive analytics", async () => {
+  const map = await readProjectFile("components/landing/GeographicMap.tsx");
+  const analytics = await readProjectFile("components/landing/IntelligenceAnalytics.tsx");
+
+  assert.match(map, /world-atlas\/countries-110m\.json/);
+  assert.match(map, /us-atlas\/states-10m\.json/);
+  assert.match(map, /onSelectPoint/);
+  assert.match(analytics, /Search directory/);
+  assert.match(analytics, /Comparative View of Higher Education Institutes/);
+  assert.match(analytics, /startup-directory-table/);
 });
 
 test("admin route has an access-control proxy", async () => {
