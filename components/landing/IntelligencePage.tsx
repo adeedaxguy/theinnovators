@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { FormEvent } from "react";
+import type { CSSProperties, FormEvent } from "react";
 import {
   categories,
   featureTiles,
@@ -18,13 +18,15 @@ import {
   SiteFooter,
   VideoModal,
 } from "./chrome";
-import { ImagePlayCard, VideoCard } from "./media-cards";
+import { VideoCard } from "./media-cards";
 import { ScrollRail } from "./ScrollRail";
 import type {
   IntelligenceCard,
   IntelligenceLeader,
+  IntelligenceMetric,
   IntelligencePageContent,
   IntelligencePoint,
+  IntelligenceRanking,
 } from "./intelligence-data";
 import type { ModalVideo, VideoItem } from "./types";
 import { cx, slug } from "./utils";
@@ -32,6 +34,8 @@ import { cx, slug } from "./utils";
 type IntelligencePageProps = {
   content: IntelligencePageContent;
 };
+
+type CSSVars = CSSProperties & Record<`--${string}`, string | number>;
 
 function InsightCard({ card }: { card: IntelligenceCard }) {
   return (
@@ -55,6 +59,217 @@ function LeaderCard({ leader }: { leader: IntelligenceLeader }) {
         <span>{leader.role}</span>
       </div>
     </article>
+  );
+}
+
+function DataMapSurface({
+  content,
+  mode,
+}: {
+  content: IntelligencePageContent;
+  mode: "hero" | "map" | "briefing";
+}) {
+  const isUsa = content.slug === "usa";
+  const title = isUsa ? "United States innovation map" : "World innovation map";
+
+  return (
+    <div className={cx("data-map-surface", isUsa ? "is-usa" : "is-world", `is-${mode}`)}>
+      <svg aria-label={title} role="img" viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id={`${content.slug}-${mode}-ocean`} x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor={isUsa ? "#07142a" : "#102a43"} />
+            <stop offset="48%" stopColor={isUsa ? "#0b64a9" : "#2786c8"} />
+            <stop offset="100%" stopColor={isUsa ? "#f19a53" : "#f4d06f"} />
+          </linearGradient>
+          <linearGradient id={`${content.slug}-${mode}-land`} x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor={isUsa ? "#78d4ff" : "#d9eef9"} />
+            <stop offset="46%" stopColor={isUsa ? "#1d9fe5" : "#5db9e8"} />
+            <stop offset="100%" stopColor={isUsa ? "#0e3d7d" : "#165c94"} />
+          </linearGradient>
+          <clipPath id={`${content.slug}-${mode}-usa`}>
+            <path d="M111 295 139 250 209 218 290 217 336 190 433 203 500 197 559 216 629 213 696 239 775 245 854 284 884 324 833 354 748 347 686 385 620 373 562 408 488 392 428 414 358 382 292 388 234 360 171 348Z" />
+          </clipPath>
+          <clipPath id={`${content.slug}-${mode}-world`}>
+            <path d="M91 183 162 129 237 136 287 170 257 218 166 235 109 216ZM349 129 462 96 560 124 596 185 545 241 438 236 358 199ZM628 166 764 118 899 174 866 246 732 262 641 222ZM435 260 514 286 489 379 417 394 361 337ZM592 276 681 304 748 394 697 465 615 410ZM182 312 281 339 336 440 245 493 159 432Z" />
+          </clipPath>
+        </defs>
+        <rect width="1000" height="560" fill={`url(#${content.slug}-${mode}-ocean)`} />
+        <g className="map-grid">
+          {Array.from({ length: 8 }, (_, index) => (
+            <path
+              d={`M${120 + index * 96} 48 C${96 + index * 86} 170 ${110 + index * 92} 350 ${82 + index * 104} 528`}
+              key={`v-${index}`}
+            />
+          ))}
+          {Array.from({ length: 5 }, (_, index) => (
+            <path d={`M46 ${104 + index * 86} C260 ${82 + index * 78} 672 ${128 + index * 62} 954 ${92 + index * 82}`} key={`h-${index}`} />
+          ))}
+        </g>
+        {isUsa ? (
+          <g>
+            <g clipPath={`url(#${content.slug}-${mode}-usa)`}>
+              <rect x="88" y="165" width="820" height="300" fill={`url(#${content.slug}-${mode}-land)`} />
+              {[
+                [118, 213, 120, 82, "#e95f65"],
+                [245, 219, 112, 74, "#42c7f3"],
+                [365, 205, 124, 88, "#193f8b"],
+                [497, 211, 112, 78, "#ef9a45"],
+                [618, 226, 126, 78, "#2ab06e"],
+                [746, 251, 104, 76, "#2451a4"],
+                [161, 306, 130, 82, "#17376d"],
+                [303, 311, 132, 76, "#55d2ff"],
+                [447, 302, 110, 88, "#e85d89"],
+                [568, 313, 126, 78, "#0e7cc1"],
+                [704, 325, 118, 64, "#f2b24f"],
+              ].map(([x, y, width, height, fill], index) => (
+                <rect fill={String(fill)} height={Number(height)} key={index} opacity="0.78" width={Number(width)} x={Number(x)} y={Number(y)} />
+              ))}
+              <path className="network-line" d="M130 302 245 252 394 280 514 236 641 286 802 310" />
+              <path className="network-line" d="M210 363 338 306 486 348 604 298 748 364" />
+              <path className="network-line" d="M278 226 356 370 493 226 602 382 698 258" />
+            </g>
+            <path className="map-outline" d="M111 295 139 250 209 218 290 217 336 190 433 203 500 197 559 216 629 213 696 239 775 245 854 284 884 324 833 354 748 347 686 385 620 373 562 408 488 392 428 414 358 382 292 388 234 360 171 348Z" />
+          </g>
+        ) : (
+          <g>
+            <g clipPath={`url(#${content.slug}-${mode}-world)`}>
+              <rect x="70" y="78" width="860" height="430" fill={`url(#${content.slug}-${mode}-land)`} />
+              <path className="network-line" d="M128 211 240 176 420 202 552 177 713 209 865 199" />
+              <path className="network-line" d="M206 402 375 336 504 314 642 354 721 431" />
+              <path className="network-line" d="M462 118 520 240 615 304 674 443" />
+            </g>
+            {[
+              "M91 183 162 129 237 136 287 170 257 218 166 235 109 216Z",
+              "M349 129 462 96 560 124 596 185 545 241 438 236 358 199Z",
+              "M628 166 764 118 899 174 866 246 732 262 641 222Z",
+              "M435 260 514 286 489 379 417 394 361 337Z",
+              "M592 276 681 304 748 394 697 465 615 410Z",
+              "M182 312 281 339 336 440 245 493 159 432Z",
+            ].map((d) => (
+              <path className="map-outline" d={d} key={d} />
+            ))}
+          </g>
+        )}
+        <g className="map-nodes" aria-hidden="true">
+          {content.map.points.map((point) => (
+            <circle cx={point.x * 10} cy={point.y * 5.6} key={point.id} r={mode === "hero" ? 8 : 6} />
+          ))}
+        </g>
+      </svg>
+      <div className="map-surface-caption">
+        <strong>{content.slug === "usa" ? "AMERICA INNOVATES" : "GLOBAL INNOVATION INDEX"}</strong>
+        <span>policy · ecosystem · industries · leaders · video library</span>
+      </div>
+    </div>
+  );
+}
+
+function BriefingVisualButton({
+  content,
+  mode,
+  onPlay,
+}: {
+  content: IntelligencePageContent;
+  mode: "hero" | "briefing";
+  onPlay: (video: ModalVideo) => void;
+}) {
+  return (
+    <button
+      className={cx("intelligence-hero-video", mode === "briefing" && "is-briefing-card")}
+      onClick={() => onPlay(content.heroVideo)}
+      type="button"
+    >
+      <DataMapSurface content={content} mode={mode} />
+      <span className="play-chip" aria-hidden="true" />
+      <span>
+        <strong>{content.heroVideo.title}</strong>
+        <small>{mode === "hero" ? "Ecosystem briefing" : "Video briefing"}</small>
+      </span>
+    </button>
+  );
+}
+
+function IndexPanel({
+  body,
+  metrics,
+  title,
+}: {
+  body: string;
+  metrics: IntelligenceMetric[];
+  title: string;
+}) {
+  return (
+    <section className="index-panel">
+      <h2>{title}</h2>
+      <p>{body}</p>
+      <div className="index-orbit" aria-hidden="true">
+        {metrics.map((metric, index) => (
+          <span
+            className={cx(metric.tone && `is-${metric.tone}`)}
+            key={metric.label}
+            style={{ "--index": index } as CSSVars}
+          />
+        ))}
+      </div>
+      <div className="index-metrics">
+        {metrics.map((metric) => (
+          <article className={cx(metric.tone && `is-${metric.tone}`)} key={metric.label}>
+            <strong>{metric.value}</strong>
+            <span>{metric.label}</span>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RankingList({
+  rankings,
+  title,
+}: {
+  rankings: IntelligenceRanking[];
+  title: string;
+}) {
+  return (
+    <section className="ranking-panel">
+      <h2>{title}</h2>
+      {rankings.map((ranking) => (
+        <article key={ranking.label}>
+          <div>
+            <strong>{ranking.label}</strong>
+            <span>{ranking.value}</span>
+          </div>
+          <meter max="100" min="0" value={ranking.score} />
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function PlaylistBoard({
+  content,
+  onPlay,
+}: {
+  content: IntelligencePageContent;
+  onPlay: (video: VideoItem) => void;
+}) {
+  return (
+    <section className="playlist-board">
+      <div className="playlist-table">
+        {content.playlistRows.map((row, index) => (
+          <button key={row.label} onClick={() => onPlay(content.playlist[index % content.playlist.length])} type="button">
+            <strong>{row.label}</strong>
+            <span>{row.meta}</span>
+            <small>{row.score}</small>
+          </button>
+        ))}
+      </div>
+      <div className="playlist-stack">
+        {content.playlist.slice(0, 4).map((video) => (
+          <VideoCard key={video.title} onPlay={onPlay} video={video} />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -87,7 +302,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
   const [activeModule, setActiveModule] = useState(content.activeModule);
   const [activeCategory, setActiveCategory] = useState(content.activeCategory);
   const [activeAudience, setActiveAudience] = useState(content.activeAudience);
-  const [activeVideo, setActiveVideo] = useState<VideoItem>(content.heroVideo);
+  const [, setActiveVideo] = useState<VideoItem>(content.heroVideo);
   const [newsIndex, setNewsIndex] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mapOpen, setMapOpen] = useState(true);
@@ -164,18 +379,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
             </div>
           </div>
 
-          <button
-            className="intelligence-hero-video"
-            onClick={() => setModalVideo(activeVideo)}
-            type="button"
-          >
-            <img src={content.heroImage} alt="" />
-            <span className="play-chip" aria-hidden="true" />
-            <span>
-              <strong>{content.heroVideo.title}</strong>
-              <small>{activeTab} briefing</small>
-            </span>
-          </button>
+          <BriefingVisualButton content={content} mode="hero" onPlay={setModalVideo} />
         </section>
 
         {!mapOpen && (
@@ -194,7 +398,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </button>
             </div>
             <div className="intelligence-map-stage">
-              <img src={content.map.image} alt="" />
+              <DataMapSurface content={content} mode="map" />
               {content.map.points.map((point) => (
                 <MapPointButton
                   key={point.id}
@@ -263,12 +467,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </button>
             </div>
             <div className="feature-video-panel">
-              <ImagePlayCard
-                image={content.heroVideo.image}
-                onPlay={setModalVideo}
-                size="ai-feature"
-                title={content.heroVideo.title}
-              />
+              <BriefingVisualButton content={content} mode="briefing" onPlay={setModalVideo} />
             </div>
             <ScrollRail className="spotlight-economy-rail" label={content.spotlightTitle}>
               {content.spotlight.map((card) => (
@@ -298,6 +497,22 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </div>
             </section>
 
+            {content.resourceSections && (
+              <section className="resource-section-grid">
+                {content.resourceSections.map((section) => (
+                  <article key={section.title}>
+                    <h2>{section.title}</h2>
+                    <p>{section.body}</p>
+                    <ul>
+                      {section.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </section>
+            )}
+
             {content.actionCards && (
               <section className="intelligence-actions" aria-label="USA support actions">
                 {content.actionCards.map((card) => (
@@ -325,6 +540,13 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
                   Save playlist
                 </button>
               </div>
+              <PlaylistBoard
+                content={content}
+                onPlay={(item) => {
+                  setActiveVideo(item);
+                  setModalVideo(item);
+                }}
+              />
               <ScrollRail className="intelligence-video-rail" label={content.playlistTitle}>
                 {videoRail.slice(newsIndex, newsIndex + 8).map((video, index) => (
                   <VideoCard
@@ -342,6 +564,12 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
           </section>
 
           <aside className="intelligence-right-rail">
+            <IndexPanel
+              body={content.indexPanel.body}
+              metrics={content.indexPanel.metrics}
+              title={content.indexPanel.title}
+            />
+
             <section className="agent-panel">
               <div>
                 <span>{content.slug === "usa" ? "Discover" : "Global"} Agent</span>
@@ -373,18 +601,14 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </div>
             </section>
 
-            <section className="ranking-panel">
-              <h2>{content.rankingsTitle}</h2>
-              {content.rankings.map((ranking) => (
-                <article key={ranking.label}>
-                  <div>
-                    <strong>{ranking.label}</strong>
-                    <span>{ranking.value}</span>
-                  </div>
-                  <meter max="100" min="0" value={ranking.score} />
-                </article>
-              ))}
-            </section>
+            {content.secondaryRankings && (
+              <RankingList
+                rankings={content.secondaryRankings.rankings}
+                title={content.secondaryRankings.title}
+              />
+            )}
+
+            <RankingList rankings={content.rankings} title={content.rankingsTitle} />
 
             <section>
               <h2>{content.slug === "usa" ? "America Innovates" : "Innovation Communities"}</h2>

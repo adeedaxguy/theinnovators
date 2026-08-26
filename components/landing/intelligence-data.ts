@@ -23,6 +23,12 @@ export type IntelligenceRanking = {
   score: number;
 };
 
+export type IntelligenceMetric = {
+  label: string;
+  value: string;
+  tone?: "blue" | "green" | "gold" | "red";
+};
+
 export type IntelligenceLeader = {
   name: string;
   role: string;
@@ -63,11 +69,30 @@ export type IntelligencePageContent = {
   industries: IntelligenceCard[];
   rankingsTitle: string;
   rankings: IntelligenceRanking[];
+  secondaryRankings?: {
+    title: string;
+    rankings: IntelligenceRanking[];
+  };
+  indexPanel: {
+    title: string;
+    body: string;
+    metrics: IntelligenceMetric[];
+  };
   agentTitle: string;
   agentPrompts: string[];
   communities: IntelligenceCard[];
   playlistTitle: string;
+  playlistRows: Array<{
+    label: string;
+    meta: string;
+    score: string;
+  }>;
   playlist: VideoItem[];
+  resourceSections?: Array<{
+    title: string;
+    body: string;
+    items: string[];
+  }>;
   actionCards?: IntelligenceCard[];
 };
 
@@ -274,6 +299,16 @@ export const worldIntelligencePage: IntelligencePageContent = {
     { label: "Judicial System", value: "United Kingdom", score: 84 },
     { label: "Ecosystem Momentum", value: "India", score: 79 },
   ],
+  indexPanel: {
+    title: "Global Innovation Index",
+    body: "Cross-country ecosystem score combining R&D, policy, talent, patents, startup density, capital, and institutional trust.",
+    metrics: [
+      { label: "R&D intensity", value: "84", tone: "blue" },
+      { label: "Talent depth", value: "91", tone: "green" },
+      { label: "Policy signal", value: "78", tone: "gold" },
+      { label: "Capital access", value: "88", tone: "red" },
+    ],
+  },
   agentTitle: "AI Agent Tools",
   agentPrompts: [
     "Compare two country ecosystems",
@@ -294,6 +329,14 @@ export const worldIntelligencePage: IntelligencePageContent = {
     },
   ],
   playlistTitle: "Countries Playlist",
+  playlistRows: [
+    { label: "United States", meta: "AI, labs, venture scale", score: "164M" },
+    { label: "China", meta: "Manufacturing, robotics, clean tech", score: "171M" },
+    { label: "India", meta: "Digital public rails, software, fintech", score: "148M" },
+    { label: "Germany", meta: "Industrial R&D, applied institutes", score: "56M" },
+    { label: "Brazil", meta: "Agtech, climate, payments", score: "73M" },
+    { label: "Nigeria", meta: "Mobile markets, fintech, energy access", score: "14M" },
+  ],
   playlist: videos.slice(5, 14),
 };
 
@@ -306,11 +349,11 @@ export const usaIntelligencePage: IntelligencePageContent = {
   title: "U.S. Innovation Landscape",
   deck:
     "A working intelligence page for America’s innovation ecosystem: policy, institutions, academia, industries, states, leaders, grants, procurement, and video discovery.",
-  heroImage: billboard("us-energy-map"),
+  heroImage: photo("photo-1500530855697-b586d89ba3ee", 1800),
   heroVideo: {
     ...videos[12],
     title: "America innovates: the U.S. ecosystem briefing",
-    image: billboard("us-network-map"),
+    image: photo("photo-1500530855697-b586d89ba3ee", 1800),
   },
   stats: [
     ["50", "state ecosystems"],
@@ -335,7 +378,7 @@ export const usaIntelligencePage: IntelligencePageContent = {
     title: "Interactive U.S. Map",
     body:
       "Hover a state or region to preview innovation economy, policy, industries, leader videos, events, and demo days. Readers can close this layer and continue with the main content.",
-    image: billboard("us-energy-map"),
+    image: photo("photo-1500530855697-b586d89ba3ee", 1800),
     action: "Hide U.S. map",
     points: [
       {
@@ -494,6 +537,25 @@ export const usaIntelligencePage: IntelligencePageContent = {
     { label: "Gov Efficiency", value: "Utah", score: 86 },
     { label: "Judicial Integrity", value: "Delaware", score: 89 },
   ],
+  secondaryRankings: {
+    title: "USA Country Ranking",
+    rankings: [
+      { label: "Trust", value: "Top 5", score: 86 },
+      { label: "R&D Capacity", value: "Top 2", score: 95 },
+      { label: "Startup Scale", value: "Top 1", score: 98 },
+      { label: "IP System", value: "Top 4", score: 88 },
+    ],
+  },
+  indexPanel: {
+    title: "U.S. Innovation Index",
+    body: "National and state-level intelligence across policy, institutions, academia, industries, capital, programs, and communities.",
+    metrics: [
+      { label: "Federal programs", value: "312", tone: "blue" },
+      { label: "State ecosystems", value: "50", tone: "green" },
+      { label: "Research hubs", value: "140+", tone: "gold" },
+      { label: "Video briefings", value: "900+", tone: "red" },
+    ],
+  },
   agentTitle: "AI Discover Agent",
   agentPrompts: [
     "Find grants by sector and state",
@@ -514,7 +576,37 @@ export const usaIntelligencePage: IntelligencePageContent = {
     },
   ],
   playlistTitle: "USA States Playlist",
+  playlistRows: [
+    { label: "California", meta: "AI labs, climate, venture capital", score: "#1 ecosystem" },
+    { label: "Texas", meta: "Energy, chips, space, manufacturing", score: "#1 business" },
+    { label: "Massachusetts", meta: "Biotech, hospitals, universities", score: "#2 research" },
+    { label: "New York", meta: "Finance, media tech, health systems", score: "#3 capital" },
+    { label: "Washington", meta: "Cloud, aerospace, enterprise AI", score: "#4 platform" },
+    { label: "North Carolina", meta: "Research Triangle, biomanufacturing", score: "#5 growth" },
+  ],
   playlist: videos.slice(12, 21),
+  resourceSections: [
+    {
+      title: "USA Institutions",
+      body: "Public and private institutions that shape the U.S. innovation system.",
+      items: ["Office of Science and Technology Policy", "National Science Foundation", "DARPA", "Department of Energy labs", "Standards bodies"],
+    },
+    {
+      title: "U.S. Innovation Strategy",
+      body: "National priorities and execution lanes from policy to commercialization.",
+      items: ["AI infrastructure hubs", "CHIPS and advanced packaging", "Clean energy manufacturing", "STEM workforce", "Regional innovation engines"],
+    },
+    {
+      title: "U.S. Innovation Policy",
+      body: "Policy, acts, procurement, grants, and incentives used by founders and institutions.",
+      items: ["National acts", "Tax incentives", "IP and standards", "Grant recipients", "Procurement programs"],
+    },
+    {
+      title: "USA States",
+      body: "State-by-state pages for local economies, policies, industries, videos, demo days, and leaders.",
+      items: ["State ranking", "State innovators video library", "Events and demo days", "Local industry overview", "State policy summary"],
+    },
+  ],
   actionCards: [
     {
       title: "Seek Grant Funding",
