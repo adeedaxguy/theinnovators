@@ -17,15 +17,25 @@ test("landing route delegates to componentized dashboard", async () => {
 test("critical landing component files exist", () => {
   for (const file of [
     "components/landing/InnovationDashboard.tsx",
+    "components/landing/IntelligencePage.tsx",
     "components/landing/data.ts",
+    "components/landing/intelligence-data.ts",
     "components/landing/media-cards.tsx",
     "components/landing/ScrollRail.tsx",
     "components/landing/Icon.tsx",
     "components/landing/types.ts",
+    "app/world/page.tsx",
+    "app/usa/page.tsx",
     "app/styles/typography-admin.css",
   ]) {
     assert.equal(existsSync(new URL(file, root)), true, `${file} should exist`);
   }
+});
+
+test("world and USA landscape routes are wired from landing data", async () => {
+  const data = await readProjectFile("components/landing/data.ts");
+  assert.match(data, /"US Innovation Landscape": "\/usa"/);
+  assert.match(data, /"World Innovation Landscape": "\/world"/);
 });
 
 test("admin route has an access-control proxy", async () => {
@@ -34,7 +44,7 @@ test("admin route has an access-control proxy", async () => {
   assert.match(proxy, /ADMIN_PASSWORD/);
   assert.match(proxy, /WWW-Authenticate/);
   assert.match(proxy, /export function proxy/);
-  assert.match(proxy, /matcher:\s*\["\/admin\/:path\*"\]/);
+  assert.match(proxy, /matcher:\s*\["\/admin\/:path\*",\s*"\/USA"\]/);
 });
 
 test("runtime dependencies are pinned to exact versions", async () => {

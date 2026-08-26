@@ -167,6 +167,11 @@ export const featureTiles = [
   "AI co-pilot",
 ];
 
+export const featureLinks: Partial<Record<(typeof featureTiles)[number], string>> = {
+  "US Innovation Landscape": "/usa",
+  "World Innovation Landscape": "/world",
+};
+
 export const billboard = (name: string) => `/assets/billboards/${name}.jpg`;
 
 export const featureVisuals = [

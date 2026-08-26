@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ADMIN_PREFIX = "/admin";
+const CANVA_USA_PATH = "/USA";
 
 function disabled() {
   return new NextResponse("Admin route disabled", {
@@ -22,6 +23,12 @@ function unauthorized() {
 }
 
 export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === CANVA_USA_PATH) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/usa";
+    return NextResponse.redirect(url);
+  }
+
   if (!request.nextUrl.pathname.startsWith(ADMIN_PREFIX)) {
     return NextResponse.next();
   }
@@ -63,5 +70,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/USA"],
 };

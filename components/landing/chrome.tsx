@@ -8,6 +8,7 @@ import {
   audiences,
   categories,
   featureCtas,
+  featureLinks,
   featureTiles,
   featureVisuals,
   journeyActions,
@@ -135,13 +136,22 @@ export function FeatureBoard({
 }) {
   return (
     <section className="feature-board" aria-label="Innovation feature board">
-      {featureTiles.map((tile, index) => (
+      {featureTiles.map((tile, index) => {
+        const href = featureLinks[tile];
+
+        return (
         <button
           className={cx("feature-tile", activeModule === tile && "is-active")}
           data-cta={featureCtas[index] ?? "Explore"}
           data-testid={`feature-${slug(tile)}`}
           key={tile}
-          onClick={() => setActiveModule(tile)}
+          onClick={() => {
+            if (href) {
+              window.location.assign(href);
+              return;
+            }
+            setActiveModule(tile);
+          }}
           style={{
             "--glow-x": `${18 + (index % 5) * 16}%`,
             "--glow-y": `${26 + (index % 3) * 18}%`,
@@ -153,7 +163,8 @@ export function FeatureBoard({
         >
           <span className="feature-title">{tile}</span>
         </button>
-      ))}
+        );
+      })}
     </section>
   );
 }
@@ -167,17 +178,27 @@ export function CompactFeatureNav({
 }) {
   return (
     <nav className="compact-feature-nav" aria-label="Compact innovation feature menu">
-      {featureTiles.map((tile) => (
+      {featureTiles.map((tile) => {
+        const href = featureLinks[tile];
+
+        return (
         <button
           className={cx(activeModule === tile && "is-active")}
           data-testid={`compact-feature-${slug(tile)}`}
           key={tile}
-          onClick={() => setActiveModule(tile)}
+          onClick={() => {
+            if (href) {
+              window.location.assign(href);
+              return;
+            }
+            setActiveModule(tile);
+          }}
           type="button"
         >
           {tile}
         </button>
-      ))}
+        );
+      })}
     </nav>
   );
 }
