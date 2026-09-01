@@ -49,6 +49,1392 @@
   --ui-ring: #1ca6e8;
 }
 
+/* USA intelligence page */
+.portal-shell > .usa-page-main {
+  margin-right: 12px;
+  margin-left: var(--site-offset);
+}
+
+.usa-page-main {
+  display: grid;
+  min-width: 0;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.usa-page-nav {
+  display: flex;
+  min-width: 0;
+  min-height: 40px;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  border: 1px solid #cfe3ef;
+  border-radius: 6px;
+  background: #ffffff;
+  scrollbar-width: none;
+}
+
+.usa-page-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.usa-page-nav a {
+  display: inline-flex;
+  min-height: 40px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border-right: 1px solid #dbe8f1;
+  color: #17283b;
+  font-size: 13px;
+  font-weight: 540;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.usa-page-nav a:last-child {
+  margin-left: auto;
+  border-right: 0;
+  background: #e0f4ff;
+  color: #066ba7;
+}
+
+.usa-page-nav a:hover,
+.usa-page-nav a:focus-visible {
+  background: #edf8fe;
+  outline: 0;
+}
+
+.usa-page-nav svg {
+  width: 15px;
+  height: 15px;
+}
+
+.usa-intelligence-layout {
+  display: grid;
+  grid-template-columns: minmax(200px, 0.6fr) minmax(560px, 2.15fr) minmax(260px, 0.76fr);
+  min-width: 0;
+  align-items: start;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #cfe3ef;
+  border-radius: 6px;
+  background: #eaf7fd;
+}
+
+.usa-institutions-rail,
+.usa-content-core,
+.usa-tools-rail {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 10px;
+}
+
+.usa-institutions-rail > header,
+.usa-institution-group,
+.usa-made-in-america,
+.usa-ecosystem,
+.usa-leaders-section,
+.usa-industries-section,
+.usa-united-section,
+.usa-states-section,
+.usa-agent-tool,
+.usa-index-tool,
+.usa-ranking-tool,
+.usa-data-tool {
+  min-width: 0;
+  border: 1px solid #d4e4ee;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.usa-institutions-rail > header {
+  display: grid;
+  gap: 7px;
+  background: #0a355c;
+  color: #ffffff;
+}
+
+.usa-institutions-rail > header svg {
+  width: 22px;
+  height: 22px;
+  color: #6fd2ff;
+}
+
+.usa-institutions-rail h1,
+.usa-institution-group h2,
+.usa-section-heading h2,
+.usa-tool-heading h2 {
+  margin: 0;
+  color: #081524;
+  letter-spacing: 0;
+}
+
+.usa-institutions-rail h1 {
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 650;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.usa-institutions-rail > header p,
+.usa-institution-group p,
+.usa-index-tool > p {
+  margin: 0;
+  color: #4a5d70;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.usa-institutions-rail > header p {
+  color: #cce9f8;
+}
+
+.usa-institution-group {
+  display: grid;
+  gap: 8px;
+}
+
+.usa-institution-group h2 {
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.usa-institution-group ul,
+.usa-profile-grid ul,
+.usa-map-detail ul {
+  margin: 0;
+  padding-left: 17px;
+  color: #314559;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.usa-institution-group li + li,
+.usa-profile-grid li + li,
+.usa-map-detail li + li {
+  margin-top: 3px;
+}
+
+.usa-mini-stack {
+  display: grid;
+  gap: 6px;
+}
+
+.usa-mini-card {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  grid-template-columns: 76px minmax(0, 1fr);
+  border: 1px solid #dbe7ef;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.usa-mini-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 86px;
+  object-fit: cover;
+}
+
+.usa-mini-card > div {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 4px;
+  padding: 8px;
+}
+
+.usa-mini-card span {
+  color: #0b78b8;
+  font-size: 10px;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.usa-mini-card h3 {
+  margin: 0;
+  color: #081524;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.12;
+}
+
+.usa-mini-card p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  color: #4a5d70;
+  font-size: 11px;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.usa-section-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.usa-section-heading h2 {
+  font-size: clamp(20px, 1.45vw, 28px);
+  font-weight: 650;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.usa-section-heading button,
+.usa-section-heading > span {
+  display: inline-flex;
+  min-height: 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 11px;
+  background: #dff4ff;
+  color: #0a355c;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.usa-section-heading svg {
+  width: 14px;
+  height: 14px;
+}
+
+.usa-flag-video {
+  overflow: hidden;
+  border: 1px solid #113a65;
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.usa-flag-band {
+  display: flex;
+  width: 100%;
+  height: 22px;
+  align-items: center;
+  gap: 13px;
+  padding: 0 12px;
+  background: #0b3769;
+}
+
+.usa-flag-band span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.usa-flag-video > button {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 8.7;
+  overflow: hidden;
+  border: 0;
+  background: #dce9f3;
+  padding: 0;
+  color: #ffffff;
+  text-align: left;
+}
+
+.usa-flag-video > button > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.usa-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(10, 53, 92, 0.78);
+  box-shadow: 0 12px 30px rgba(4, 18, 32, 0.26);
+  transform: translate(-50%, -50%);
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.usa-video-play svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 3px;
+}
+
+.usa-flag-video > button:hover .usa-video-play,
+.usa-flag-video > button:focus-visible .usa-video-play {
+  background: #e22f3f;
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.usa-flag-video > button:focus-visible {
+  outline: 3px solid #3ebcf2;
+  outline-offset: -3px;
+}
+
+.usa-video-title {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  display: grid;
+  width: fit-content;
+  max-width: calc(100% - 28px);
+  gap: 3px;
+  padding: 9px 11px;
+  background: rgba(4, 13, 24, 0.82);
+}
+
+.usa-video-title strong {
+  color: #ffffff;
+  font-size: clamp(20px, 1.75vw, 32px);
+  font-weight: 650;
+  line-height: 1.05;
+}
+
+.usa-video-title small {
+  color: #d9effa;
+  font-size: 12px;
+}
+
+.usa-flag-stripes {
+  height: 24px;
+  background: repeating-linear-gradient(to bottom, #d72d3e 0 4px, #ffffff 4px 8px);
+}
+
+.usa-spotlight-rail,
+.usa-industry-rail {
+  height: 190px;
+  margin-top: 10px;
+}
+
+.usa-spotlight-rail .scroll-rail,
+.usa-industry-rail .scroll-rail {
+  height: 100%;
+  grid-auto-columns: calc((100% - 16px) / 3);
+  gap: 8px;
+}
+
+.usa-spotlight-rail .usa-mini-card,
+.usa-industry-rail .usa-mini-card {
+  height: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 104px minmax(0, 1fr);
+}
+
+.usa-spotlight-rail .usa-mini-card img,
+.usa-industry-rail .usa-mini-card img {
+  min-height: 104px;
+}
+
+.usa-profile-grid,
+.usa-leader-grid,
+.usa-community-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.usa-profile-grid article {
+  min-width: 0;
+  padding: 10px;
+  background: #edf8fe;
+}
+
+.usa-profile-grid h3 {
+  margin: 0 0 7px;
+  color: #0a355c;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.usa-leader {
+  position: relative;
+  overflow: hidden;
+  min-height: 164px;
+  border-radius: 4px;
+  background: #dce9f3;
+}
+
+.usa-leader img {
+  width: 100%;
+  height: 164px;
+  object-fit: cover;
+}
+
+.usa-leader div {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  gap: 2px;
+  padding: 24px 8px 8px;
+  background: linear-gradient(transparent, rgba(2, 10, 18, 0.86));
+  color: #ffffff;
+}
+
+.usa-leader strong {
+  font-size: 13px;
+}
+
+.usa-leader span {
+  color: #d8eef8;
+  font-size: 11px;
+}
+
+.usa-community-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.usa-community-grid .usa-mini-card {
+  grid-template-columns: minmax(110px, 0.8fr) minmax(0, 1.2fr);
+}
+
+.usa-playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.usa-playlist-grid > button {
+  display: grid;
+  min-width: 0;
+  min-height: 74px;
+  grid-template-columns: 92px minmax(0, 1fr) 22px;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #d6e5ee;
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 5px;
+  color: #0a355c;
+  text-align: left;
+}
+
+.usa-playlist-grid > button:hover,
+.usa-playlist-grid > button:focus-visible {
+  background: #edf8fe;
+  outline: 2px solid #55bfea;
+  outline-offset: 1px;
+}
+
+.usa-playlist-grid img {
+  width: 92px;
+  height: 62px;
+  object-fit: cover;
+}
+
+.usa-playlist-grid button > span {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.usa-playlist-grid strong,
+.usa-playlist-grid small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.usa-playlist-grid strong {
+  color: #0b1b2c;
+  font-size: 14px;
+}
+
+.usa-playlist-grid small {
+  color: #506377;
+  font-size: 11px;
+}
+
+.usa-playlist-grid svg {
+  width: 17px;
+  height: 17px;
+}
+
+.usa-video-rail {
+  height: 250px;
+  margin-top: 9px;
+}
+
+.usa-video-rail .scroll-rail {
+  height: 100%;
+  grid-auto-columns: calc((100% - 24px) / 3);
+  gap: 8px;
+}
+
+.usa-video-rail .video-card {
+  height: 100%;
+}
+
+.usa-actions {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.usa-actions button {
+  display: grid;
+  min-height: 118px;
+  align-content: start;
+  gap: 7px;
+  border: 0;
+  border-radius: 6px;
+  background: #dff4ff;
+  padding: 11px;
+  color: #0a355c;
+  text-align: left;
+}
+
+.usa-actions button:hover,
+.usa-actions button:focus-visible {
+  background: #bde9fd;
+  outline: 2px solid #1688c7;
+  outline-offset: 1px;
+}
+
+.usa-actions strong {
+  font-size: 14px;
+  line-height: 1.15;
+}
+
+.usa-actions span {
+  color: #3e556b;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.usa-agent-tool,
+.usa-index-tool,
+.usa-ranking-tool,
+.usa-data-tool {
+  display: grid;
+  gap: 10px;
+}
+
+.usa-tool-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.usa-tool-heading > svg {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  color: #1288c8;
+}
+
+.usa-tool-heading > div {
+  display: grid;
+  gap: 2px;
+}
+
+.usa-tool-heading h2 {
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.usa-tool-heading span {
+  color: #607287;
+  font-size: 10px;
+}
+
+.usa-agent-parameters {
+  display: grid;
+  gap: 7px;
+}
+
+.usa-agent-parameters label {
+  display: grid;
+  gap: 4px;
+  color: #3d5065;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.usa-agent-parameters select {
+  width: 100%;
+  height: 34px;
+  border: 1px solid #cbdde8;
+  border-radius: 5px;
+  background: #f8fcff;
+  padding: 0 8px;
+  color: #0b1b2c;
+  font-size: 12px;
+}
+
+.usa-agent-tool form {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 18px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #bcd5e4;
+  border-radius: 6px;
+  padding: 4px 4px 4px 8px;
+  background: #ffffff;
+}
+
+.usa-agent-tool form > svg {
+  width: 16px;
+  height: 16px;
+  color: #668096;
+}
+
+.usa-agent-tool input {
+  min-width: 0;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: #0b1b2c;
+  font-size: 12px;
+  outline: 0;
+}
+
+.usa-agent-tool form button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #159ad9;
+  color: #ffffff;
+}
+
+.usa-agent-tool form button:hover,
+.usa-agent-tool form button:focus-visible {
+  background: #096fa9;
+  outline: 2px solid #86d9ff;
+}
+
+.usa-agent-tool form button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.usa-agent-answer {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  border-radius: 6px;
+  background: #eaf7fd;
+  padding: 9px;
+  color: #3e5268;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.usa-agent-answer strong {
+  color: #0a355c;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.usa-agent-prompts,
+.usa-data-tool {
+  display: grid;
+  gap: 6px;
+}
+
+.usa-agent-prompts button,
+.usa-data-tool button,
+.usa-data-tool a {
+  min-height: 34px;
+  border: 1px solid #d6e5ee;
+  border-radius: 5px;
+  background: #ffffff;
+  padding: 7px 8px;
+  color: #234058;
+  font-size: 11px;
+  font-weight: 540;
+  line-height: 1.25;
+  text-align: left;
+  text-decoration: none;
+}
+
+.usa-agent-prompts button:hover,
+.usa-agent-prompts button:focus-visible,
+.usa-data-tool button:hover,
+.usa-data-tool button:focus-visible,
+.usa-data-tool a:hover,
+.usa-data-tool a:focus-visible {
+  border-color: #61bfe9;
+  background: #edf8fe;
+  outline: 0;
+}
+
+.usa-index-tool > div:last-child {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.usa-index-tool article {
+  display: grid;
+  gap: 3px;
+  border-radius: 5px;
+  background: #0a355c;
+  padding: 9px;
+  color: #ffffff;
+}
+
+.usa-index-tool article strong {
+  color: #ffffff;
+  font-size: 19px;
+  line-height: 1;
+}
+
+.usa-index-tool article span {
+  color: #cce8f7;
+  font-size: 10px;
+  line-height: 1.15;
+}
+
+.usa-ranking-tool article {
+  display: grid;
+  gap: 5px;
+}
+
+.usa-ranking-tool article > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #20374c;
+  font-size: 11px;
+}
+
+.usa-ranking-tool article span {
+  color: #0a75b8;
+  font-weight: 650;
+}
+
+.usa-ranking-tool meter {
+  width: 100%;
+  height: 8px;
+}
+
+.usa-data-tool a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #dff4ff;
+  color: #096fa9;
+}
+
+.usa-data-tool a svg {
+  width: 15px;
+  height: 15px;
+}
+
+.usa-map-dialog {
+  width: min(1480px, calc(100vw - 40px));
+  max-width: none;
+  max-height: calc(100dvh - 40px);
+  overflow: auto;
+  border: 0;
+  border-radius: 10px;
+  padding: 0;
+  background: #f8fcff;
+  box-shadow: 0 28px 80px rgba(0, 10, 24, 0.38);
+  animation: usa-map-enter 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.usa-map-dialog::backdrop {
+  background: rgba(2, 9, 18, 0.72);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+@keyframes usa-map-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.usa-map-dialog-header {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 15px;
+  background: #0a355c;
+  color: #ffffff;
+}
+
+.usa-map-dialog-header > div:first-child {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 11px;
+}
+
+.usa-map-dialog-header > div:first-child > svg {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  color: #6fd2ff;
+}
+
+.usa-map-dialog-header h1,
+.usa-map-dialog-header p {
+  margin: 0;
+}
+
+.usa-map-dialog-header h1 {
+  color: #ffffff;
+  font-size: clamp(19px, 1.45vw, 26px);
+  font-weight: 650;
+  line-height: 1.05;
+}
+
+.usa-map-dialog-header p {
+  margin-top: 4px;
+  color: #cce8f7;
+  font-size: 12px;
+}
+
+.usa-map-dialog-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.usa-map-dialog-actions a,
+.usa-map-dialog-actions button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.usa-map-dialog-actions a {
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.usa-map-dialog-actions button {
+  width: 36px;
+  padding: 0;
+}
+
+.usa-map-dialog-actions :is(a, button):hover,
+.usa-map-dialog-actions :is(a, button):focus-visible {
+  background: rgba(255, 255, 255, 0.22);
+  outline: 2px solid #78d4fb;
+  outline-offset: 1px;
+}
+
+.usa-map-dialog-actions svg {
+  width: 16px;
+  height: 16px;
+}
+
+.usa-map-panel {
+  display: grid;
+  min-width: 0;
+  grid-template-areas:
+    "map detail"
+    "locations detail";
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  grid-template-rows: minmax(420px, 1fr) auto;
+  gap: 10px;
+  padding: 12px;
+}
+
+.usa-map-canvas {
+  grid-area: map;
+  min-width: 0;
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #071929;
+}
+
+.usa-map-canvas .geographic-map {
+  width: 100%;
+  height: 100%;
+}
+
+.usa-map-locations {
+  display: flex;
+  grid-area: locations;
+  min-width: 0;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.usa-map-locations::-webkit-scrollbar {
+  display: none;
+}
+
+.usa-map-locations button {
+  min-height: 34px;
+  flex: 0 0 auto;
+  border: 1px solid #c9dce8;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 0 11px;
+  color: #2a4257;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.usa-map-locations button:hover,
+.usa-map-locations button:focus-visible,
+.usa-map-locations button.is-active {
+  border-color: #1688c7;
+  background: #dff4ff;
+  color: #075d8e;
+  outline: 0;
+}
+
+.usa-map-detail {
+  display: grid;
+  grid-area: detail;
+  align-content: center;
+  gap: 12px;
+  min-width: 0;
+  border-radius: 7px;
+  background: #ffffff;
+  padding: 18px;
+}
+
+.usa-map-detail > span {
+  width: fit-content;
+  border-radius: 999px;
+  background: #dff4ff;
+  padding: 5px 8px;
+  color: #0875b4;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.usa-map-detail h2 {
+  margin: 0;
+  color: #081524;
+  font-size: clamp(21px, 1.5vw, 28px);
+  font-weight: 650;
+  line-height: 1.12;
+}
+
+.usa-map-detail ul {
+  font-size: 13px;
+}
+
+.usa-map-detail a {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 34px;
+  align-items: center;
+  border-radius: 999px;
+  background: #159ad9;
+  padding: 0 12px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.usa-map-minimized {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 220;
+  display: grid;
+  grid-template-columns: 28px minmax(150px, 1fr) 36px 36px;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  background: #0a355c;
+  padding: 9px;
+  color: #ffffff;
+  box-shadow: 0 14px 35px rgba(4, 18, 32, 0.28);
+}
+
+.usa-map-minimized > svg {
+  width: 22px;
+  height: 22px;
+  color: #6fd2ff;
+}
+
+.usa-map-minimized > div {
+  display: grid;
+  gap: 2px;
+}
+
+.usa-map-minimized strong {
+  font-size: 12px;
+}
+
+.usa-map-minimized span {
+  color: #cce8f7;
+  font-size: 10px;
+}
+
+.usa-map-minimized button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.usa-map-minimized button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.usa-map-reopen {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 210;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 999px;
+  background: #0a355c;
+  padding: 0 14px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 650;
+  box-shadow: 0 12px 30px rgba(4, 18, 32, 0.25);
+}
+
+.usa-map-reopen svg {
+  width: 17px;
+  height: 17px;
+  color: #6fd2ff;
+}
+
+.usa-map-only {
+  min-height: 100dvh;
+  padding: 14px;
+  background: #eaf7fd;
+}
+
+.usa-map-only > header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background: #0a355c;
+  padding: 13px 15px;
+  color: #ffffff;
+}
+
+.usa-map-only > header > a {
+  display: inline-flex;
+  min-height: 36px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 6px;
+  padding: 0 10px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.usa-map-only > header svg {
+  width: 16px;
+  height: 16px;
+}
+
+.usa-map-only > header h1,
+.usa-map-only > header p {
+  margin: 0;
+}
+
+.usa-map-only > header h1 {
+  color: #ffffff;
+  font-size: clamp(22px, 2vw, 34px);
+  font-weight: 650;
+  line-height: 1;
+}
+
+.usa-map-only > header p {
+  margin-top: 4px;
+  color: #cce8f7;
+  font-size: 12px;
+}
+
+.usa-map-only > .usa-map-panel {
+  min-height: calc(100dvh - 104px);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+@media (max-width: 1320px) {
+  .usa-intelligence-layout {
+    grid-template-columns: minmax(185px, 0.55fr) minmax(500px, 1.9fr) minmax(240px, 0.72fr);
+  }
+
+  .usa-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .usa-profile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1080px) {
+  .usa-intelligence-layout {
+    grid-template-columns: minmax(190px, 0.58fr) minmax(0, 1.42fr);
+  }
+
+  .usa-tools-rail {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .usa-agent-tool,
+  .usa-data-tool {
+    grid-column: span 2;
+  }
+
+  .usa-map-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 280px);
+  }
+}
+
+@media (max-width: 760px) {
+  .portal-shell > .usa-page-main {
+    margin-right: 6px;
+    margin-left: 6px;
+  }
+
+  .usa-page-nav a:last-child {
+    margin-left: 0;
+  }
+
+  .usa-intelligence-layout {
+    grid-template-columns: 1fr;
+    padding: 7px;
+  }
+
+  .usa-content-core {
+    grid-row: 1;
+  }
+
+  .usa-institutions-rail {
+    grid-row: 2;
+  }
+
+  .usa-tools-rail {
+    grid-row: 3;
+    grid-template-columns: 1fr;
+  }
+
+  .usa-agent-tool,
+  .usa-data-tool {
+    grid-column: auto;
+  }
+
+  .usa-profile-grid,
+  .usa-leader-grid,
+  .usa-community-grid,
+  .usa-playlist-grid,
+  .usa-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .usa-leader-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .usa-spotlight-rail .scroll-rail,
+  .usa-industry-rail .scroll-rail,
+  .usa-video-rail .scroll-rail {
+    grid-auto-columns: 82%;
+  }
+
+  .usa-map-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+
+  .usa-map-dialog-header {
+    align-items: flex-start;
+  }
+
+  .usa-map-dialog-header p,
+  .usa-map-dialog-actions a {
+    display: none;
+  }
+
+  .usa-map-panel {
+    grid-template-areas:
+      "map"
+      "locations"
+      "detail";
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(280px, 1fr) auto auto;
+  }
+
+  .usa-map-canvas {
+    min-height: 280px;
+  }
+
+  .usa-map-detail {
+    padding: 13px;
+  }
+
+  .usa-map-only > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .usa-page-main,
+  .usa-page-nav,
+  .usa-intelligence-layout,
+  .usa-content-core,
+  .usa-institutions-rail,
+  .usa-tools-rail {
+    max-width: calc(100vw - 12px);
+  }
+
+  .usa-made-in-america,
+  .usa-ecosystem,
+  .usa-leaders-section,
+  .usa-industries-section,
+  .usa-united-section,
+  .usa-states-section,
+  .usa-agent-tool,
+  .usa-index-tool,
+  .usa-ranking-tool,
+  .usa-data-tool {
+    padding: 9px;
+  }
+
+  .usa-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .usa-flag-video > button {
+    aspect-ratio: 4 / 3;
+  }
+
+  .usa-video-play {
+    width: 50px;
+    height: 50px;
+  }
+
+  .usa-video-title strong {
+    font-size: 19px;
+  }
+
+  .usa-community-grid .usa-mini-card,
+  .usa-mini-card {
+    grid-template-columns: 82px minmax(0, 1fr);
+  }
+
+  .usa-leader-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .usa-playlist-grid > button {
+    grid-template-columns: 76px minmax(0, 1fr) 20px;
+  }
+
+  .usa-playlist-grid img {
+    width: 76px;
+  }
+
+  .usa-map-minimized {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    grid-template-columns: 24px minmax(0, 1fr) 36px 36px;
+  }
+
+  .usa-map-reopen {
+    right: 8px;
+    bottom: 8px;
+  }
+
+  .usa-map-dialog-header {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .usa-map-dialog-header > div:first-child > svg {
+    display: none;
+  }
+
+  .usa-map-dialog-header h1 {
+    font-size: 17px;
+  }
+
+  .usa-map-dialog-actions button {
+    width: 32px;
+    min-height: 32px;
+  }
+
+  .usa-map-panel {
+    padding: 7px;
+  }
+
+  .usa-map-only {
+    padding: 7px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

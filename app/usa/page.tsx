@@ -1,6 +1,5 @@
-import IntelligencePage from "@/components/landing/IntelligencePage";
-import { usaIntelligencePage } from "@/components/landing/intelligence-data";
+import UsaIntelligencePage from "@/components/landing/UsaIntelligencePage";
 
 export default function UsaPage() {
-  return <IntelligencePage content={usaIntelligencePage} />;
+  return <UsaIntelligencePage />;
 }

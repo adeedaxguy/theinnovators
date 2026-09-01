@@ -353,7 +353,7 @@ export const usaIntelligencePage: IntelligencePageContent = {
   heroVideo: {
     ...videos[12],
     title: "America innovates: the U.S. ecosystem briefing",
-    image: photo("photo-1500530855697-b586d89ba3ee", 1800),
+    image: billboard("us-photo-map"),
   },
   stats: [
     ["50", "state ecosystems"],

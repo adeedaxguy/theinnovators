@@ -18,6 +18,8 @@ test("critical landing component files exist", () => {
   for (const file of [
     "components/landing/InnovationDashboard.tsx",
     "components/landing/IntelligencePage.tsx",
+    "components/landing/UsaIntelligencePage.tsx",
+    "components/landing/UsaMapExperience.tsx",
     "components/landing/GeographicMap.tsx",
     "components/landing/IntelligenceAnalytics.tsx",
     "components/landing/data.ts",
@@ -28,6 +30,7 @@ test("critical landing component files exist", () => {
     "components/landing/types.ts",
     "app/world/page.tsx",
     "app/usa/page.tsx",
+    "app/usa/map/page.tsx",
     "app/styles/typography-admin.css",
   ]) {
     assert.equal(existsSync(new URL(file, root)), true, `${file} should exist`);
@@ -38,6 +41,21 @@ test("world and USA landscape routes are wired from landing data", async () => {
   const data = await readProjectFile("components/landing/data.ts");
   assert.match(data, /"US Innovation Landscape": "\/usa"/);
   assert.match(data, /"World Innovation Landscape": "\/world"/);
+});
+
+test("USA uses its dedicated Canva-aligned layout and map overlay", async () => {
+  const route = await readProjectFile("app/usa/page.tsx");
+  const page = await readProjectFile("components/landing/UsaIntelligencePage.tsx");
+  const map = await readProjectFile("components/landing/UsaMapExperience.tsx");
+
+  assert.match(route, /UsaIntelligencePage/);
+  assert.match(page, /Made in America/);
+  assert.match(page, /AI Discover Agent/);
+  assert.doesNotMatch(page, /Innovation News/);
+  assert.match(map, /showModal\(\)/);
+  assert.match(map, /Minimize interactive map/);
+  assert.match(map, /Full interactive map/);
+  assert.match(map, /href="\/usa\/map"/);
 });
 
 test("intelligence pages use real atlas geography and interactive analytics", async () => {

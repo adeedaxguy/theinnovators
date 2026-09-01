@@ -46,7 +46,7 @@ vercel deploy --prod --yes --scope innovatorsinstitute
 
 - `app/page.tsx`: Small landing-page route entry that renders the dashboard component.
 - `app/world`: World Innovation Landscape inner page with a closeable country intelligence map, global rankings, organizations, summits, playlists, and an AI agent panel.
-- `app/usa`: U.S. Innovation Landscape inner page with a closeable U.S. map, state rankings, policy/ecosystem sections, action cards, industries, playlists, and an AI Discover Agent.
+- `app/usa`: U.S. Innovation Landscape inner page with a launch overlay map, a dedicated full-map view, institutions, state rankings, policy/ecosystem sections, industries, playlists, and an AI Discover Agent.
 - `app/admin`: Typography admin UI. It is protected by `proxy.ts` and only works when admin credentials are configured.
 - `app/styles`: Global stylesheet splits that are shared by routes, including admin typography controls.
 - `components/landing`: Landing-page data, media cards, icons, rails, and the main dashboard composition.
@@ -59,6 +59,7 @@ vercel deploy --prod --yes --scope innovatorsinstitute
 - `/`: Main visual platform landing page.
 - `/world`: Global innovation encyclopedia page.
 - `/usa`: U.S. innovation landscape page.
+- `/usa/map`: Full-screen interactive U.S. innovation map.
 - `/USA`: Redirects to `/usa` for the Canva/client naming convention.
 - `/admin`: Protected local typography settings panel.
 
