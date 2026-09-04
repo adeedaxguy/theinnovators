@@ -58,19 +58,18 @@
 .usa-page-main {
   display: grid;
   min-width: 0;
-  gap: 8px;
   margin-top: 8px;
 }
 
 .usa-page-nav {
   display: flex;
   min-width: 0;
-  min-height: 40px;
+  min-height: 42px;
   align-items: center;
   gap: 0;
   overflow-x: auto;
   border: 1px solid #cfe3ef;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #ffffff;
   scrollbar-width: none;
 }
@@ -81,14 +80,14 @@
 
 .usa-page-nav a {
   display: inline-flex;
-  min-height: 40px;
+  min-height: 42px;
   flex: 0 0 auto;
   align-items: center;
   gap: 6px;
   padding: 0 14px;
   border-right: 1px solid #dbe8f1;
   color: #17283b;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 540;
   text-decoration: none;
   white-space: nowrap;
@@ -114,7 +113,7 @@
 
 .usa-intelligence-layout {
   display: grid;
-  grid-template-columns: minmax(200px, 0.6fr) minmax(560px, 2.15fr) minmax(260px, 0.76fr);
+  grid-template-columns: minmax(280px, 0.9fr) minmax(520px, 1.65fr) minmax(220px, 0.62fr);
   min-width: 0;
   align-items: start;
   gap: 10px;
@@ -131,6 +130,15 @@
   min-width: 0;
   align-content: start;
   gap: 10px;
+}
+
+.usa-made-in-america,
+.usa-leaders-section,
+.usa-industries-section,
+.usa-united-section,
+.usa-states-section,
+.usa-content-core > div[id] {
+  scroll-margin-top: 170px;
 }
 
 .usa-institutions-rail > header,
@@ -187,8 +195,8 @@
 .usa-index-tool > p {
   margin: 0;
   color: #4a5d70;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.48;
 }
 
 .usa-institutions-rail > header p {
@@ -201,7 +209,7 @@
 }
 
 .usa-institution-group h2 {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 650;
   line-height: 1.15;
   text-transform: uppercase;
@@ -213,8 +221,8 @@
   margin: 0;
   padding-left: 17px;
   color: #314559;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .usa-institution-group li + li,
@@ -255,7 +263,7 @@
 
 .usa-mini-card span {
   color: #0b78b8;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 650;
   text-transform: uppercase;
 }
@@ -263,7 +271,7 @@
 .usa-mini-card h3 {
   margin: 0;
   color: #081524;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 650;
   line-height: 1.12;
 }
@@ -273,8 +281,8 @@
   margin: 0;
   overflow: hidden;
   color: #4a5d70;
-  font-size: 11px;
-  line-height: 1.3;
+  font-size: 13px;
+  line-height: 1.38;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
 }
@@ -317,34 +325,78 @@
 }
 
 .usa-flag-video {
+  position: relative;
   overflow: hidden;
   border: 1px solid #113a65;
   border-radius: 4px;
   background: #ffffff;
 }
 
+.usa-flag-video::before,
+.usa-flag-video::after {
+  position: absolute;
+  z-index: 2;
+  top: 34px;
+  bottom: 18px;
+  width: 9px;
+  background: repeating-linear-gradient(to bottom, #d72d3e 0 8px, #ffffff 8px 16px);
+  content: "";
+  pointer-events: none;
+}
+
+.usa-flag-video::before {
+  left: 0;
+}
+
+.usa-flag-video::after {
+  right: 0;
+}
+
 .usa-flag-band {
-  display: flex;
+  display: grid;
   width: 100%;
-  height: 22px;
+  min-height: 34px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 13px;
-  padding: 0 12px;
+  gap: 10px;
+  padding: 7px 12px;
   background: #0b3769;
+  color: #ffffff;
 }
 
 .usa-flag-band span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #ffffff;
+  color: #d8effb;
+  font-size: 12px;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.usa-flag-band .usa-flag-stars {
+  display: flex;
+  gap: 3px;
+  color: #ffffff;
+}
+
+.usa-flag-stars svg {
+  width: 10px;
+  height: 10px;
+}
+
+.usa-flag-band strong {
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 16px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .usa-flag-video > button {
   position: relative;
   display: block;
-  width: 100%;
-  aspect-ratio: 16 / 8.7;
+  width: calc(100% - 18px);
+  aspect-ratio: 16 / 9;
+  margin: 0 9px;
   overflow: hidden;
   border: 0;
   background: #dce9f3;
@@ -418,8 +470,12 @@
 }
 
 .usa-flag-stripes {
-  height: 24px;
+  height: 18px;
   background: repeating-linear-gradient(to bottom, #d72d3e 0 4px, #ffffff 4px 8px);
+}
+
+.usa-made-in-america > .usa-page-nav {
+  margin-top: 10px;
 }
 
 .usa-spotlight-rail,
@@ -448,7 +504,6 @@
 }
 
 .usa-profile-grid,
-.usa-leader-grid,
 .usa-community-grid {
   display: grid;
   min-width: 0;
@@ -469,39 +524,93 @@
   font-weight: 650;
 }
 
-.usa-leader {
+.usa-video-grid {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.usa-industry-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.usa-video-tile {
   position: relative;
+  display: block;
   overflow: hidden;
-  min-height: 164px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
   border-radius: 4px;
   background: #dce9f3;
+  padding: 0;
+  color: #ffffff;
+  text-align: left;
 }
 
-.usa-leader img {
+.usa-video-tile img {
   width: 100%;
-  height: 164px;
+  height: 100%;
   object-fit: cover;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.usa-leader div {
+.usa-video-tile-title {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  bottom: 8px;
+  left: 8px;
   display: grid;
+  max-width: calc(100% - 48px);
   gap: 2px;
-  padding: 24px 8px 8px;
-  background: linear-gradient(transparent, rgba(2, 10, 18, 0.86));
+  padding: 7px 8px;
+  background: rgba(4, 13, 24, 0.84);
   color: #ffffff;
 }
 
-.usa-leader strong {
-  font-size: 13px;
+.usa-video-tile-title strong {
+  font-size: 15px;
+  line-height: 1.15;
 }
 
-.usa-leader span {
+.usa-video-tile-title small {
+  display: -webkit-box;
+  overflow: hidden;
   color: #d8eef8;
-  font-size: 11px;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.usa-video-tile-play {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e22f3f;
+  box-shadow: 0 7px 18px rgba(4, 18, 32, 0.22);
+}
+
+.usa-video-tile-play svg {
+  width: 15px;
+  height: 15px;
+  margin-left: 2px;
+}
+
+.usa-video-tile:hover img,
+.usa-video-tile:focus-visible img {
+  transform: scale(1.025);
+}
+
+.usa-video-tile:focus-visible {
+  outline: 3px solid #3ebcf2;
+  outline-offset: 2px;
 }
 
 .usa-community-grid {
@@ -512,19 +621,65 @@
   grid-template-columns: minmax(110px, 0.8fr) minmax(0, 1.2fr);
 }
 
-.usa-playlist-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 7px;
-}
-
-.usa-playlist-grid > button {
+.usa-youtube-playlist {
   display: grid;
   min-width: 0;
-  min-height: 74px;
-  grid-template-columns: 92px minmax(0, 1fr) 22px;
-  align-items: center;
+  grid-template-areas: "list stage";
+  grid-template-columns: minmax(210px, 0.72fr) minmax(0, 1.8fr);
+  align-items: start;
   gap: 9px;
+}
+
+.usa-playlist-stage {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  grid-area: stage;
+  border: 0;
+  border-radius: 4px;
+  background: #0a355c;
+  padding: 0;
+  color: #ffffff;
+  text-align: left;
+}
+
+.usa-playlist-stage > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.usa-playlist-stage:hover .usa-video-play,
+.usa-playlist-stage:focus-visible .usa-video-play {
+  background: #e22f3f;
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.usa-playlist-stage:focus-visible {
+  outline: 3px solid #3ebcf2;
+  outline-offset: 2px;
+}
+
+.usa-playlist-list {
+  display: grid;
+  height: 0;
+  min-height: 100%;
+  max-height: 100%;
+  grid-area: list;
+  gap: 6px;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+
+.usa-playlist-list > button {
+  display: grid;
+  min-width: 0;
+  min-height: 68px;
+  grid-template-columns: 84px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 8px;
   border: 1px solid #d6e5ee;
   border-radius: 4px;
   background: #ffffff;
@@ -533,97 +688,88 @@
   text-align: left;
 }
 
-.usa-playlist-grid > button:hover,
-.usa-playlist-grid > button:focus-visible {
+.usa-playlist-list > button:hover,
+.usa-playlist-list > button:focus-visible,
+.usa-playlist-list > button.is-active {
   background: #edf8fe;
   outline: 2px solid #55bfea;
   outline-offset: 1px;
 }
 
-.usa-playlist-grid img {
-  width: 92px;
-  height: 62px;
+.usa-playlist-list img {
+  width: 84px;
+  height: 56px;
   object-fit: cover;
 }
 
-.usa-playlist-grid button > span {
+.usa-playlist-list button > span {
   display: grid;
   min-width: 0;
   gap: 4px;
 }
 
-.usa-playlist-grid strong,
-.usa-playlist-grid small {
+.usa-playlist-list strong,
+.usa-playlist-list small,
+.usa-playlist-list em {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.usa-playlist-grid strong {
+.usa-playlist-list strong {
   color: #0b1b2c;
   font-size: 14px;
 }
 
-.usa-playlist-grid small {
+.usa-playlist-list small {
   color: #506377;
   font-size: 11px;
 }
 
-.usa-playlist-grid svg {
+.usa-playlist-list em {
+  color: #0b78b8;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.usa-playlist-list svg {
   width: 17px;
   height: 17px;
 }
 
-.usa-video-rail {
-  height: 250px;
-  margin-top: 9px;
-}
-
-.usa-video-rail .scroll-rail {
-  height: 100%;
-  grid-auto-columns: calc((100% - 24px) / 3);
-  gap: 8px;
-}
-
-.usa-video-rail .video-card {
-  height: 100%;
-}
-
-.usa-actions {
+.usa-support-links > div {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 7px;
+  gap: 6px;
 }
 
-.usa-actions button {
+.usa-support-links button {
   display: grid;
-  min-height: 118px;
-  align-content: start;
-  gap: 7px;
-  border: 0;
-  border-radius: 6px;
-  background: #dff4ff;
-  padding: 11px;
+  gap: 4px;
+  border: 1px solid #cfe3ef;
+  border-radius: 4px;
+  background: #edf8fe;
+  padding: 9px;
   color: #0a355c;
   text-align: left;
 }
 
-.usa-actions button:hover,
-.usa-actions button:focus-visible {
+.usa-support-links button:hover,
+.usa-support-links button:focus-visible {
   background: #bde9fd;
   outline: 2px solid #1688c7;
   outline-offset: 1px;
 }
 
-.usa-actions strong {
-  font-size: 14px;
+.usa-support-links strong {
+  font-size: 15px;
   line-height: 1.15;
 }
 
-.usa-actions span {
+.usa-support-links span {
   color: #3e556b;
-  font-size: 11px;
-  line-height: 1.35;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .usa-agent-tool,
@@ -654,7 +800,7 @@
 }
 
 .usa-tool-heading h2 {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 650;
   line-height: 1.05;
   text-transform: uppercase;
@@ -662,7 +808,7 @@
 
 .usa-tool-heading span {
   color: #607287;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .usa-agent-parameters {
@@ -674,7 +820,7 @@
   display: grid;
   gap: 4px;
   color: #3d5065;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 650;
 }
 
@@ -686,7 +832,7 @@
   background: #f8fcff;
   padding: 0 8px;
   color: #0b1b2c;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .usa-agent-tool form {
@@ -713,7 +859,7 @@
   border: 0;
   background: transparent;
   color: #0b1b2c;
-  font-size: 12px;
+  font-size: 14px;
   outline: 0;
 }
 
@@ -747,13 +893,13 @@
   background: #eaf7fd;
   padding: 9px;
   color: #3e5268;
-  font-size: 11px;
-  line-height: 1.35;
+  font-size: 13px;
+  line-height: 1.42;
 }
 
 .usa-agent-answer strong {
   color: #0a355c;
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
 }
 
@@ -772,7 +918,7 @@
   background: #ffffff;
   padding: 7px 8px;
   color: #234058;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 540;
   line-height: 1.25;
   text-align: left;
@@ -813,7 +959,7 @@
 
 .usa-index-tool article span {
   color: #cce8f7;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.15;
 }
 
@@ -828,7 +974,7 @@
   justify-content: space-between;
   gap: 8px;
   color: #20374c;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .usa-ranking-tool article span {
@@ -1218,11 +1364,7 @@
 
 @media (max-width: 1320px) {
   .usa-intelligence-layout {
-    grid-template-columns: minmax(185px, 0.55fr) minmax(500px, 1.9fr) minmax(240px, 0.72fr);
-  }
-
-  .usa-actions {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(250px, 0.86fr) minmax(460px, 1.55fr) minmax(210px, 0.6fr);
   }
 
   .usa-profile-grid {
@@ -1232,7 +1374,7 @@
 
 @media (max-width: 1080px) {
   .usa-intelligence-layout {
-    grid-template-columns: minmax(190px, 0.58fr) minmax(0, 1.42fr);
+    grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.55fr);
   }
 
   .usa-tools-rail {
@@ -1269,6 +1411,15 @@
     grid-row: 1;
   }
 
+  .usa-made-in-america,
+  .usa-leaders-section,
+  .usa-industries-section,
+  .usa-united-section,
+  .usa-states-section,
+  .usa-content-core > div[id] {
+    scroll-margin-top: 250px;
+  }
+
   .usa-institutions-rail {
     grid-row: 2;
   }
@@ -1286,8 +1437,7 @@
   .usa-profile-grid,
   .usa-leader-grid,
   .usa-community-grid,
-  .usa-playlist-grid,
-  .usa-actions {
+  .usa-industry-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1296,9 +1446,21 @@
   }
 
   .usa-spotlight-rail .scroll-rail,
-  .usa-industry-rail .scroll-rail,
-  .usa-video-rail .scroll-rail {
+  .usa-industry-rail .scroll-rail {
     grid-auto-columns: 82%;
+  }
+
+  .usa-youtube-playlist {
+    grid-template-areas:
+      "stage"
+      "list";
+    grid-template-columns: 1fr;
+  }
+
+  .usa-playlist-list {
+    height: auto;
+    min-height: 0;
+    max-height: 340px;
   }
 
   .usa-map-dialog {
@@ -1388,12 +1550,12 @@
     grid-template-columns: 1fr;
   }
 
-  .usa-playlist-grid > button {
-    grid-template-columns: 76px minmax(0, 1fr) 20px;
+  .usa-playlist-list > button {
+    grid-template-columns: 92px minmax(0, 1fr) 20px;
   }
 
-  .usa-playlist-grid img {
-    width: 76px;
+  .usa-playlist-list img {
+    width: 92px;
   }
 
   .usa-map-minimized {
@@ -6506,4 +6668,31 @@ img {
   .analytics-pager {
     width: 100%;
   }
+}
+
+/* USA review pass: keep dense research tools legible without changing shared pages. */
+.usa-shell .analytics-heading p,
+.usa-shell .analytics-table-heading p {
+  font-size: 14px;
+}
+
+.usa-shell .analytics-heading > span,
+.usa-shell .analytics-table-heading > span,
+.usa-shell .analytics-metrics span,
+.usa-shell .analytics-controls label,
+.usa-shell .analytics-pager span {
+  font-size: 13px;
+}
+
+.usa-shell .analytics-chart-grid h3,
+.usa-shell .analytics-table-heading h3 {
+  font-size: 17px;
+}
+
+.usa-shell .analytics-table-scroll table {
+  font-size: 13px;
+}
+
+.usa-shell .analytics-table-scroll thead th {
+  font-size: 12px;
 }

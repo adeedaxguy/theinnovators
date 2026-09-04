@@ -51,6 +51,10 @@ test("USA uses its dedicated Canva-aligned layout and map overlay", async () => 
   assert.match(route, /UsaIntelligencePage/);
   assert.match(page, /Made in America/);
   assert.match(page, /AI Discover Agent/);
+  assert.match(page, /usa-youtube-playlist/);
+  assert.match(page, /usa-video-tile/);
+  assert.match(page, /Support and funding/);
+  assert.doesNotMatch(page, /id="usa-ecosystem"/);
   assert.doesNotMatch(page, /Innovation News/);
   assert.match(map, /showModal\(\)/);
   assert.match(map, /Minimize interactive map/);
