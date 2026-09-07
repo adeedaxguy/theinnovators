@@ -1597,6 +1597,886 @@
   }
 }
 
+/* USA intelligence refinement */
+.usa-shell {
+  --usa-navy: #002868;
+  --usa-blue: #159fe0;
+  --usa-sky: #e7f7ff;
+  --usa-red: #bf0a30;
+  --usa-border: #c8dfed;
+  --usa-body: 16px;
+  --usa-secondary: 14px;
+}
+
+.usa-intelligence-layout {
+  grid-template-columns: minmax(205px, 0.62fr) minmax(620px, 2.35fr) minmax(235px, 0.78fr);
+  gap: 12px;
+  padding: 12px;
+  background: #eaf7fd;
+}
+
+.usa-institutions-rail,
+.usa-content-core,
+.usa-tools-rail {
+  gap: 12px;
+}
+
+.usa-institutions-rail > header,
+.usa-institution-group,
+.usa-main-video-experience,
+.usa-video-row,
+.usa-states-section,
+.usa-agent-tool,
+.usa-index-tool,
+.usa-ranking-tool,
+.usa-data-tool {
+  border-color: var(--usa-border);
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.usa-institutions-rail > header {
+  background: var(--usa-navy);
+}
+
+.usa-institutions-rail h1 {
+  font-size: 25px;
+}
+
+.usa-institutions-rail > header p,
+.usa-institution-group p,
+.usa-index-tool > p {
+  font-size: var(--usa-body);
+  line-height: 1.55;
+}
+
+.usa-institution-group {
+  gap: 10px;
+}
+
+.usa-institution-group h2 {
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.usa-institution-group ul,
+.usa-map-detail ul {
+  padding-left: 19px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.usa-mini-card {
+  grid-template-columns: 82px minmax(0, 1fr);
+}
+
+.usa-mini-card span {
+  font-size: 13px;
+}
+
+.usa-mini-card h3 {
+  font-size: 18px;
+}
+
+.usa-mini-card p {
+  font-size: 15px;
+}
+
+.usa-main-video-experience,
+.usa-video-row,
+.usa-states-section {
+  min-width: 0;
+  border: 1px solid var(--usa-border);
+  background: #ffffff;
+}
+
+.usa-flag-video {
+  overflow: hidden;
+  border: 1px solid var(--usa-navy);
+  border-radius: 4px;
+  background: #ffffff;
+}
+
+.usa-flag-video::before,
+.usa-flag-video::after {
+  display: none;
+}
+
+.usa-frame-stripes {
+  display: grid;
+  height: 24px;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  align-items: center;
+  background: var(--usa-navy);
+  color: #ffffff;
+}
+
+.usa-frame-stripes > span {
+  height: 100%;
+  background: repeating-linear-gradient(to bottom, var(--usa-red) 0 4px, #ffffff 4px 8px);
+}
+
+.usa-frame-stripes > svg {
+  width: 14px;
+  height: 14px;
+  justify-self: center;
+}
+
+.usa-frame-body {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 28px;
+}
+
+.usa-frame-stars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background: var(--usa-navy);
+  color: #ffffff;
+  padding: 6px 0;
+}
+
+.usa-frame-stars svg {
+  width: 13px;
+  height: 13px;
+}
+
+.usa-frame-body > button {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 0;
+  background: #dce9f3;
+  padding: 0;
+  color: #ffffff;
+  text-align: left;
+}
+
+.usa-frame-body > button > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.usa-frame-body > button:hover .usa-video-play,
+.usa-frame-body > button:focus-visible .usa-video-play {
+  background: var(--usa-red);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.usa-frame-body > button:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: -5px;
+}
+
+.usa-video-title {
+  bottom: 16px;
+  left: 16px;
+  max-width: calc(100% - 32px);
+  padding: 10px 12px;
+  background: rgba(0, 40, 104, 0.9);
+}
+
+.usa-video-title strong {
+  font-size: clamp(24px, 2vw, 36px);
+}
+
+.usa-video-title small {
+  overflow: hidden;
+  max-width: 68ch;
+  color: #e6f7ff;
+  font-size: 14px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.usa-video-menu {
+  display: flex;
+  min-height: 48px;
+  margin-top: 10px;
+  overflow-x: auto;
+  background: var(--usa-navy);
+  scrollbar-width: none;
+}
+
+.usa-video-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.usa-video-menu button {
+  min-height: 48px;
+  flex: 1 0 auto;
+  border: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  padding: 0 12px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.usa-video-menu button:hover,
+.usa-video-menu button:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  outline: 2px solid #ffffff;
+  outline-offset: -3px;
+}
+
+.usa-video-menu button.is-active {
+  background: var(--usa-red);
+}
+
+.usa-main-thumbnails {
+  height: 126px;
+  margin-top: 10px;
+}
+
+.usa-main-thumbnails .scroll-rail {
+  height: 100%;
+  grid-auto-columns: calc((100% - 24px) / 4);
+  gap: 8px;
+}
+
+.usa-main-thumbnails .scroll-rail > button {
+  position: relative;
+  display: grid;
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  grid-template-rows: 72px minmax(0, 1fr);
+  border: 1px solid #d0e1ec;
+  border-radius: 3px;
+  background: #ffffff;
+  padding: 0;
+  color: #13283b;
+  text-align: left;
+}
+
+.usa-main-thumbnails img {
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+}
+
+.usa-main-thumbnails .scroll-rail > button > span {
+  display: grid;
+  min-width: 0;
+  align-content: center;
+  gap: 2px;
+  padding: 6px 8px;
+}
+
+.usa-main-thumbnails strong,
+.usa-main-thumbnails small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.usa-main-thumbnails strong {
+  font-size: 14px;
+}
+
+.usa-main-thumbnails small {
+  color: #52667a;
+  font-size: 12px;
+}
+
+.usa-main-thumbnails svg {
+  position: absolute;
+  top: 47px;
+  right: 7px;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  background: var(--usa-red);
+  padding: 6px;
+  color: #ffffff;
+}
+
+.usa-main-thumbnails button:hover,
+.usa-main-thumbnails button:focus-visible,
+.usa-main-thumbnails button.is-active {
+  border-color: var(--usa-blue);
+  background: var(--usa-sky);
+  outline: 2px solid var(--usa-blue);
+  outline-offset: -2px;
+}
+
+.usa-video-row {
+  scroll-margin-top: 170px;
+}
+
+.usa-video-row > header,
+.usa-states-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.usa-video-row h2,
+.usa-states-heading h2 {
+  margin: 0;
+  color: #081524;
+  font-size: clamp(23px, 1.55vw, 30px);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.usa-video-row > header > span,
+.usa-states-heading > strong {
+  flex: 0 0 auto;
+  color: #0874b3;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.usa-video-row-rail {
+  height: 174px;
+}
+
+.usa-video-row-rail .scroll-rail {
+  height: 100%;
+  grid-auto-columns: calc((100% - 16px) / 3);
+  gap: 8px;
+}
+
+.usa-video-row-rail .usa-video-tile {
+  height: 100%;
+}
+
+.usa-video-tile {
+  border-radius: 3px;
+}
+
+.usa-video-tile-title {
+  max-width: calc(100% - 50px);
+  padding: 8px 9px;
+  background: rgba(0, 40, 104, 0.9);
+}
+
+.usa-video-tile-title strong {
+  font-size: 17px;
+}
+
+.usa-video-tile-title small {
+  font-size: 13px;
+}
+
+.usa-states-heading {
+  align-items: flex-start;
+}
+
+.usa-states-heading p {
+  margin: 5px 0 0;
+  color: #4a6074;
+  font-size: 15px;
+}
+
+.usa-playlist-tabs {
+  display: flex;
+  min-width: 0;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  border-bottom: 2px solid #bdd8e8;
+  scrollbar-width: none;
+}
+
+.usa-playlist-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.usa-playlist-tabs button {
+  min-height: 42px;
+  flex: 1 0 auto;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  padding: 0 14px;
+  color: #344b60;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.usa-playlist-tabs button:hover,
+.usa-playlist-tabs button:focus-visible,
+.usa-playlist-tabs button.is-active {
+  border-bottom-color: var(--usa-red);
+  color: var(--usa-navy);
+  outline: 0;
+}
+
+.usa-youtube-playlist {
+  grid-template-columns: minmax(250px, 0.8fr) minmax(0, 1.8fr);
+  gap: 12px;
+}
+
+.usa-playlist-list {
+  gap: 7px;
+}
+
+.usa-playlist-list > button {
+  min-height: 82px;
+  grid-template-columns: 104px minmax(0, 1fr) 22px;
+  gap: 9px;
+  padding: 6px;
+}
+
+.usa-playlist-list img {
+  width: 104px;
+  height: 68px;
+}
+
+.usa-playlist-list strong {
+  font-size: 16px;
+}
+
+.usa-playlist-list small,
+.usa-playlist-list em {
+  font-size: 13px;
+}
+
+.usa-playlist-stage {
+  min-height: 330px;
+}
+
+.usa-playlist-stage .usa-video-title {
+  right: 16px;
+  width: auto;
+}
+
+.usa-support-links strong {
+  font-size: 17px;
+}
+
+.usa-support-links span {
+  font-size: 15px;
+}
+
+.usa-tool-heading h2 {
+  font-size: 21px;
+}
+
+.usa-tool-heading span,
+.usa-agent-answer strong {
+  font-size: 13px;
+}
+
+.usa-agent-parameters label,
+.usa-ranking-tool article > div {
+  font-size: 15px;
+}
+
+.usa-agent-parameters select,
+.usa-agent-tool input {
+  height: 40px;
+  font-size: 16px;
+}
+
+.usa-agent-tool form {
+  grid-template-columns: 20px minmax(0, 1fr) 40px;
+}
+
+.usa-agent-tool form button {
+  width: 40px;
+  height: 40px;
+}
+
+.usa-agent-answer,
+.usa-agent-prompts button,
+.usa-data-tool button,
+.usa-data-tool a {
+  font-size: 15px;
+}
+
+.usa-index-tool article strong {
+  font-size: 22px;
+}
+
+.usa-index-tool article span {
+  font-size: 14px;
+}
+
+.usa-ranking-tool meter {
+  height: 11px;
+  accent-color: var(--usa-blue);
+}
+
+.usa-ranking-tool meter::-webkit-meter-bar,
+.usa-map-metrics meter::-webkit-meter-bar {
+  border: 0;
+  border-radius: 0;
+  background: #e4edf3;
+}
+
+.usa-ranking-tool meter::-webkit-meter-optimum-value,
+.usa-map-metrics meter::-webkit-meter-optimum-value {
+  background: var(--usa-blue);
+}
+
+.usa-ranking-tool meter::-moz-meter-bar,
+.usa-map-metrics meter::-moz-meter-bar {
+  background: var(--usa-blue);
+}
+
+.usa-map-canvas {
+  background: #f5fbff;
+}
+
+.usa-map-canvas .geographic-map-ocean {
+  fill: #f5fbff;
+}
+
+.usa-map-canvas .geographic-map-graticule {
+  display: none;
+}
+
+.usa-map-canvas .geographic-map-land path,
+.usa-map-canvas .geographic-map-land path.has-profile {
+  cursor: pointer;
+  fill: var(--usa-blue);
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
+
+.usa-map-canvas .geographic-map-land path:hover,
+.usa-map-canvas .geographic-map-land path:focus-visible,
+.usa-map-canvas .geographic-map-land path.is-selected {
+  fill: var(--usa-red);
+  outline: 0;
+  stroke-width: 2.3;
+}
+
+.geographic-map-state-label {
+  pointer-events: none;
+  fill: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: rgba(0, 40, 104, 0.55);
+  stroke-width: 1.5px;
+  text-anchor: middle;
+}
+
+.usa-map-panel {
+  grid-template-columns: minmax(0, 1fr) minmax(330px, 380px);
+  grid-template-rows: minmax(470px, 1fr) auto;
+  gap: 12px;
+  padding: 14px;
+}
+
+.usa-map-canvas {
+  min-height: 470px;
+}
+
+.usa-map-locations button {
+  min-height: 38px;
+  border-radius: 4px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.usa-map-locations button:hover,
+.usa-map-locations button:focus-visible,
+.usa-map-locations button.is-active {
+  border-color: var(--usa-red);
+  background: #fff0f3;
+  color: #8f0826;
+}
+
+.usa-map-detail {
+  align-content: start;
+  gap: 14px;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.usa-map-detail-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--usa-navy);
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.usa-map-detail-label > span {
+  display: grid;
+  width: 34px;
+  height: 28px;
+  place-items: center;
+  background: var(--usa-navy);
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.usa-map-detail h2 {
+  font-size: clamp(23px, 1.55vw, 30px);
+}
+
+.usa-map-industries,
+.usa-map-metrics {
+  display: grid;
+  gap: 9px;
+}
+
+.usa-map-industries h3,
+.usa-map-metrics h3 {
+  margin: 0;
+  color: #122b43;
+  font-size: 16px;
+}
+
+.usa-map-industries > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.usa-map-industries span {
+  border: 1px solid #bbd9ea;
+  border-radius: 3px;
+  background: #edf8fe;
+  padding: 5px 7px;
+  color: #174966;
+  font-size: 13px;
+}
+
+.usa-map-metrics > header,
+.usa-map-metrics > div,
+.usa-map-metrics > div > span {
+  display: flex;
+  align-items: center;
+}
+
+.usa-map-metrics > header {
+  gap: 7px;
+}
+
+.usa-map-metrics > header svg {
+  width: 18px;
+  height: 18px;
+  color: var(--usa-blue);
+}
+
+.usa-map-metrics > div {
+  display: grid;
+  gap: 4px;
+}
+
+.usa-map-metrics > div > span {
+  justify-content: space-between;
+  color: #2c465c;
+  font-size: 14px;
+}
+
+.usa-map-metrics em {
+  color: var(--usa-navy);
+  font-style: normal;
+  font-weight: 750;
+}
+
+.usa-map-metrics meter {
+  width: 100%;
+  height: 10px;
+  accent-color: var(--usa-blue);
+}
+
+.usa-map-metrics small {
+  color: #687b8d;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.usa-map-detail a {
+  min-height: 40px;
+  border-radius: 4px;
+  background: var(--usa-navy);
+  font-size: 14px;
+}
+
+@media (max-width: 1320px) {
+  .usa-intelligence-layout {
+    grid-template-columns: minmax(190px, 0.58fr) minmax(520px, 2fr) minmax(220px, 0.72fr);
+  }
+
+  .usa-main-thumbnails .scroll-rail {
+    grid-auto-columns: calc((100% - 16px) / 3);
+  }
+
+  .usa-video-row-rail {
+    height: 160px;
+  }
+}
+
+@media (max-width: 1080px) {
+  .usa-intelligence-layout {
+    grid-template-columns: minmax(210px, 0.65fr) minmax(0, 1.7fr);
+  }
+
+  .usa-tools-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .usa-agent-tool,
+  .usa-data-tool {
+    grid-column: span 2;
+  }
+
+  .usa-map-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(290px, 330px);
+  }
+}
+
+@media (max-width: 760px) {
+  .usa-intelligence-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .usa-content-core {
+    grid-row: 1;
+  }
+
+  .usa-institutions-rail {
+    grid-row: 2;
+  }
+
+  .usa-tools-rail {
+    grid-row: 3;
+    grid-template-columns: 1fr;
+  }
+
+  .usa-agent-tool,
+  .usa-data-tool {
+    grid-column: auto;
+  }
+
+  .usa-frame-stripes {
+    height: 18px;
+    grid-template-columns: 22px minmax(0, 1fr) 22px;
+  }
+
+  .usa-frame-body {
+    grid-template-columns: 22px minmax(0, 1fr) 22px;
+  }
+
+  .usa-frame-stars svg:nth-child(even) {
+    display: none;
+  }
+
+  .usa-video-title strong {
+    font-size: 21px;
+  }
+
+  .usa-main-thumbnails .scroll-rail,
+  .usa-video-row-rail .scroll-rail {
+    grid-auto-columns: 76%;
+  }
+
+  .usa-youtube-playlist {
+    grid-template-areas: "stage" "list";
+    grid-template-columns: 1fr;
+  }
+
+  .usa-playlist-stage {
+    min-height: 0;
+    grid-area: stage;
+  }
+
+  .usa-playlist-list {
+    height: auto;
+    max-height: 420px;
+    grid-area: list;
+  }
+
+  .usa-map-panel {
+    grid-template-areas: "map" "locations" "detail";
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(300px, 1fr) auto auto;
+  }
+
+  .usa-map-canvas {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 520px) {
+  .usa-main-video-experience,
+  .usa-video-row,
+  .usa-states-section {
+    padding: 9px;
+  }
+
+  .usa-frame-body > button {
+    aspect-ratio: 4 / 3;
+  }
+
+  .usa-frame-stars svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .usa-video-menu button {
+    min-height: 44px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  .usa-main-thumbnails {
+    height: 118px;
+  }
+
+  .usa-video-row-rail {
+    height: 176px;
+  }
+
+  .usa-video-row > header,
+  .usa-states-heading {
+    align-items: flex-start;
+  }
+
+  .usa-video-row h2,
+  .usa-states-heading h2 {
+    font-size: 22px;
+  }
+
+  .usa-video-row > header > span {
+    display: none;
+  }
+
+  .usa-playlist-list > button {
+    grid-template-columns: 98px minmax(0, 1fr) 20px;
+  }
+
+  .usa-playlist-list img {
+    width: 98px;
+  }
+
+  .geographic-map-state-label {
+    font-size: 14px;
+  }
+
+  .usa-map-dialog-actions a {
+    display: inline-flex;
+    width: 32px;
+    min-height: 32px;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .usa-map-dialog-actions a svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -4259,7 +5139,7 @@ img {
   stroke: #d7f2ff;
   stroke-linejoin: round;
   stroke-width: 0.75;
-  transition: fill 150ms ease-out, opacity 150ms ease-out, stroke-width 150ms ease-out;
+  transition: fill 150ms ease-out, opacity 150ms ease-out;
 }
 
 .geographic-map-land .map-tone-1 {

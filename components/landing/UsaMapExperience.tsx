@@ -1,26 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Map, Maximize2, Minus, X } from "lucide-react";
+import { ArrowLeft, BarChart3, ExternalLink, Map, Maximize2, Minus, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { GeographicMap } from "./GeographicMap";
-import type { IntelligencePoint } from "./intelligence-data";
-import { usaIntelligencePage } from "./intelligence-data";
+import { usaStateProfiles } from "./usa-state-data";
+import type { UsaStateProfile } from "./usa-state-data";
 
 type MapPanelProps = {
-  selectedPoint: IntelligencePoint;
-  setSelectedPoint: (point: IntelligencePoint) => void;
+  selectedPoint: UsaStateProfile;
+  setSelectedPoint: (point: UsaStateProfile) => void;
 };
 
 function UsaMapPanel({ selectedPoint, setSelectedPoint }: MapPanelProps) {
-  const points = usaIntelligencePage.map.points;
+  const points = usaStateProfiles;
 
   return (
     <div className="usa-map-panel">
       <div className="usa-map-canvas">
         <GeographicMap
           mode="usa"
-          onSelectPoint={setSelectedPoint}
+          onSelectPoint={(point) => setSelectedPoint(point as UsaStateProfile)}
           points={points}
           selectedPoint={selectedPoint}
         />
@@ -40,13 +40,27 @@ function UsaMapPanel({ selectedPoint, setSelectedPoint }: MapPanelProps) {
       </nav>
 
       <aside className="usa-map-detail" aria-live="polite">
-        <span>{selectedPoint.label}</span>
+        <div className="usa-map-detail-label"><span>{selectedPoint.abbreviation}</span>{selectedPoint.label}</div>
         <h2>{selectedPoint.summary}</h2>
         <ul>
           {selectedPoint.details.map((detail) => (
             <li key={detail}>{detail}</li>
           ))}
         </ul>
+        <section className="usa-map-industries">
+          <h3>Leading innovation areas</h3>
+          <div>{selectedPoint.industries.map((industry) => <span key={industry}>{industry}</span>)}</div>
+        </section>
+        <section className="usa-map-metrics" aria-label={`${selectedPoint.label} illustrative innovation metrics`}>
+          <header><BarChart3 aria-hidden="true" /><h3>State signal preview</h3></header>
+          {selectedPoint.metrics.map((metric) => (
+            <div key={metric.label}>
+              <span><strong>{metric.label}</strong><em>{metric.value}</em></span>
+              <meter max="100" min="0" value={metric.value} />
+            </div>
+          ))}
+          <small>Illustrative interface data. Production values will load from the intelligence API.</small>
+        </section>
         <a href="/usa#usa-states">Open state intelligence</a>
       </aside>
     </div>
@@ -56,7 +70,7 @@ function UsaMapPanel({ selectedPoint, setSelectedPoint }: MapPanelProps) {
 export function UsaMapOverlay() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [state, setState] = useState<"open" | "minimized" | "closed">("open");
-  const [selectedPoint, setSelectedPoint] = useState(usaIntelligencePage.map.points[0]);
+  const [selectedPoint, setSelectedPoint] = useState(usaStateProfiles[4]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -135,7 +149,7 @@ export function UsaMapOverlay() {
 }
 
 export function UsaMapOnly() {
-  const [selectedPoint, setSelectedPoint] = useState(usaIntelligencePage.map.points[0]);
+  const [selectedPoint, setSelectedPoint] = useState(usaStateProfiles[4]);
 
   return (
     <main className="usa-map-only">

@@ -4,8 +4,8 @@ import type { VideoItem } from "./types";
 export type IntelligencePoint = {
   id: string;
   label: string;
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
   summary: string;
   details: string[];
 };

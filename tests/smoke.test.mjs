@@ -19,7 +19,9 @@ test("critical landing component files exist", () => {
     "components/landing/InnovationDashboard.tsx",
     "components/landing/IntelligencePage.tsx",
     "components/landing/UsaIntelligencePage.tsx",
+    "components/landing/UsaVideoExperience.tsx",
     "components/landing/UsaMapExperience.tsx",
+    "components/landing/usa-state-data.ts",
     "components/landing/GeographicMap.tsx",
     "components/landing/IntelligenceAnalytics.tsx",
     "components/landing/data.ts",
@@ -46,16 +48,23 @@ test("world and USA landscape routes are wired from landing data", async () => {
 test("USA uses its dedicated Canva-aligned layout and map overlay", async () => {
   const route = await readProjectFile("app/usa/page.tsx");
   const page = await readProjectFile("components/landing/UsaIntelligencePage.tsx");
+  const video = await readProjectFile("components/landing/UsaVideoExperience.tsx");
   const map = await readProjectFile("components/landing/UsaMapExperience.tsx");
+  const stateData = await readProjectFile("components/landing/usa-state-data.ts");
 
   assert.match(route, /UsaIntelligencePage/);
-  assert.match(page, /Made in America/);
+  assert.match(video, /usa-frame-stars/);
+  assert.match(video, /USA States Video Playlists/);
+  assert.match(video, /usa-video-menu/);
   assert.match(page, /AI Discover Agent/);
-  assert.match(page, /usa-youtube-playlist/);
-  assert.match(page, /usa-video-tile/);
+  assert.match(video, /usa-youtube-playlist/);
+  assert.match(page, /America’s Leaders/);
+  assert.match(page, /America’s Industries/);
+  assert.match(page, /America’s Innovators/);
   assert.match(page, /Support and funding/);
   assert.doesNotMatch(page, /id="usa-ecosystem"/);
   assert.doesNotMatch(page, /Innovation News/);
+  assert.equal((stateData.match(/\["[^"]+", "[A-Z]{2}", "(?:Northeast|Midwest|South|West)"\]/g) ?? []).length, 50);
   assert.match(map, /showModal\(\)/);
   assert.match(map, /Minimize interactive map/);
   assert.match(map, /Full interactive map/);

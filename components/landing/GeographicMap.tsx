@@ -7,6 +7,7 @@ import worldTopologyJson from "world-atlas/countries-110m.json";
 import type { Feature, FeatureCollection, GeoJsonProperties, Geometry } from "geojson";
 import type { Topology } from "topojson-specification";
 import type { IntelligencePoint } from "./intelligence-data";
+import { usaStateAbbreviations } from "./usa-state-data";
 import { cx } from "./utils";
 
 type GeographicMapProps = {
@@ -20,6 +21,8 @@ type MapShape = {
   id: string;
   name: string;
   path: string;
+  labelX: number;
+  labelY: number;
 };
 
 const worldTopology = worldTopologyJson as unknown as Topology;
@@ -34,11 +37,16 @@ function buildShapes(mode: "world" | "usa"): MapShape[] {
   projection.fitSize([1000, 560], collection);
   const pathBuilder = geoPath(projection);
 
-  return collection.features.map((item: Feature<Geometry, GeoJsonProperties>) => ({
-    id: String(item.id ?? item.properties?.name ?? ""),
-    name: String(item.properties?.name ?? "Unknown"),
-    path: pathBuilder(item) ?? "",
-  }));
+  return collection.features.map((item: Feature<Geometry, GeoJsonProperties>) => {
+    const [rawLabelX, rawLabelY] = pathBuilder.centroid(item);
+    return {
+      id: String(item.id ?? item.properties?.name ?? ""),
+      name: String(item.properties?.name ?? "Unknown"),
+      path: pathBuilder(item) ?? "",
+      labelX: Math.round(rawLabelX * 100) / 100,
+      labelY: Math.round(rawLabelY * 100) / 100,
+    };
+  });
 }
 
 const mapShapes = {
@@ -81,31 +89,34 @@ export function GeographicMap({ mode, onSelectPoint, points, selectedPoint }: Ge
           const interactivePoint = onSelectPoint ? point : undefined;
           const isSelected = Boolean(point && point.id === selectedPoint?.id);
 
-          return (
-            <path
-              aria-label={interactivePoint ? `Open ${locationName} intelligence profile` : locationName}
-              className={cx(
-                `map-tone-${index % 6}`,
-                point && "has-profile",
-                isSelected && "is-selected"
-              )}
-              d={shape.path}
-              key={`${shape.id}-${shape.name}`}
-              onClick={() => interactivePoint && onSelectPoint?.(interactivePoint)}
-              onFocus={() => interactivePoint && onSelectPoint?.(interactivePoint)}
-              onKeyDown={(event) => {
-                if (interactivePoint && (event.key === "Enter" || event.key === " ")) {
-                  event.preventDefault();
-                  onSelectPoint?.(interactivePoint);
-                }
-              }}
-              onMouseEnter={() => interactivePoint && onSelectPoint?.(interactivePoint)}
-              role={interactivePoint ? "button" : undefined}
-              tabIndex={interactivePoint ? 0 : -1}
-            >
-              <title>{point ? `${locationName}: profile available` : locationName}</title>
-            </path>
-          );
+            return (
+              <g className={isSelected ? "is-selected" : undefined} key={`${shape.id}-${shape.name}`}>
+                <path
+                  aria-label={interactivePoint ? `Open ${locationName} intelligence profile` : locationName}
+                  className={cx(`map-tone-${index % 6}`, point && "has-profile", isSelected && "is-selected")}
+                  d={shape.path}
+                  onClick={() => interactivePoint && onSelectPoint?.(interactivePoint)}
+                  onFocus={() => interactivePoint && onSelectPoint?.(interactivePoint)}
+                  onKeyDown={(event) => {
+                    if (interactivePoint && (event.key === "Enter" || event.key === " ")) {
+                      event.preventDefault();
+                      onSelectPoint?.(interactivePoint);
+                    }
+                  }}
+                  onMouseEnter={() => interactivePoint && onSelectPoint?.(interactivePoint)}
+                  role={interactivePoint ? "button" : undefined}
+                  tabIndex={interactivePoint ? 0 : -1}
+                >
+                  <title>{point ? `${locationName}: profile available` : locationName}</title>
+                </path>
+                {mode === "usa" && Number.isFinite(shape.labelX) && Number.isFinite(shape.labelY) && (
+                  <text className="geographic-map-state-label" x={shape.labelX} y={shape.labelY}>
+                    <title>{locationName}</title>
+                    {usaStateAbbreviations.get(locationName) ?? locationName.slice(0, 2).toUpperCase()}
+                  </text>
+                )}
+              </g>
+            );
         })}
       </g>
     </svg>

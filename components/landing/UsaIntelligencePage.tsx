@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Bot, Database, Map, Play, Search, Send, SlidersHorizontal, Star } from "lucide-react";
+import { BarChart3, Bot, Database, Map, Search, Send, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import {
@@ -17,9 +17,16 @@ import {
 import { IntelligenceAnalytics } from "./IntelligenceAnalytics";
 import { usaIntelligencePage as content } from "./intelligence-data";
 import type { IntelligenceCard, IntelligenceRanking } from "./intelligence-data";
-import { ScrollRail } from "./ScrollRail";
 import type { ModalVideo, VideoItem } from "./types";
 import { UsaMapOverlay } from "./UsaMapExperience";
+import {
+  UsaMainVideo,
+  UsaStatePlaylists,
+  UsaVideoRail,
+  usaIndustryVideos,
+  usaInnovatorVideos,
+  usaLeaderVideos,
+} from "./UsaVideoExperience";
 
 function MiniCard({ card }: { card: IntelligenceCard }) {
   return (
@@ -45,97 +52,6 @@ function InstitutionList({ body, items, title }: { body: string; items: string[]
         ))}
       </ul>
     </section>
-  );
-}
-
-function FlagVideo({ onPlay }: { onPlay: (video: ModalVideo) => void }) {
-  return (
-    <div className="usa-flag-video">
-      <div className="usa-flag-band">
-        <span className="usa-flag-stars" aria-hidden="true">
-          <Star fill="currentColor" />
-          <Star fill="currentColor" />
-          <Star fill="currentColor" />
-        </span>
-        <strong>Made in America</strong>
-        <span>National briefing</span>
-      </div>
-      <button onClick={() => onPlay(content.heroVideo)} type="button">
-        <img alt="" src={content.heroVideo.image} />
-        <span className="usa-video-play" aria-hidden="true">
-          <Play fill="currentColor" />
-        </span>
-        <span className="usa-video-title">
-          <strong>{content.heroVideo.title}</strong>
-          <small>National ecosystem briefing</small>
-        </span>
-      </button>
-      <div className="usa-flag-stripes" aria-hidden="true" />
-    </div>
-  );
-}
-
-function UsaVideoTile({ image, meta, onPlay, title }: ModalVideo & { meta: string; onPlay: () => void }) {
-  return (
-    <button className="usa-video-tile" onClick={onPlay} type="button">
-      <img alt="" src={image} />
-      <span className="usa-video-tile-play" aria-hidden="true">
-        <Play fill="currentColor" />
-      </span>
-      <span className="usa-video-tile-title">
-        <strong>{title}</strong>
-        <small>{meta}</small>
-      </span>
-    </button>
-  );
-}
-
-function UsaPlaylist({
-  activeVideo,
-  onOpen,
-  onSelect,
-}: {
-  activeVideo: VideoItem;
-  onOpen: (video: VideoItem) => void;
-  onSelect: (video: VideoItem) => void;
-}) {
-  return (
-    <div className="usa-youtube-playlist">
-      <button className="usa-playlist-stage" onClick={() => onOpen(activeVideo)} type="button">
-        <img alt="" src={activeVideo.image} />
-        <span className="usa-video-play" aria-hidden="true">
-          <Play fill="currentColor" />
-        </span>
-        <span className="usa-video-title">
-          <strong>{activeVideo.title}</strong>
-          <small>{activeVideo.category}</small>
-        </span>
-      </button>
-
-      <div className="usa-playlist-list" aria-label="USA state video playlist">
-        {content.playlistRows.map((row, index) => {
-          const video = content.playlist[index % content.playlist.length];
-          const selected = video.title === activeVideo.title;
-          return (
-            <button
-              aria-pressed={selected}
-              className={selected ? "is-active" : undefined}
-              key={row.label}
-              onClick={() => onSelect(video)}
-              type="button"
-            >
-              <img alt="" src={video.image} />
-              <span>
-                <strong>{row.label}</strong>
-                <small>{row.meta}</small>
-                <em>{row.score}</em>
-              </span>
-              <Play aria-hidden="true" fill="currentColor" />
-            </button>
-          );
-        })}
-      </div>
-    </div>
   );
 }
 
@@ -284,8 +200,7 @@ export default function UsaIntelligencePage() {
     );
   }
 
-  function playVideo(video: VideoItem) {
-    setActiveVideo(video);
+  function openVideo(video: VideoItem) {
     setModalVideo(video);
   }
 
@@ -352,89 +267,11 @@ export default function UsaIntelligencePage() {
           </aside>
 
           <section className="usa-content-core">
-            <section className="usa-made-in-america" id="made-in-america">
-              <FlagVideo onPlay={setModalVideo} />
-              <nav className="usa-page-nav" aria-label="USA intelligence sections">
-                <a href="#usa-leaders">Leaders</a>
-                <a href="#usa-industries">Industries</a>
-                <a href="#usa-united">Communities</a>
-                <a href="#usa-states">States</a>
-                <a href="#usa-data">Data</a>
-                <a href="/usa/map">
-                  <Map aria-hidden="true" />
-                  Interactive map
-                </a>
-              </nav>
-              <ScrollRail className="usa-spotlight-rail" label="Made in America priorities">
-                {content.spotlight.map((card) => (
-                  <MiniCard card={card} key={card.title} />
-                ))}
-              </ScrollRail>
-            </section>
-
-            <section className="usa-leaders-section" id="usa-leaders">
-              <div className="usa-section-heading">
-                <h2>America’s Leaders</h2>
-              </div>
-              <div className="usa-video-grid usa-leader-grid">
-                {content.leaders.map((leader) => {
-                  const modalVideo = { category: leader.role, image: leader.image, title: leader.name };
-                  return (
-                    <UsaVideoTile
-                      {...modalVideo}
-                      key={leader.name}
-                      meta={`${leader.role} · Video briefing`}
-                      onPlay={() => setModalVideo(modalVideo)}
-                    />
-                  );
-                })}
-              </div>
-            </section>
-
-            <section className="usa-industries-section" id="usa-industries">
-              <div className="usa-section-heading">
-                <h2>U.S. Innovation Industries</h2>
-              </div>
-              <div className="usa-video-grid usa-industry-grid">
-                {content.industries.map((card, index) => {
-                  const modalVideo = {
-                    category: "U.S. Innovation Industries",
-                    image: card.image ?? content.playlist[index].image,
-                    title: card.title,
-                  };
-                  return (
-                    <UsaVideoTile
-                      {...modalVideo}
-                      key={card.title}
-                      meta={card.body}
-                      onPlay={() => setModalVideo(modalVideo)}
-                    />
-                  );
-                })}
-              </div>
-            </section>
-
-            <section className="usa-united-section" id="usa-united">
-              <div className="usa-section-heading">
-                <h2>America’s Innovators, United</h2>
-              </div>
-              <div className="usa-community-grid">
-                {content.communities.map((card) => (
-                  <MiniCard card={card} key={card.title} />
-                ))}
-              </div>
-            </section>
-
-            <section className="usa-states-section" id="usa-states">
-              <div className="usa-section-heading">
-                <h2>USA States Playlist</h2>
-              </div>
-              <UsaPlaylist
-                activeVideo={activeVideo}
-                onOpen={playVideo}
-                onSelect={setActiveVideo}
-              />
-            </section>
+            <UsaMainVideo activeVideo={activeVideo} onOpen={openVideo} onSelect={setActiveVideo} />
+            <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
+            <UsaVideoRail label="America’s Industries" onOpen={openVideo} videos={usaIndustryVideos} />
+            <UsaVideoRail label="America’s Innovators" onOpen={openVideo} videos={usaInnovatorVideos} />
+            <UsaStatePlaylists onOpen={openVideo} />
 
             <div id="usa-data">
               <IntelligenceAnalytics scope="usa" selectedPoint={content.map.points[0]} />
@@ -442,6 +279,10 @@ export default function UsaIntelligencePage() {
           </section>
 
           <aside className="usa-tools-rail" aria-label="USA intelligence tools">
+            {content.secondaryRankings && (
+              <RankingTool rankings={content.secondaryRankings.rankings} title="USA Country Ranking" />
+            )}
+            <RankingTool rankings={content.rankings} title="USA States Ranking" />
             <AgentTool
               answer={copilotAnswer}
               onAsk={askCopilot}
@@ -449,10 +290,6 @@ export default function UsaIntelligencePage() {
               setPrompt={setCopilotPrompt}
             />
             <IndexTool />
-            {content.secondaryRankings && (
-              <RankingTool rankings={content.secondaryRankings.rankings} title="U.S. Global Position" />
-            )}
-            <RankingTool rankings={content.rankings} title="States Ranking" />
             <section className="usa-data-tool">
               <div className="usa-tool-heading">
                 <Database aria-hidden="true" />
