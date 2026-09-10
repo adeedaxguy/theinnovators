@@ -91,9 +91,8 @@ function RankingTool({ rankings, title }: { rankings: IntelligenceRanking[]; tit
         <article key={ranking.label}>
           <div>
             <strong>{ranking.label}</strong>
-            <span>{ranking.value}</span>
+            <span>Brief available</span>
           </div>
-          <meter max="100" min="0" value={ranking.score} />
         </article>
       ))}
     </section>
