@@ -413,6 +413,7 @@
 
 .usa-video-play {
   position: absolute;
+  z-index: 3;
   top: 50%;
   left: 50%;
   display: grid;
@@ -1037,7 +1038,9 @@
   justify-content: space-between;
   gap: 18px;
   padding: 13px 15px;
-  background: #0a355c;
+  background:
+    radial-gradient(circle at 84% 22%, rgba(42, 183, 255, 0.26), transparent 28%),
+    linear-gradient(90deg, #06143a, #0b2c72 54%, #06143a);
   color: #ffffff;
 }
 
@@ -1313,7 +1316,9 @@
   gap: 18px;
   margin-bottom: 10px;
   border-radius: 8px;
-  background: #0a355c;
+  background:
+    radial-gradient(circle at 84% 22%, rgba(42, 183, 255, 0.26), transparent 28%),
+    linear-gradient(90deg, #06143a, #0b2c72 54%, #06143a);
   padding: 13px 15px;
   color: #ffffff;
 }
@@ -1598,11 +1603,14 @@
 }
 
 /* USA intelligence refinement */
-.usa-shell {
-  --usa-navy: #002868;
-  --usa-blue: #159fe0;
+.usa-shell,
+.usa-map-only {
+  --usa-navy: #06163c;
+  --usa-blue: #1267e8;
+  --usa-blue-bright: #2ab7ff;
   --usa-sky: #e7f7ff;
-  --usa-red: #bf0a30;
+  --usa-red: #e0163f;
+  --usa-red-deep: #a60628;
   --usa-border: #c8dfed;
   --usa-body: 16px;
   --usa-secondary: 14px;
@@ -1691,29 +1699,59 @@
 }
 
 .usa-flag-video {
+  position: relative;
   overflow: hidden;
-  border: 1px solid var(--usa-navy);
+  border: 1px solid #06143a;
   border-radius: 4px;
-  background: #ffffff;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(42, 183, 255, 0.34), transparent 34%),
+    linear-gradient(135deg, #050c24 0%, var(--usa-navy) 48%, #090f28 100%);
+  box-shadow: 0 18px 44px rgba(2, 8, 24, 0.24), inset 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
 .usa-flag-video::before,
 .usa-flag-video::after {
-  display: none;
+  position: absolute;
+  inset: 24px 28px;
+  z-index: 2;
+  display: block;
+  content: "";
+  pointer-events: none;
+}
+
+.usa-flag-video::before {
+  background:
+    linear-gradient(105deg, transparent 0 22%, rgba(255, 255, 255, 0.26) 23%, transparent 27%),
+    linear-gradient(72deg, transparent 0 65%, rgba(42, 183, 255, 0.28) 66%, transparent 71%),
+    radial-gradient(circle at 50% 14%, rgba(255, 255, 255, 0.34), transparent 24%);
+  mix-blend-mode: screen;
+}
+
+.usa-flag-video::after {
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow:
+    inset 0 0 28px rgba(42, 183, 255, 0.2),
+    inset 0 0 0 4px rgba(224, 22, 63, 0.14);
 }
 
 .usa-frame-stripes {
+  position: relative;
+  z-index: 3;
   display: grid;
-  height: 24px;
-  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  height: 28px;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
   align-items: center;
-  background: var(--usa-navy);
+  background:
+    linear-gradient(90deg, #06143a, #0d2d76 48%, #06143a),
+    var(--usa-navy);
   color: #ffffff;
 }
 
 .usa-frame-stripes > span {
   height: 100%;
-  background: repeating-linear-gradient(to bottom, var(--usa-red) 0 4px, #ffffff 4px 8px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.22), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.22)),
+    repeating-linear-gradient(to bottom, var(--usa-red) 0 4px, #ffffff 4px 8px, #ffffff 8px 12px, var(--usa-red-deep) 12px 16px);
 }
 
 .usa-frame-stripes > svg {
@@ -1723,18 +1761,39 @@
 }
 
 .usa-frame-body {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) 28px;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  padding: 0;
+}
+
+.usa-frame-body::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.34), transparent 8%),
+    radial-gradient(circle at 82% 88%, rgba(224, 22, 63, 0.26), transparent 12%),
+    linear-gradient(115deg, transparent 0 18%, rgba(255, 255, 255, 0.12) 18.5%, transparent 23%),
+    linear-gradient(65deg, transparent 0 72%, rgba(42, 183, 255, 0.16) 72.5%, transparent 78%);
+  content: "";
+  pointer-events: none;
 }
 
 .usa-frame-stars {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  background: var(--usa-navy);
+  background:
+    linear-gradient(180deg, #06143a, #0b2c72 48%, #06143a),
+    var(--usa-navy);
   color: #ffffff;
   padding: 6px 0;
+  box-shadow: inset 0 0 18px rgba(42, 183, 255, 0.22);
 }
 
 .usa-frame-stars svg {
@@ -1749,16 +1808,40 @@
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 0;
-  background: #dce9f3;
+  background: #071329;
   padding: 0;
   color: #ffffff;
   text-align: left;
 }
 
+.usa-frame-body > button::before,
+.usa-frame-body > button::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+}
+
+.usa-frame-body > button::before {
+  background:
+    linear-gradient(110deg, transparent 0 14%, rgba(255, 255, 255, 0.2) 16%, transparent 21%),
+    linear-gradient(70deg, transparent 0 70%, rgba(42, 183, 255, 0.22) 73%, transparent 78%),
+    radial-gradient(circle at 52% 46%, transparent 0 30%, rgba(3, 10, 28, 0.2) 78%);
+  mix-blend-mode: screen;
+}
+
+.usa-frame-body > button::after {
+  background: linear-gradient(180deg, rgba(4, 12, 32, 0.06), transparent 42%, rgba(3, 10, 28, 0.42));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.38), inset 0 0 34px rgba(42, 183, 255, 0.18);
+}
+
 .usa-frame-body > button > img {
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: saturate(1.08) contrast(1.04);
 }
 
 .usa-frame-body > button:hover .usa-video-play,
@@ -1773,11 +1856,15 @@
 }
 
 .usa-video-title {
+  z-index: 3;
   bottom: 16px;
   left: 16px;
   max-width: calc(100% - 32px);
-  padding: 10px 12px;
-  background: rgba(0, 40, 104, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  padding: 10px 12px 11px;
+  background:
+    linear-gradient(90deg, rgba(6, 22, 60, 0.96), rgba(8, 48, 116, 0.9) 66%, rgba(160, 6, 40, 0.9));
+  box-shadow: 0 12px 28px rgba(3, 10, 28, 0.3);
 }
 
 .usa-video-title strong {
@@ -1799,7 +1886,7 @@
   min-height: 48px;
   margin-top: 10px;
   overflow-x: auto;
-  background: var(--usa-navy);
+  background: linear-gradient(90deg, #06143a, #0b2c72 50%, #06143a);
   scrollbar-width: none;
 }
 
@@ -1827,7 +1914,7 @@
 }
 
 .usa-video-menu button.is-active {
-  background: var(--usa-red);
+  background: linear-gradient(180deg, var(--usa-red), var(--usa-red-deep));
 }
 
 .usa-main-thumbnails {
@@ -2127,11 +2214,15 @@
 }
 
 .usa-map-canvas {
-  background: #f5fbff;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(42, 183, 255, 0.25), transparent 32%),
+    linear-gradient(135deg, #050c24 0%, #07194a 48%, #080d24 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), inset 0 0 48px rgba(18, 103, 232, 0.16);
 }
 
 .usa-map-canvas .geographic-map-ocean {
-  fill: #f5fbff;
+  fill: #061126;
 }
 
 .usa-map-canvas .geographic-map-graticule {
@@ -2141,17 +2232,20 @@
 .usa-map-canvas .geographic-map-land path,
 .usa-map-canvas .geographic-map-land path.has-profile {
   cursor: pointer;
-  fill: var(--usa-blue);
-  stroke: #ffffff;
-  stroke-width: 1.5;
+  fill: var(--usa-blue, #1267e8);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.22));
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-linejoin: round;
+  stroke-width: 1.65;
 }
 
 .usa-map-canvas .geographic-map-land path:hover,
 .usa-map-canvas .geographic-map-land path:focus-visible,
 .usa-map-canvas .geographic-map-land path.is-selected {
-  fill: var(--usa-red);
+  fill: var(--usa-red, #e0163f);
   outline: 0;
-  stroke-width: 2.3;
+  stroke: #ffffff;
+  stroke-width: 2.55;
 }
 
 .geographic-map-state-label {
@@ -2160,8 +2254,8 @@
   font-size: 11px;
   font-weight: 800;
   paint-order: stroke;
-  stroke: rgba(0, 40, 104, 0.55);
-  stroke-width: 1.5px;
+  stroke: rgba(4, 10, 28, 0.78);
+  stroke-width: 1.65px;
   text-anchor: middle;
 }
 
