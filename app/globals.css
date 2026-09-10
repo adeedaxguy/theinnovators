@@ -2241,7 +2241,10 @@
 
 .usa-map-canvas .geographic-map-land path:hover,
 .usa-map-canvas .geographic-map-land path:focus-visible,
-.usa-map-canvas .geographic-map-land path.is-selected {
+.usa-map-canvas .geographic-map-land path.is-selected,
+.usa-map-canvas .geographic-map-land path.has-profile:hover,
+.usa-map-canvas .geographic-map-land path.has-profile:focus-visible,
+.usa-map-canvas .geographic-map-land path.has-profile.is-selected {
   fill: var(--usa-red, #e0163f);
   outline: 0;
   stroke: #ffffff;
