@@ -14,7 +14,6 @@ import {
   SiteFooter,
   VideoModal,
 } from "./chrome";
-import { IntelligenceAnalytics } from "./IntelligenceAnalytics";
 import { usaIntelligencePage as content } from "./intelligence-data";
 import type { IntelligenceCard, IntelligenceRanking } from "./intelligence-data";
 import type { ModalVideo, VideoItem } from "./types";
@@ -41,14 +40,40 @@ function MiniCard({ card }: { card: IntelligenceCard }) {
   );
 }
 
-function InstitutionList({ body, items, title }: { body: string; items: string[]; title: string }) {
+function makeInstitutionVideo(sectionTitle: string, item: string, sectionIndex: number, itemIndex: number): VideoItem {
+  const source = content.playlist[(sectionIndex * 5 + itemIndex) % content.playlist.length];
+
+  return {
+    ...source,
+    title: `${item} video briefing`,
+    category: sectionTitle,
+  };
+}
+
+function InstitutionList({
+  body,
+  items,
+  onSelectVideo,
+  sectionIndex,
+  title,
+}: {
+  body: string;
+  items: string[];
+  onSelectVideo: (video: VideoItem) => void;
+  sectionIndex: number;
+  title: string;
+}) {
   return (
     <section className="usa-institution-group">
       <h2>{title}</h2>
       <p>{body}</p>
       <ul>
-        {items.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, itemIndex) => (
+          <li key={item}>
+            <button onClick={() => onSelectVideo(makeInstitutionVideo(title, item, sectionIndex, itemIndex))} type="button">
+              {item}
+            </button>
+          </li>
         ))}
       </ul>
     </section>
@@ -165,14 +190,6 @@ function IndexTool() {
         <h2>{content.indexPanel.title}</h2>
       </div>
       <p>{content.indexPanel.body}</p>
-      <div>
-        {content.indexPanel.metrics.map((metric) => (
-          <article key={metric.label}>
-            <strong>{metric.value}</strong>
-            <span>{metric.label}</span>
-          </article>
-        ))}
-      </div>
     </section>
   );
 }
@@ -232,8 +249,8 @@ export default function UsaIntelligencePage() {
               <h1>Institutions</h1>
               <p>Organizations, public infrastructure, research networks, and programs.</p>
             </header>
-            {content.resourceSections?.slice(0, 3).map((section) => (
-              <InstitutionList key={section.title} {...section} />
+            {content.resourceSections?.slice(0, 3).map((section, sectionIndex) => (
+              <InstitutionList key={section.title} onSelectVideo={setActiveVideo} sectionIndex={sectionIndex} {...section} />
             ))}
             <section className="usa-institution-group">
               <h2>Industry organizations</h2>
@@ -271,11 +288,7 @@ export default function UsaIntelligencePage() {
             <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
             <UsaVideoRail label="America’s Industries" onOpen={openVideo} videos={usaIndustryVideos} />
             <UsaVideoRail label="America’s Innovators" onOpen={openVideo} videos={usaInnovatorVideos} />
-            <UsaStatePlaylists onOpen={openVideo} />
-
-            <div id="usa-data">
-              <IntelligenceAnalytics scope="usa" selectedPoint={content.map.points[0]} />
-            </div>
+            <UsaStatePlaylists onOpen={openVideo} onSelectMain={setActiveVideo} />
           </section>
 
           <aside className="usa-tools-rail" aria-label="USA intelligence tools">

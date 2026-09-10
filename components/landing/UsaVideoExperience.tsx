@@ -141,7 +141,13 @@ export function UsaVideoRail({ label, onOpen, videos }: { label: string; onOpen:
   );
 }
 
-export function UsaStatePlaylists({ onOpen }: { onOpen: (video: VideoItem) => void }) {
+export function UsaStatePlaylists({
+  onOpen,
+  onSelectMain,
+}: {
+  onOpen: (video: VideoItem) => void;
+  onSelectMain?: (video: VideoItem) => void;
+}) {
   const regions = ["Featured", "Northeast", "Midwest", "South", "West"] as const;
   const [region, setRegion] = useState<(typeof regions)[number]>("Featured");
   const filtered = videosForRegion(region);
@@ -150,8 +156,15 @@ export function UsaStatePlaylists({ onOpen }: { onOpen: (video: VideoItem) => vo
 
   function chooseRegion(nextRegion: (typeof regions)[number]) {
     const nextVideos = videosForRegion(nextRegion);
+    const nextVideo = nextVideos[0];
     setRegion(nextRegion);
-    setSelectedState(nextVideos[0].state.label);
+    setSelectedState(nextVideo.state.label);
+    onSelectMain?.(nextVideo);
+  }
+
+  function chooseState(video: (typeof stateVideos)[number]) {
+    setSelectedState(video.state.label);
+    onSelectMain?.(video);
   }
 
   return (
@@ -174,7 +187,7 @@ export function UsaStatePlaylists({ onOpen }: { onOpen: (video: VideoItem) => vo
               aria-pressed={video.state.label === activeVideo.state.label}
               className={video.state.label === activeVideo.state.label ? "is-active" : undefined}
               key={video.state.label}
-              onClick={() => setSelectedState(video.state.label)}
+              onClick={() => chooseState(video)}
               type="button"
             >
               <img alt="" src={video.image} />

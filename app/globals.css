@@ -1617,7 +1617,7 @@
 }
 
 .usa-intelligence-layout {
-  grid-template-columns: minmax(205px, 0.62fr) minmax(620px, 2.35fr) minmax(235px, 0.78fr);
+  grid-template-columns: minmax(260px, 0.86fr) minmax(540px, 1.86fr) minmax(235px, 0.78fr);
   gap: 12px;
   padding: 12px;
   background: #eaf7fd;
@@ -1672,6 +1672,36 @@
   padding-left: 19px;
   font-size: 16px;
   line-height: 1.55;
+}
+
+.usa-institution-group ul {
+  display: grid;
+  gap: 6px;
+  padding-left: 0;
+  list-style: none;
+}
+
+.usa-institution-group li > button {
+  display: block;
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #d1e4ef;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #ffffff, #f4fbff);
+  padding: 8px 10px;
+  color: #0b263d;
+  font: inherit;
+  font-weight: 650;
+  text-align: left;
+}
+
+.usa-institution-group li > button:hover,
+.usa-institution-group li > button:focus-visible {
+  border-color: var(--usa-blue);
+  background: linear-gradient(90deg, var(--usa-navy), #0c3d91 72%, var(--usa-red-deep));
+  color: #ffffff;
+  outline: 2px solid rgba(18, 103, 232, 0.28);
+  outline-offset: 2px;
 }
 
 .usa-mini-card {
@@ -1738,8 +1768,8 @@
   position: relative;
   z-index: 3;
   display: grid;
-  height: 28px;
-  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  height: 32px;
+  grid-template-columns: 38px minmax(0, 1fr) 38px;
   align-items: center;
   background:
     linear-gradient(90deg, #06143a, #0d2d76 48%, #06143a),
@@ -1764,7 +1794,7 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  grid-template-columns: 38px minmax(0, 1fr) 38px;
   padding: 0;
 }
 
@@ -1805,7 +1835,7 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 1.9 / 1;
   overflow: hidden;
   border: 0;
   background: #071329;
@@ -2026,7 +2056,7 @@
 }
 
 .usa-video-row-rail {
-  height: 174px;
+  height: 212px;
 }
 
 .usa-video-row-rail .scroll-rail {
@@ -2101,7 +2131,7 @@
 }
 
 .usa-youtube-playlist {
-  grid-template-columns: minmax(250px, 0.8fr) minmax(0, 1.8fr);
+  grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.95fr);
   gap: 12px;
 }
 
@@ -2131,7 +2161,7 @@
 }
 
 .usa-playlist-stage {
-  min-height: 330px;
+  min-height: 410px;
 }
 
 .usa-playlist-stage .usa-video-title {
@@ -2401,7 +2431,7 @@
 
 @media (max-width: 1320px) {
   .usa-intelligence-layout {
-    grid-template-columns: minmax(190px, 0.58fr) minmax(520px, 2fr) minmax(220px, 0.72fr);
+    grid-template-columns: minmax(235px, 0.78fr) minmax(480px, 1.68fr) minmax(220px, 0.72fr);
   }
 
   .usa-main-thumbnails .scroll-rail {
@@ -2409,13 +2439,13 @@
   }
 
   .usa-video-row-rail {
-    height: 160px;
+    height: 192px;
   }
 }
 
 @media (max-width: 1080px) {
   .usa-intelligence-layout {
-    grid-template-columns: minmax(210px, 0.65fr) minmax(0, 1.7fr);
+    grid-template-columns: minmax(240px, 0.82fr) minmax(0, 1.55fr);
   }
 
   .usa-tools-rail {
@@ -2489,7 +2519,7 @@
 
   .usa-playlist-list {
     height: auto;
-    max-height: 420px;
+    max-height: 470px;
     grid-area: list;
   }
 
@@ -2531,7 +2561,7 @@
   }
 
   .usa-video-row-rail {
-    height: 176px;
+    height: 202px;
   }
 
   .usa-video-row > header,

@@ -14,3 +14,15 @@ Use the first Canva image as the visual reference for the USA page work:
 - Required frame details: stripes, stars, shining light, modern stage lighting, navy base, electric blue highlights, and strong red accents.
 
 Keep the current USA page layout and interactions intact while refining these visual details.
+
+Full Loom checklist from `Feedback on TV Layout and Videos`:
+
+- Left column is too thin and needs more width.
+- Main TV/video frame can be slightly shorter and less wide after the left column gains space.
+- TV/video frame should be more creative using the first Canva page style: stronger blue/red, stripes, shining light, and modern broadcast aesthetics.
+- Clicking each menu item below the main TV frame should change the video shown in the main frame. This is already working for the horizontal video menu.
+- Client also wants the left-column items, such as National Science, to show a matching video in the main frame when clicked if possible.
+- Leader videos should be a little taller.
+- The large state playlist/video area should be bigger, while keeping the long 50-state list usable.
+- Some number-heavy sections are too much right now and can be removed or reduced for the current stage.
+- Map needs the new blue/red/white treatment from the Canva reference, because the previous white/blue/red balance was not showing correctly.
