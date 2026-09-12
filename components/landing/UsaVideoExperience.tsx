@@ -1,6 +1,6 @@
 "use client";
 
-import { Play, Star } from "lucide-react";
+import { Play } from "lucide-react";
 import { useState } from "react";
 import { ScrollRail } from "./ScrollRail";
 import { usaIntelligencePage as content } from "./intelligence-data";
@@ -37,41 +37,17 @@ function videosForRegion(region: "Featured" | "Northeast" | "Midwest" | "South" 
     : stateVideos.filter((video) => video.state.region === region);
 }
 
-function StarColumn() {
+function GradientVideo({ activeVideo, onOpen }: Pick<MainVideoProps, "activeVideo" | "onOpen">) {
   return (
-    <span className="usa-frame-stars" aria-hidden="true">
-      {Array.from({ length: 7 }, (_, index) => <Star fill="currentColor" key={index} />)}
-    </span>
-  );
-}
-
-function StripeRail() {
-  return (
-    <div className="usa-frame-stripes" aria-hidden="true">
-      <Star fill="currentColor" />
-      <span />
-      <Star fill="currentColor" />
-    </div>
-  );
-}
-
-function FlagVideo({ activeVideo, onOpen }: Pick<MainVideoProps, "activeVideo" | "onOpen">) {
-  return (
-    <div className="usa-flag-video">
-      <StripeRail />
-      <div className="usa-frame-body">
-        <StarColumn />
-        <button onClick={() => onOpen(activeVideo)} type="button">
-          <img alt={`${activeVideo.title} video thumbnail`} src={activeVideo.image} />
-          <span className="usa-video-play" aria-hidden="true"><Play fill="currentColor" /></span>
-          <span className="usa-video-title">
-            <strong>{activeVideo.title}</strong>
-            <small>{activeVideo.category} · Video intelligence</small>
-          </span>
-        </button>
-        <StarColumn />
-      </div>
-      <StripeRail />
+    <div className="usa-gradient-video">
+      <button onClick={() => onOpen(activeVideo)} type="button">
+        <img alt={`${activeVideo.title} video thumbnail`} src={activeVideo.image} />
+        <span className="usa-video-play" aria-hidden="true"><Play fill="currentColor" /></span>
+        <span className="usa-video-title">
+          <strong>{activeVideo.title}</strong>
+          <small>{activeVideo.category} · Video intelligence</small>
+        </span>
+      </button>
     </div>
   );
 }
@@ -79,20 +55,7 @@ function FlagVideo({ activeVideo, onOpen }: Pick<MainVideoProps, "activeVideo" |
 export function UsaMainVideo({ activeVideo, onOpen, onSelect }: MainVideoProps) {
   return (
     <section className="usa-main-video-experience" id="made-in-america">
-      <FlagVideo activeVideo={activeVideo} onOpen={onOpen} />
-      <nav className="usa-video-menu" aria-label="Choose a U.S. video briefing">
-        {mainMenuVideos.map((video) => (
-          <button
-            aria-pressed={video.title === activeVideo.title}
-            className={video.title === activeVideo.title ? "is-active" : undefined}
-            key={video.category}
-            onClick={() => onSelect(video)}
-            type="button"
-          >
-            {video.category}
-          </button>
-        ))}
-      </nav>
+      <GradientVideo activeVideo={activeVideo} onOpen={onOpen} />
       <ScrollRail className="usa-main-thumbnails" label="U.S. briefing thumbnails">
         {mainMenuVideos.map((video) => (
           <button

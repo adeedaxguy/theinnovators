@@ -53,14 +53,15 @@ test("USA uses its dedicated Canva-aligned layout and map overlay", async () => 
   const stateData = await readProjectFile("components/landing/usa-state-data.ts");
 
   assert.match(route, /UsaIntelligencePage/);
-  assert.match(video, /usa-frame-stars/);
+  assert.match(video, /usa-gradient-video/);
+  assert.doesNotMatch(video, /usa-frame-stars/);
   assert.match(video, /USA States Video Playlists/);
-  assert.match(video, /usa-video-menu/);
+  assert.doesNotMatch(video, /usa-video-menu/);
   assert.match(page, /AI Discover Agent/);
   assert.match(video, /usa-youtube-playlist/);
   assert.match(page, /America’s Leaders/);
   assert.match(page, /America’s Industries/);
-  assert.match(page, /America’s Innovators/);
+  assert.match(page, /U.S. Innovators United/);
   assert.match(page, /Support and funding/);
   assert.doesNotMatch(page, /id="usa-ecosystem"/);
   assert.doesNotMatch(page, /Innovation News/);
@@ -69,6 +70,19 @@ test("USA uses its dedicated Canva-aligned layout and map overlay", async () => 
   assert.match(map, /Minimize interactive map/);
   assert.match(map, /Full interactive map/);
   assert.match(map, /href="\/usa\/map"/);
+});
+
+test("world follows the Canva three-column dashboard and separate map layer", async () => {
+  const page = await readProjectFile("components/landing/IntelligencePage.tsx");
+
+  assert.match(page, /world-left-rail/);
+  assert.match(page, /world-core/);
+  assert.match(page, /world-right-rail/);
+  assert.match(page, /Innovation News/);
+  assert.match(page, /Countries Playlist/);
+  assert.match(page, /world-gradient-video/);
+  assert.match(page, /world-map-overlay/);
+  assert.match(page, /Close interactive world map/);
 });
 
 test("intelligence pages use real atlas geography and interactive analytics", async () => {

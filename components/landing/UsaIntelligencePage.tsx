@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Bot, Database, Map, Search, Send, SlidersHorizontal } from "lucide-react";
+import { BarChart3, Bot, Database, Search, Send } from "lucide-react";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import {
@@ -15,7 +15,7 @@ import {
   VideoModal,
 } from "./chrome";
 import { usaIntelligencePage as content } from "./intelligence-data";
-import type { IntelligenceCard, IntelligenceRanking } from "./intelligence-data";
+import type { IntelligenceRanking } from "./intelligence-data";
 import type { ModalVideo, VideoItem } from "./types";
 import { UsaMapOverlay } from "./UsaMapExperience";
 import {
@@ -26,19 +26,6 @@ import {
   usaInnovatorVideos,
   usaLeaderVideos,
 } from "./UsaVideoExperience";
-
-function MiniCard({ card }: { card: IntelligenceCard }) {
-  return (
-    <article className="usa-mini-card">
-      {card.image && <img alt="" src={card.image} />}
-      <div>
-        {card.meta && <span>{card.meta}</span>}
-        <h3>{card.title}</h3>
-        <p>{card.body}</p>
-      </div>
-    </article>
-  );
-}
 
 function makeInstitutionVideo(sectionTitle: string, item: string, sectionIndex: number, itemIndex: number): VideoItem {
   const source = content.playlist[(sectionIndex * 5 + itemIndex) % content.playlist.length];
@@ -181,18 +168,6 @@ function AgentTool({
   );
 }
 
-function IndexTool() {
-  return (
-    <section className="usa-index-tool">
-      <div className="usa-tool-heading">
-        <SlidersHorizontal aria-hidden="true" />
-        <h2>{content.indexPanel.title}</h2>
-      </div>
-      <p>{content.indexPanel.body}</p>
-    </section>
-  );
-}
-
 export default function UsaIntelligencePage() {
   const [activeModule, setActiveModule] = useState(content.activeModule);
   const [activeCategory, setActiveCategory] = useState(content.activeCategory);
@@ -245,28 +220,26 @@ export default function UsaIntelligencePage() {
           <aside className="usa-institutions-rail" aria-label="U.S. institutions">
             <header>
               <Database aria-hidden="true" />
-              <h1>Institutions</h1>
-              <p>Organizations, public infrastructure, research networks, and programs.</p>
+              <h1>Ecosystem</h1>
             </header>
-            {content.resourceSections?.slice(0, 3).map((section, sectionIndex) => (
-              <InstitutionList key={section.title} onSelectVideo={setActiveVideo} sectionIndex={sectionIndex} {...section} />
+            {[content.resourceSections?.[0], content.resourceSections?.[2]].filter(Boolean).map((section, sectionIndex) => (
+              <InstitutionList key={section!.title} onSelectVideo={setActiveVideo} sectionIndex={sectionIndex} {...section!} />
             ))}
-            <section className="usa-institution-group">
-              <h2>Industry organizations</h2>
-              <div className="usa-mini-stack">
-                {content.organizations.map((card) => (
-                  <MiniCard card={card} key={card.title} />
-                ))}
-              </div>
-            </section>
-            <section className="usa-institution-group">
-              <h2>Summits and programs</h2>
-              <div className="usa-mini-stack">
-                {content.summits.map((card) => (
-                  <MiniCard card={card} key={card.title} />
-                ))}
-              </div>
-            </section>
+          </aside>
+
+          <section className="usa-content-core">
+            <UsaMainVideo activeVideo={activeVideo} onOpen={openVideo} onSelect={setActiveVideo} />
+            <UsaVideoRail label="America’s Industries" onOpen={openVideo} videos={usaIndustryVideos} />
+            <UsaStatePlaylists onOpen={openVideo} onSelectMain={setActiveVideo} />
+            <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
+            <UsaVideoRail label="U.S. Innovators United" onOpen={openVideo} videos={usaInnovatorVideos} />
+          </section>
+
+          <aside className="usa-tools-rail" aria-label="USA intelligence tools">
+            {content.secondaryRankings && (
+              <RankingTool rankings={content.secondaryRankings.rankings} title="USA Country Ranking" />
+            )}
+            <RankingTool rankings={content.rankings} title="USA States Ranking" />
             {content.actionCards && (
               <section className="usa-institution-group usa-support-links">
                 <h2>Support and funding</h2>
@@ -280,41 +253,12 @@ export default function UsaIntelligencePage() {
                 </div>
               </section>
             )}
-          </aside>
-
-          <section className="usa-content-core">
-            <UsaMainVideo activeVideo={activeVideo} onOpen={openVideo} onSelect={setActiveVideo} />
-            <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
-            <UsaVideoRail label="America’s Industries" onOpen={openVideo} videos={usaIndustryVideos} />
-            <UsaVideoRail label="America’s Innovators" onOpen={openVideo} videos={usaInnovatorVideos} />
-            <UsaStatePlaylists onOpen={openVideo} onSelectMain={setActiveVideo} />
-          </section>
-
-          <aside className="usa-tools-rail" aria-label="USA intelligence tools">
-            {content.secondaryRankings && (
-              <RankingTool rankings={content.secondaryRankings.rankings} title="USA Country Ranking" />
-            )}
-            <RankingTool rankings={content.rankings} title="USA States Ranking" />
             <AgentTool
               answer={copilotAnswer}
               onAsk={askCopilot}
               prompt={copilotPrompt}
               setPrompt={setCopilotPrompt}
             />
-            <IndexTool />
-            <section className="usa-data-tool">
-              <div className="usa-tool-heading">
-                <Database aria-hidden="true" />
-                <h2>Data tools</h2>
-              </div>
-              <button type="button">Compare state profiles</button>
-              <button type="button">Search grants and programs</button>
-              <button type="button">Open institution directory</button>
-              <a href="/usa/map">
-                <Map aria-hidden="true" />
-                Browse the full U.S. map
-              </a>
-            </section>
           </aside>
         </div>
       </div>
