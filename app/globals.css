@@ -9821,3 +9821,220 @@ img {
     font-size: 22px;
   }
 }
+
+/* Readability pass: larger menus and World intelligence typography. */
+.intelligence-shell .module-label {
+  font-size: 13px;
+}
+
+.intelligence-shell .journey-actions a,
+.intelligence-shell .market-strip {
+  font-size: 16px;
+}
+
+.intelligence-shell .feature-tile {
+  font-size: clamp(17px, 1vw, 20px);
+}
+
+.intelligence-shell .feature-tile::after {
+  min-height: 26px;
+  font-size: 13px;
+}
+
+.intelligence-shell .compact-feature-nav {
+  min-height: 48px;
+}
+
+.intelligence-shell .compact-feature-nav button {
+  min-height: 38px;
+  padding-inline: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.intelligence-shell .category-bar {
+  min-height: 46px;
+}
+
+.intelligence-shell .category-bar button,
+.intelligence-shell .category-search input {
+  font-size: 16px;
+}
+
+.intelligence-shell .category-search input {
+  height: 30px;
+}
+
+.usa-shell .usa-institution-group h2,
+.usa-shell .usa-institution-group li > button,
+.usa-shell .usa-tool-heading span,
+.usa-shell .usa-agent-answer,
+.usa-shell .usa-agent-answer strong,
+.usa-shell .usa-agent-prompts button,
+.usa-shell .usa-agent-insights > div > span,
+.usa-shell .usa-ranking-tool article > div {
+  font-size: 15px;
+}
+
+.usa-shell .usa-agent-parameters label,
+.usa-shell .usa-agent-parameters select,
+.usa-shell .usa-agent-tool input {
+  font-size: 15px;
+}
+
+.world-layout {
+  grid-template-areas:
+    "left core toolbar"
+    "left core right"
+    "playlist playlist right";
+}
+
+.world-panel h2,
+.world-spotlight-panel h2,
+.world-countries-playlist h2,
+.world-panel-heading h2,
+.world-full-video-row h2,
+.world-summits-section h2 {
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.world-map-reopen {
+  min-height: 40px;
+  font-size: 14px;
+}
+
+.world-news-rail strong {
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.world-media-card strong,
+.world-leaders-grid strong,
+.world-agent-panel input,
+.world-agent-panel p,
+.world-index-panel p,
+.world-ranking-panel strong,
+.world-ranking-panel span,
+.world-ranking-panel article b {
+  font-size: 14px;
+}
+
+.world-media-card small,
+.world-media-card em,
+.world-leaders-grid small {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.world-organization-grid .world-media-card strong {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.world-leaders-grid strong {
+  font-size: 13px;
+}
+
+.world-leaders-grid small {
+  font-size: 12px;
+}
+
+.world-spotlight-panel .world-media-card strong {
+  font-size: 14px;
+}
+
+.world-video-copy small {
+  font-size: 14px;
+}
+
+.world-countries-playlist > header p,
+.world-summits-section > header p,
+.world-full-video-row > header span,
+.world-countries-playlist > header > strong {
+  font-size: 15px;
+}
+
+.world-countries-playlist > .world-region-tabs button {
+  min-height: 46px;
+  font-size: 16px;
+}
+
+.world-countries-playlist > .world-country-stage-layout {
+  grid-template-columns: minmax(240px, .48fr) minmax(0, 1.52fr);
+}
+
+.world-country-stage-layout > nav {
+  max-height: 320px;
+}
+
+.world-country-stage-layout > nav button {
+  min-height: 72px;
+}
+
+.world-country-stage-layout nav strong {
+  font-size: 16px;
+}
+
+.world-country-stage-layout nav span,
+.world-country-stage-layout nav em {
+  font-size: 14px;
+}
+
+.world-country-stage {
+  min-height: 320px;
+  max-height: 320px;
+}
+
+.world-country-thumbnails strong {
+  font-size: 14px;
+}
+
+.world-country-thumbnails small {
+  font-size: 12px;
+}
+
+.world-full-video-rail strong {
+  font-size: 14px;
+}
+
+.world-full-video-rail small {
+  font-size: 12px;
+}
+
+@media (max-width: 1080px) {
+  .world-layout {
+    grid-template-areas:
+      "left core"
+      "right core"
+      "playlist playlist";
+  }
+}
+
+@media (max-width: 760px) {
+  .intelligence-shell .journey-actions a,
+  .intelligence-shell .market-strip,
+  .intelligence-shell .compact-feature-nav button,
+  .intelligence-shell .category-bar button,
+  .intelligence-shell .category-search input {
+    font-size: 15px;
+  }
+
+  .world-layout {
+    grid-template-areas:
+      "toolbar"
+      "left"
+      "core"
+      "right"
+      "playlist";
+  }
+
+  .world-countries-playlist > .world-country-stage-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .world-country-stage {
+    min-height: 270px;
+    max-height: 270px;
+  }
+}
