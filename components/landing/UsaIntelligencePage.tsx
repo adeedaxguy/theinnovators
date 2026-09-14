@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, Bot, Database, Search, Send } from "lucide-react";
+import { BarChart3, Bot, Database, Search, Send, Sparkles } from "lucide-react";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import {
@@ -22,9 +22,11 @@ import {
   UsaMainVideo,
   UsaStatePlaylists,
   UsaVideoRail,
+  usaEcosystemVideos,
   usaIndustryVideos,
   usaInnovatorVideos,
   usaLeaderVideos,
+  usaProgramVideos,
 } from "./UsaVideoExperience";
 
 function makeInstitutionVideo(sectionTitle: string, item: string, sectionIndex: number, itemIndex: number): VideoItem {
@@ -78,7 +80,11 @@ function RankingTool({ rankings, title }: { rankings: IntelligenceRanking[]; tit
         <article key={ranking.label}>
           <div>
             <strong>{ranking.label}</strong>
-            <span>Brief available</span>
+            <span>{ranking.value}</span>
+          </div>
+          <div className="usa-ranking-scale" aria-label={`${ranking.label}: ${ranking.score} out of 100`} role="img">
+            <span style={{ width: `${ranking.score}%` }} />
+            <b>{ranking.score}</b>
           </div>
         </article>
       ))}
@@ -98,8 +104,9 @@ function AgentTool({
   setPrompt: (prompt: string) => void;
 }) {
   const [scope, setScope] = useState("State");
-  const [topic, setTopic] = useState("Innovation ecosystem");
-  const [evidence, setEvidence] = useState("Verified data + video");
+  const [industry, setIndustry] = useState("Artificial intelligence");
+  const [stage, setStage] = useState("Growth");
+  const [funding, setFunding] = useState("$5M-$25M");
 
   return (
     <section className="usa-agent-tool">
@@ -107,7 +114,7 @@ function AgentTool({
         <Bot aria-hidden="true" />
         <div>
           <h2>AI Discover Agent</h2>
-          <span>U.S. intelligence workspace</span>
+          <span>Search companies, capital, programs, and ecosystems</span>
         </div>
       </div>
 
@@ -121,20 +128,30 @@ function AgentTool({
           </select>
         </label>
         <label>
-          Topic
-          <select onChange={(event) => setTopic(event.target.value)} value={topic}>
-            <option>Innovation ecosystem</option>
-            <option>Policy and programs</option>
-            <option>Institutions and labs</option>
-            <option>Industries and capital</option>
+          Industry
+          <select onChange={(event) => setIndustry(event.target.value)} value={industry}>
+            <option>Artificial intelligence</option>
+            <option>Advanced manufacturing</option>
+            <option>Biotechnology</option>
+            <option>Climate and energy</option>
           </select>
         </label>
         <label>
-          Evidence
-          <select onChange={(event) => setEvidence(event.target.value)} value={evidence}>
-            <option>Verified data + video</option>
-            <option>Rankings and indexes</option>
-            <option>Programs and grants</option>
+          Stage
+          <select onChange={(event) => setStage(event.target.value)} value={stage}>
+            <option>Pre-seed</option>
+            <option>Seed</option>
+            <option>Growth</option>
+            <option>Scale</option>
+          </select>
+        </label>
+        <label>
+          Funding
+          <select onChange={(event) => setFunding(event.target.value)} value={funding}>
+            <option>Under $1M</option>
+            <option>$1M-$5M</option>
+            <option>$5M-$25M</option>
+            <option>$25M+</option>
           </select>
         </label>
       </div>
@@ -153,9 +170,18 @@ function AgentTool({
       </form>
 
       <p className="usa-agent-answer">
-        <strong>{scope} · {topic} · {evidence}</strong>
+        <strong>{scope} · {industry} · {stage} · {funding}</strong>
         {answer}
       </p>
+
+      <div className="usa-agent-insights" aria-label="Illustrative opportunity signals">
+        {[["Companies", 82], ["Capital", 68], ["Programs", 91]].map(([label, value]) => (
+          <div key={label}>
+            <span><b>{label}</b><em>{value}</em></span>
+            <i><span style={{ width: `${value}%` }} /></i>
+          </div>
+        ))}
+      </div>
 
       <div className="usa-agent-prompts">
         {content.agentPrompts.map((item) => (
@@ -222,7 +248,7 @@ export default function UsaIntelligencePage() {
               <Database aria-hidden="true" />
               <h1>Ecosystem</h1>
             </header>
-            {[content.resourceSections?.[0], content.resourceSections?.[2]].filter(Boolean).map((section, sectionIndex) => (
+            {(content.resourceSections ?? []).map((section, sectionIndex) => (
               <InstitutionList key={section!.title} onSelectVideo={setActiveVideo} sectionIndex={sectionIndex} {...section!} />
             ))}
           </aside>
@@ -231,11 +257,15 @@ export default function UsaIntelligencePage() {
             <UsaMainVideo activeVideo={activeVideo} onOpen={openVideo} onSelect={setActiveVideo} />
             <UsaVideoRail label="America’s Industries" onOpen={openVideo} videos={usaIndustryVideos} />
             <UsaStatePlaylists onOpen={openVideo} onSelectMain={setActiveVideo} />
-            <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
-            <UsaVideoRail label="U.S. Innovators United" onOpen={openVideo} videos={usaInnovatorVideos} />
           </section>
 
           <aside className="usa-tools-rail" aria-label="USA intelligence tools">
+            <AgentTool
+              answer={copilotAnswer}
+              onAsk={askCopilot}
+              prompt={copilotPrompt}
+              setPrompt={setCopilotPrompt}
+            />
             {content.secondaryRankings && (
               <RankingTool rankings={content.secondaryRankings.rankings} title="USA Country Ranking" />
             )}
@@ -253,14 +283,19 @@ export default function UsaIntelligencePage() {
                 </div>
               </section>
             )}
-            <AgentTool
-              answer={copilotAnswer}
-              onAsk={askCopilot}
-              prompt={copilotPrompt}
-              setPrompt={setCopilotPrompt}
-            />
           </aside>
         </div>
+
+        <section className="usa-full-video-library" aria-labelledby="usa-video-library-title">
+          <header>
+            <Sparkles aria-hidden="true" />
+            <div><h2 id="usa-video-library-title">America’s Innovation Video Library</h2><p>Leaders, founders, programs, institutions, and state ecosystem stories.</p></div>
+          </header>
+          <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
+          <UsaVideoRail label="U.S. Innovators United" onOpen={openVideo} videos={usaInnovatorVideos} />
+          <UsaVideoRail label="Programs, Grants and Funding" onOpen={openVideo} videos={usaProgramVideos} />
+          <UsaVideoRail label="Institutions, Policy and State Ecosystems" onOpen={openVideo} videos={usaEcosystemVideos} />
+        </section>
       </div>
 
       <UsaMapOverlay />

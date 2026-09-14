@@ -213,6 +213,24 @@ export const worldIntelligencePage: IntelligencePageContent = {
       image: photo("photo-1524492412937-b28074a5d7da", 900),
       meta: "Asia",
     },
+    {
+      title: "Japan",
+      body: "Robotics, advanced materials, mobility, and long-horizon corporate research.",
+      image: photo("photo-1540959733332-eab4deabeeaf", 900),
+      meta: "Asia",
+    },
+    {
+      title: "Brazil",
+      body: "Agtech, climate innovation, digital finance, and Latin American market scale.",
+      image: photo("photo-1483729558449-99ef09a8c325", 900),
+      meta: "Latin America",
+    },
+    {
+      title: "Nigeria",
+      body: "Mobile finance, logistics, energy access, and founder-led digital markets.",
+      image: photo("photo-1489493585363-d69421e0edd3", 900),
+      meta: "Africa",
+    },
   ],
   news: [
     "Three G7 deep-tech funds announce cross-border university spinout programs.",
@@ -226,6 +244,8 @@ export const worldIntelligencePage: IntelligencePageContent = {
     { name: "Amara Okafor", role: "Ecosystem builder", image: leaderImages[1] },
     { name: "Jonas Weber", role: "Industrial R&D", image: leaderImages[2] },
     { name: "Riya Malhotra", role: "Digital public rails", image: leaderImages[3] },
+    { name: "Eleanor Brooks", role: "Climate innovation", image: leaderImages[4] },
+    { name: "Luis Andrade", role: "Venture ecosystems", image: leaderImages[5] },
   ],
   organizations: [
     {
@@ -243,6 +263,21 @@ export const worldIntelligencePage: IntelligencePageContent = {
       body: "Monitors automation, industrial policy, and company modernization programs.",
       image: photo("photo-1581092918056-0c4c3acd3789", 900),
     },
+    {
+      title: "Energy Council",
+      body: "Connects grid modernization, storage, climate finance, and clean industry programs.",
+      image: editorialImages[18],
+    },
+    {
+      title: "AI Alliance",
+      body: "Tracks responsible AI, compute infrastructure, research, and deployment ecosystems.",
+      image: editorialImages[2],
+    },
+    {
+      title: "Startup Network",
+      body: "Links accelerators, founder communities, investors, and cross-border programs.",
+      image: editorialImages[13],
+    },
   ],
   summits: [
     {
@@ -254,6 +289,26 @@ export const worldIntelligencePage: IntelligencePageContent = {
       title: "Web Summit",
       body: "Founder demos, investor sessions, and enterprise innovation programming.",
       image: photo("photo-1511578314322-379afb476865", 900),
+    },
+    {
+      title: "AI for Nations Forum",
+      body: "Public infrastructure, sovereign AI, research, and responsible deployment.",
+      image: billboard("broadcast-stage"),
+    },
+    {
+      title: "Climate Innovation Week",
+      body: "Energy systems, industrial transition, climate finance, and founder showcases.",
+      image: editorialImages[18],
+    },
+    {
+      title: "Global Demo Day",
+      body: "Emerging companies present frontier technology to investors and institutions.",
+      image: editorialImages[19],
+    },
+    {
+      title: "Future Industry Congress",
+      body: "Robotics, manufacturing, chips, and supply-chain transformation.",
+      image: editorialImages[8],
     },
   ],
   profileTitle: "Each Country Intelligence Profile",
@@ -336,6 +391,12 @@ export const worldIntelligencePage: IntelligencePageContent = {
     { label: "Germany", meta: "Industrial R&D, applied institutes", score: "56M" },
     { label: "Brazil", meta: "Agtech, climate, payments", score: "73M" },
     { label: "Nigeria", meta: "Mobile markets, fintech, energy access", score: "14M" },
+    { label: "United Kingdom", meta: "Science, fintech, creative technology", score: "61M" },
+    { label: "France", meta: "AI research, climate, aerospace", score: "48M" },
+    { label: "Japan", meta: "Robotics, mobility, advanced materials", score: "79M" },
+    { label: "Singapore", meta: "Digital government, finance, logistics", score: "22M" },
+    { label: "Kenya", meta: "Mobile infrastructure, climate, agritech", score: "11M" },
+    { label: "Mexico", meta: "Manufacturing, mobility, nearshoring", score: "34M" },
   ],
   playlist: videos.slice(5, 14),
 };
@@ -464,6 +525,8 @@ export const usaIntelligencePage: IntelligencePageContent = {
     { name: "David Rosen", role: "Innovation policy", image: leaderImages[2] },
     { name: "Priya Shah", role: "University spinouts", image: leaderImages[3] },
     { name: "Eleanor Brooks", role: "State ecosystem", image: leaderImages[5] },
+    { name: "Marcus Reed", role: "Advanced manufacturing", image: leaderImages[1] },
+    { name: "Sofia Alvarez", role: "Climate and energy", image: leaderImages[4] },
   ],
   organizations: [
     {

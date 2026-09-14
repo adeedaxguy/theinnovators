@@ -15,6 +15,7 @@ import {
   VideoModal,
 } from "./chrome";
 import { GeographicMap } from "./GeographicMap";
+import { ScrollRail } from "./ScrollRail";
 import type {
   IntelligenceCard,
   IntelligenceLeader,
@@ -85,8 +86,10 @@ function RankingPanel({ rankings }: { rankings: IntelligenceRanking[] }) {
       </div>
       {rankings.map((ranking) => (
         <article key={ranking.label}>
-          <div><strong>{ranking.label}</strong><span>{ranking.value}</span></div>
-          <meter max="100" min="0" value={ranking.score} />
+          <div><strong>{ranking.label}</strong><span>{ranking.value}</span><b>{ranking.score}</b></div>
+          <div className="world-ranking-scale" aria-label={`${ranking.label}: ${ranking.score} out of 100`} role="img">
+            <span style={{ width: `${ranking.score}%` }} />
+          </div>
         </article>
       ))}
     </section>
@@ -141,51 +144,117 @@ function WorldIndex({ content }: { content: IntelligencePageContent }) {
 }
 
 function WorldCountryPlaylist({
-  activeVideo,
   content,
   onOpen,
   onSelect,
 }: {
-  activeVideo: VideoItem;
   content: IntelligencePageContent;
   onOpen: (video: VideoItem) => void;
   onSelect: (video: VideoItem) => void;
 }) {
+  const regions = ["Featured", "North America", "Europe", "Asia", "Africa", "Latin America"] as const;
+  const countryRegions: Record<string, (typeof regions)[number]> = {
+    "United States": "North America",
+    China: "Asia",
+    India: "Asia",
+    Germany: "Europe",
+    Brazil: "Latin America",
+    Nigeria: "Africa",
+    "United Kingdom": "Europe",
+    France: "Europe",
+    Japan: "Asia",
+    Singapore: "Asia",
+    Kenya: "Africa",
+    Mexico: "North America",
+  };
+  const countries = content.playlistRows.map((row, index) => ({
+    row,
+    video: content.playlist[index % content.playlist.length],
+  }));
+  const [region, setRegion] = useState<(typeof regions)[number]>("Featured");
+  const [selectedCountry, setSelectedCountry] = useState(countries[0].row.label);
+  const filtered = region === "Featured" ? countries : countries.filter(({ row }) => countryRegions[row.label] === region);
+  const selected = filtered.find(({ row }) => row.label === selectedCountry) ?? filtered[0];
+
+  function chooseRegion(nextRegion: (typeof regions)[number]) {
+    const nextCountries = nextRegion === "Featured" ? countries : countries.filter(({ row }) => countryRegions[row.label] === nextRegion);
+    setRegion(nextRegion);
+    setSelectedCountry(nextCountries[0].row.label);
+    onSelect(nextCountries[0].video);
+  }
+
+  function chooseCountry(country: (typeof countries)[number]) {
+    setSelectedCountry(country.row.label);
+    onSelect(country.video);
+  }
+
   return (
     <section className="world-countries-playlist">
-      <h2>Countries Playlist</h2>
-      <div>
+      <header><div><h2>Countries Playlist</h2><p>Country intelligence organized by region.</p></div><strong>{filtered.length} countries</strong></header>
+      <nav className="world-region-tabs" aria-label="Country playlist regions">
+        {regions.map((item) => (
+          <button aria-pressed={item === region} className={item === region ? "is-active" : undefined} key={item} onClick={() => chooseRegion(item)} type="button">{item}</button>
+        ))}
+      </nav>
+      <div className="world-country-stage-layout">
         <nav aria-label="Country video playlist">
-          {content.playlistRows.map((row, index) => {
-            const video = content.playlist[index % content.playlist.length];
-            return (
-              <button
-                aria-pressed={video.title === activeVideo.title}
-                className={video.title === activeVideo.title ? "is-active" : undefined}
-                key={row.label}
-                onClick={() => onSelect(video)}
-                type="button"
-              >
-                <strong>{row.label}</strong>
-                <span>{row.meta}</span>
-              </button>
-            );
-          })}
-        </nav>
-        <div className="world-playlist-videos">
-          {content.playlist.slice(0, 4).map((video) => (
-            <button key={video.title} onClick={() => onSelect(video)} type="button">
-              <img alt="" src={video.image} />
-              <span><strong>{video.title}</strong><small>{video.category}</small></span>
-              <Play aria-hidden="true" fill="currentColor" />
+          {filtered.map((country) => (
+            <button
+              aria-pressed={country.row.label === selected.row.label}
+              className={country.row.label === selected.row.label ? "is-active" : undefined}
+              key={country.row.label}
+              onClick={() => chooseCountry(country)}
+              type="button"
+            >
+              <strong>{country.row.label}</strong>
+              <span>{country.row.meta}</span>
+              <em>{country.row.score}</em>
             </button>
           ))}
-          <button className="world-playlist-open" onClick={() => onOpen(activeVideo)} type="button">
-            <Play aria-hidden="true" fill="currentColor" />
-            Play selected briefing
-          </button>
-        </div>
+        </nav>
+        <button className="world-country-stage" onClick={() => onOpen(selected.video)} type="button">
+          <img alt={`${selected.row.label} innovation video thumbnail`} src={selected.video.image} />
+          <span className="world-video-shade" aria-hidden="true" />
+          <span className="world-video-play" aria-hidden="true"><Play fill="currentColor" /></span>
+          <span className="world-video-copy"><strong>{selected.row.label}</strong><small>{selected.row.meta} · {selected.row.score} ecosystem signals</small></span>
+        </button>
       </div>
+      <ScrollRail className="world-country-thumbnails" label={`${region} country briefings`}>
+        {filtered.map((country) => (
+          <button aria-pressed={country.row.label === selected.row.label} className={country.row.label === selected.row.label ? "is-active" : undefined} key={country.row.label} onClick={() => chooseCountry(country)} type="button">
+            <img alt="" src={country.video.image} /><span><strong>{country.row.label}</strong><small>{country.row.meta}</small></span><Play aria-hidden="true" fill="currentColor" />
+          </button>
+        ))}
+      </ScrollRail>
+    </section>
+  );
+}
+
+function WorldNewsRail({ content, onSelect }: { content: IntelligencePageContent; onSelect: (video: VideoItem) => void }) {
+  return (
+    <section className="world-panel world-news-panel">
+      <h2>Innovation News</h2>
+      <ScrollRail className="world-news-rail" label="innovation news">
+        {content.news.map((item, index) => {
+          const video = content.playlist[index % content.playlist.length];
+          return <button key={item} onClick={() => onSelect(video)} type="button"><img alt="" src={video.image} /><strong>{item}</strong><Play aria-hidden="true" fill="currentColor" /></button>;
+        })}
+      </ScrollRail>
+    </section>
+  );
+}
+
+function WorldVideoRail({ label, onOpen, videos }: { label: string; onOpen: (video: VideoItem) => void; videos: VideoItem[] }) {
+  return (
+    <section className="world-full-video-row">
+      <header><h2>{label}</h2><span>{videos.length} video briefings</span></header>
+      <ScrollRail className="world-full-video-rail" label={label}>
+        {videos.map((video, index) => (
+          <button key={`${label}-${video.title}-${index}`} onClick={() => onOpen(video)} type="button">
+            <img alt={`${video.title} video thumbnail`} src={video.image} /><span><strong>{video.title}</strong><small>{video.category}</small></span><Play aria-hidden="true" fill="currentColor" />
+          </button>
+        ))}
+      </ScrollRail>
     </section>
   );
 }
@@ -269,55 +338,34 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
       <CategoryBar activeCategory={activeCategory} setActiveCategory={setActiveCategory} setActiveModule={setActiveModule} setActiveVideo={setActiveVideo} setNewsIndex={setNewsIndex} />
 
       <div className="world-page-main">
-        {!mapOpen && (
-          <button className="world-map-reopen" onClick={() => setMapOpen(true)} type="button">
-            <Globe2 aria-hidden="true" /> Open interactive world map
-          </button>
-        )}
-
         <div className="world-layout">
+          <div className="world-layout-toolbar">
+            <button className="world-map-reopen" onClick={() => setMapOpen(true)} type="button">
+              <Globe2 aria-hidden="true" /> Interactive world map
+            </button>
+          </div>
           <aside className="world-left-rail">
-            <section className="world-panel world-news-panel">
-              <h2>Innovation News</h2>
-              <button onClick={() => setActiveVideo(content.playlist[0])} type="button">
-                <img alt="" src={content.heroVideo.image} />
-                <strong>{content.news[0]}</strong>
-              </button>
-              <ul>
-                {content.news.slice(1).map((item, index) => (
-                  <li key={item}><button onClick={() => setActiveVideo(content.playlist[(index + 1) % content.playlist.length])} type="button">{item}</button></li>
-                ))}
-              </ul>
-            </section>
+            <WorldNewsRail content={content} onSelect={setActiveVideo} />
 
             <section className="world-panel">
               <h2>Industry Organizations</h2>
-              <div className="world-organization-grid">
+              <ScrollRail className="world-organization-grid" label="industry organizations">
                 {content.organizations.map((card) => (
                   <WorldMediaCard card={card} category="Industry organization" fallback={content.heroVideo} key={card.title} onSelect={setActiveVideo} />
                 ))}
-              </div>
+              </ScrollRail>
             </section>
 
             <section className="world-panel">
               <h2>Innovation Leaders</h2>
-              <div className="world-leaders-grid">
+              <ScrollRail className="world-leaders-grid" label="innovation leaders">
                 {content.leaders.map((leader) => (
                   <button key={leader.name} onClick={() => setActiveVideo(leaderVideo(leader))} type="button">
                     <img alt="" src={leader.image} />
                     <span><strong>{leader.name}</strong><small>{leader.role}</small></span>
                   </button>
                 ))}
-              </div>
-            </section>
-
-            <section className="world-panel">
-              <h2>Innovation Summits</h2>
-              <div className="world-summits-grid">
-                {content.summits.map((card) => (
-                  <WorldMediaCard card={card} category="Global summit" fallback={content.heroVideo} key={card.title} onSelect={setActiveVideo} />
-                ))}
-              </div>
+              </ScrollRail>
             </section>
           </aside>
 
@@ -331,7 +379,6 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </div>
             </section>
             <WorldVideoFrame activeVideo={activeVideo} onOpen={setModalVideo} />
-            <WorldCountryPlaylist activeVideo={activeVideo} content={content} onOpen={setModalVideo} onSelect={setActiveVideo} />
           </section>
 
           <aside className="world-right-rail">
@@ -347,16 +394,21 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </div>
             </section>
           </aside>
+
+          <WorldCountryPlaylist content={content} onOpen={setModalVideo} onSelect={setActiveVideo} />
         </div>
 
-        <section className="world-bottom-feed" aria-label="Global innovation video news">
-          {content.playlist.slice(0, 7).map((video) => (
-            <button key={video.title} onClick={() => setActiveVideo(video)} type="button">
-              <img alt="" src={video.image} />
-              <strong>{video.title}</strong>
-            </button>
-          ))}
+        <section className="world-summits-section">
+          <header><h2>Innovation Summits</h2><p>Global forums, demo days, and industry gatherings.</p></header>
+          <ScrollRail className="world-summits-grid" label="innovation summits">
+            {content.summits.map((card) => (
+              <WorldMediaCard card={card} category="Global summit" fallback={content.heroVideo} key={card.title} onSelect={setActiveVideo} />
+            ))}
+          </ScrollRail>
         </section>
+
+        <WorldVideoRail label="Global Innovation Stories" onOpen={setModalVideo} videos={content.playlist} />
+        <WorldVideoRail label="Policy, Industry and Ecosystem Briefings" onOpen={setModalVideo} videos={[...content.playlist.slice(4), ...content.playlist.slice(0, 4)]} />
       </div>
 
       {mapOpen && <WorldMapOverlay content={content} onClose={() => setMapOpen(false)} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} />}

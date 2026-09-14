@@ -182,5 +182,25 @@ export const usaIndustryVideos: VideoItem[] = [
 
 export const usaInnovatorVideos: VideoItem[] = [
   ...content.communities.map((card) => ({ title: card.title, category: "Innovation community", image: card.image ?? content.heroVideo.image })),
-  ...content.playlist.slice(5, 10),
+  ...content.playlist,
+];
+
+export const usaProgramVideos: VideoItem[] = [
+  ...(content.actionCards ?? []).map((card, index) => ({
+    ...content.playlist[index % content.playlist.length],
+    title: card.title,
+    category: "Programs and funding",
+  })),
+  ...content.playlist.slice(0, 4),
+];
+
+export const usaEcosystemVideos: VideoItem[] = [
+  ...(content.resourceSections ?? []).flatMap((section, sectionIndex) =>
+    section.items.slice(0, 2).map((item, itemIndex) => ({
+      ...content.playlist[(sectionIndex * 2 + itemIndex) % content.playlist.length],
+      title: item,
+      category: section.title,
+    }))
+  ),
+  ...content.playlist.slice(2, 7),
 ];
