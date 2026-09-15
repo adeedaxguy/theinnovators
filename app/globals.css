@@ -9823,6 +9823,10 @@ img {
 }
 
 /* Readability pass: larger menus and World intelligence typography. */
+.intelligence-shell {
+  --admin-font-sector-menu-size: 18px;
+}
+
 .intelligence-shell .module-label {
   font-size: 14px;
 }
@@ -9853,16 +9857,16 @@ img {
 }
 
 .intelligence-shell .category-bar {
-  min-height: 46px;
+  min-height: 52px;
 }
 
-.intelligence-shell .category-bar button,
+.intelligence-shell .category-bar .category-scroll button,
 .intelligence-shell .category-search input {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .intelligence-shell .category-search input {
-  height: 30px;
+  height: 36px;
 }
 
 .usa-shell .usa-institution-group h2,
@@ -9987,7 +9991,7 @@ img {
 }
 
 .world-country-stage-layout > nav {
-  max-height: 320px;
+  max-height: 640px;
 }
 
 .world-country-stage-layout > nav button {
@@ -10004,8 +10008,8 @@ img {
 }
 
 .world-country-stage {
-  min-height: 320px;
-  max-height: 320px;
+  min-height: 640px;
+  max-height: 640px;
 }
 
 .world-country-thumbnails strong {
@@ -10025,61 +10029,109 @@ img {
 }
 
 .world-news-rail {
-  height: 248px;
+  height: 300px;
 }
 
 .world-news-rail .scroll-rail > button {
-  grid-template-rows: 145px 1fr;
+  grid-template-rows: 185px 1fr;
 }
 
 .world-news-rail img {
-  height: 145px;
+  height: 185px;
+}
+
+.world-news-rail .scroll-rail > button > svg {
+  top: 145px;
 }
 
 .world-organization-grid,
 .world-organization-grid .world-media-card {
-  height: 122px;
+  height: 150px;
 }
 
 .world-organization-grid .world-media-card img {
-  height: 68px;
-}
-
-.world-leaders-grid {
-  height: 148px;
-}
-
-.world-leaders-grid button {
-  grid-template-rows: 92px 1fr;
-}
-
-.world-leaders-grid img {
   height: 92px;
 }
 
+.world-leaders-grid {
+  height: 182px;
+}
+
+.world-leaders-grid button {
+  grid-template-rows: 118px 1fr;
+}
+
+.world-leaders-grid img {
+  height: 118px;
+}
+
+.world-spotlight-panel .world-media-card img {
+  height: 105px;
+}
+
+.world-spotlight-panel .world-media-card > svg {
+  top: 73px;
+}
+
+.world-community-stack .world-media-card img {
+  min-height: 130px;
+}
+
 .world-country-thumbnails {
-  height: 126px;
+  height: 152px;
 }
 
 .world-country-thumbnails .scroll-rail > button {
-  grid-template-rows: 74px 1fr;
+  grid-template-rows: 96px 1fr;
 }
 
 .world-country-thumbnails img {
-  height: 74px;
+  height: 96px;
+}
+
+.world-country-thumbnails button > svg {
+  top: 65px;
 }
 
 .world-summits-grid,
 .world-full-video-rail {
-  height: 198px;
+  height: 232px;
+}
+
+.world-summits-grid .world-media-card img {
+  height: 150px;
+}
+
+.world-summits-grid .world-media-card > svg {
+  top: 116px;
 }
 
 .world-full-video-rail .scroll-rail > button {
-  grid-template-rows: 122px 1fr;
+  grid-template-rows: 150px 1fr;
 }
 
 .world-full-video-rail img {
-  height: 122px;
+  height: 150px;
+}
+
+.world-full-video-rail button > svg {
+  top: 110px;
+}
+
+.world-gradient-video {
+  aspect-ratio: 1.6 / 1;
+  border-width: 12px;
+  background:
+    linear-gradient(#eaf8ff, #eaf8ff) padding-box,
+    linear-gradient(132deg, #32c7ff 0%, #ffffff 18%, #7be2ff 34%, #ffffff 51%, #159ee8 68%, #f7fdff 84%, #47ceff 100%) border-box;
+  box-shadow: 0 20px 40px rgba(5, 133, 207, 0.27);
+}
+
+.world-gradient-video::before {
+  inset: -12px;
+  background:
+    linear-gradient(108deg, transparent 0 18%, rgba(255, 255, 255, 0.64) 29%, rgba(255, 255, 255, 0.12) 39%, transparent 47%),
+    radial-gradient(circle at 82% 14%, rgba(255, 255, 255, 0.58), transparent 26%);
 }
 
 @media (min-width: 761px) {
@@ -10106,12 +10158,16 @@ img {
 }
 
 @media (max-width: 760px) {
+  .intelligence-shell {
+    --admin-font-sector-menu-size: 17px;
+  }
+
   .intelligence-shell .journey-actions a,
   .intelligence-shell .market-strip,
   .intelligence-shell .compact-feature-nav button,
-  .intelligence-shell .category-bar button,
+  .intelligence-shell .category-bar .category-scroll button,
   .intelligence-shell .category-search input {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .world-layout {
@@ -10128,7 +10184,7 @@ img {
   }
 
   .world-country-stage {
-    min-height: 270px;
-    max-height: 270px;
+    min-height: 540px;
+    max-height: 540px;
   }
 }
