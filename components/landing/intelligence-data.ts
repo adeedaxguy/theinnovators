@@ -669,6 +669,11 @@ export const usaIntelligencePage: IntelligencePageContent = {
       body: "State-by-state pages for local economies, policies, industries, videos, demo days, and leaders.",
       items: ["State ranking", "State innovators video library", "Events and demo days", "Local industry overview", "State policy summary"],
     },
+    {
+      title: "Innovation Ecosystem",
+      body: "The organizations and partnerships connecting research, policy, capital, and commercialization.",
+      items: ["Academia and universities", "Think tanks and institutes", "Industry associations", "Innovation communities", "Public-private partnerships"],
+    },
   ],
   actionCards: [
     {

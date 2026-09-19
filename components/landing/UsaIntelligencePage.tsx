@@ -6,7 +6,6 @@ import type { FormEvent } from "react";
 import {
   AudienceSidebar,
   CategoryBar,
-  CompactFeatureNav,
   FeatureBoard,
   FloatingCopilot,
   MarketStrip,
@@ -232,7 +231,6 @@ export default function UsaIntelligencePage() {
         sidebarOpen={sidebarOpen}
       />
       <FeatureBoard activeModule={activeModule} setActiveModule={setActiveModule} />
-      <CompactFeatureNav activeModule={activeModule} setActiveModule={setActiveModule} />
       <CategoryBar
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
@@ -289,7 +287,7 @@ export default function UsaIntelligencePage() {
         <section className="usa-full-video-library" aria-labelledby="usa-video-library-title">
           <header>
             <Sparkles aria-hidden="true" />
-            <div><h2 id="usa-video-library-title">America’s Innovation Video Library</h2><p>Leaders, founders, programs, institutions, and state ecosystem stories.</p></div>
+            <h2 id="usa-video-library-title">America’s Innovation Video Library</h2>
           </header>
           <UsaVideoRail label="America’s Leaders" onOpen={openVideo} videos={usaLeaderVideos} />
           <UsaVideoRail label="U.S. Innovators United" onOpen={openVideo} videos={usaInnovatorVideos} />

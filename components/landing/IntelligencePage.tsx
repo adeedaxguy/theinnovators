@@ -6,7 +6,6 @@ import type { CSSProperties, FormEvent } from "react";
 import {
   AudienceSidebar,
   CategoryBar,
-  CompactFeatureNav,
   FeatureBoard,
   FloatingCopilot,
   MarketStrip,
@@ -334,7 +333,6 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
       <MarketStrip />
       <AudienceSidebar activeAudience={activeAudience} setActiveAudience={setActiveAudience} setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
       <FeatureBoard activeModule={activeModule} setActiveModule={setActiveModule} />
-      <CompactFeatureNav activeModule={activeModule} setActiveModule={setActiveModule} />
       <CategoryBar activeCategory={activeCategory} setActiveCategory={setActiveCategory} setActiveModule={setActiveModule} setActiveVideo={setActiveVideo} setNewsIndex={setNewsIndex} />
 
       <div className="world-page-main">
@@ -379,6 +377,7 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
               </div>
             </section>
             <WorldVideoFrame activeVideo={activeVideo} onOpen={setModalVideo} />
+            <WorldCountryPlaylist content={content} onOpen={setModalVideo} onSelect={setActiveVideo} />
           </section>
 
           <aside className="world-right-rail">
@@ -395,7 +394,6 @@ export default function IntelligencePage({ content }: IntelligencePageProps) {
             </section>
           </aside>
 
-          <WorldCountryPlaylist content={content} onOpen={setModalVideo} onSelect={setActiveVideo} />
         </div>
 
         <section className="world-summits-section">

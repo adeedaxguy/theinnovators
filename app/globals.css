@@ -9824,7 +9824,9 @@ img {
 
 /* Readability pass: larger menus and World intelligence typography. */
 .intelligence-shell {
+  --admin-font-sector-menu-family: var(--admin-font-billboards-family, var(--font-ui));
   --admin-font-sector-menu-size: 18px;
+  --admin-font-sector-menu-weight: 600;
 }
 
 .intelligence-shell .module-label {
@@ -9869,6 +9871,43 @@ img {
   height: 36px;
 }
 
+.usa-gradient-video > button {
+  aspect-ratio: 1.76 / 1;
+}
+
+.usa-main-thumbnails {
+  height: 120px;
+}
+
+.usa-main-thumbnails .scroll-rail > button {
+  grid-template-rows: 72px minmax(0, 1fr);
+}
+
+.usa-main-thumbnails img {
+  height: 72px;
+}
+
+.usa-main-thumbnails svg {
+  top: 47px;
+}
+
+.usa-content-core > .usa-video-row .usa-video-row-rail {
+  height: 212px;
+}
+
+.usa-full-video-library {
+  gap: 20px;
+  padding: 14px;
+}
+
+.usa-full-video-library > header {
+  padding-bottom: 0;
+}
+
+.usa-full-video-library .usa-video-row-rail {
+  height: 204px;
+}
+
 .usa-shell .usa-institution-group h2,
 .usa-shell .usa-tool-heading h2 {
   font-size: 20px;
@@ -9903,8 +9942,11 @@ img {
 .world-layout {
   grid-template-areas:
     "left core toolbar"
-    "left core right"
-    "playlist playlist right";
+    "left core right";
+}
+
+.world-core > .world-countries-playlist {
+  grid-area: auto;
 }
 
 .world-panel h2,
@@ -10081,6 +10123,10 @@ img {
   height: 152px;
 }
 
+.world-country-thumbnails .scroll-rail {
+  grid-auto-columns: calc((100% - 32px) / 5);
+}
+
 .world-country-thumbnails .scroll-rail > button {
   grid-template-rows: 96px 1fr;
 }
@@ -10095,31 +10141,36 @@ img {
 
 .world-summits-grid,
 .world-full-video-rail {
-  height: 232px;
+  height: 244px;
+}
+
+.world-summits-grid .scroll-rail,
+.world-full-video-rail .scroll-rail {
+  grid-auto-columns: calc((100% - 32px) / 5);
 }
 
 .world-summits-grid .world-media-card img {
-  height: 150px;
+  height: 160px;
 }
 
 .world-summits-grid .world-media-card > svg {
-  top: 116px;
+  top: 126px;
 }
 
 .world-full-video-rail .scroll-rail > button {
-  grid-template-rows: 150px 1fr;
+  grid-template-rows: 160px 1fr;
 }
 
 .world-full-video-rail img {
-  height: 150px;
+  height: 160px;
 }
 
 .world-full-video-rail button > svg {
-  top: 110px;
+  top: 120px;
 }
 
 .world-gradient-video {
-  aspect-ratio: 1.6 / 1;
+  aspect-ratio: 1.5 / 1;
   border-width: 12px;
   background:
     linear-gradient(#eaf8ff, #eaf8ff) padding-box,
@@ -10152,8 +10203,7 @@ img {
   .world-layout {
     grid-template-areas:
       "left core"
-      "right core"
-      "playlist playlist";
+      "right core";
   }
 }
 
@@ -10175,8 +10225,7 @@ img {
       "toolbar"
       "left"
       "core"
-      "right"
-      "playlist";
+      "right";
   }
 
   .world-countries-playlist > .world-country-stage-layout {
