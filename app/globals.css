@@ -8678,7 +8678,7 @@ img {
   position: relative;
   min-height: 560px;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 45%, #0a3970, #020913 76%);
+  background: radial-gradient(circle at 50% 45%, #178ed2, #07315f 76%);
 }
 
 .world-map-stage .geographic-map {
@@ -8687,22 +8687,22 @@ img {
 }
 
 .world-map-stage .geographic-map-ocean {
-  fill: #041126;
+  fill: #0a457b;
 }
 
 .world-map-stage .geographic-map-graticule {
-  stroke: rgba(114, 219, 255, 0.18);
+  stroke: rgba(180, 235, 255, 0.3);
 }
 
 .world-map-stage .geographic-map-land path {
-  fill: #0c72b8;
-  stroke: rgba(255, 255, 255, 0.72);
+  fill: #1aa5e3;
+  stroke: rgba(255, 255, 255, 0.86);
 }
 
 .world-map-stage .geographic-map-land path:hover,
 .world-map-stage .geographic-map-land path:focus-visible,
 .world-map-stage .geographic-map-land path.is-selected {
-  fill: #56d7ff;
+  fill: #8be8ff;
 }
 
 .world-map-stage > button {
@@ -10033,7 +10033,7 @@ img {
 }
 
 .world-country-stage-layout > nav {
-  max-height: 640px;
+  max-height: 480px;
 }
 
 .world-country-stage-layout > nav button {
@@ -10050,8 +10050,8 @@ img {
 }
 
 .world-country-stage {
-  min-height: 640px;
-  max-height: 640px;
+  min-height: 480px;
+  max-height: 480px;
 }
 
 .world-country-thumbnails strong {
@@ -10233,7 +10233,7 @@ img {
   }
 
   .world-country-stage {
-    min-height: 540px;
-    max-height: 540px;
+    min-height: 400px;
+    max-height: 400px;
   }
 }
