@@ -9896,7 +9896,7 @@ img {
 }
 
 .usa-full-video-library {
-  gap: 20px;
+  gap: 32px;
   padding: 14px;
 }
 
@@ -10235,5 +10235,9 @@ img {
   .world-country-stage {
     min-height: 400px;
     max-height: 400px;
+  }
+
+  .usa-full-video-library {
+    gap: 24px;
   }
 }
