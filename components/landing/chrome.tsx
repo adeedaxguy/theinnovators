@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import type { CSSProperties, Dispatch, FormEvent, SetStateAction } from "react";
 import {
-  asset,
   audienceIcons,
   audiences,
   categories,
@@ -34,7 +33,7 @@ export function PortalHeader({
   return (
     <header className="portal-header">
       <a className="portal-logo" href="#top" aria-label="The Innovators">
-        <img src={`${asset}/2021/02/logo-final-blac-k.png`} alt="The Innovators" />
+        <img src="/assets/logos/INNOVATORS square.png" alt="The Innovators" />
       </a>
 
       <nav className="module-nav" aria-label="Platform modules">

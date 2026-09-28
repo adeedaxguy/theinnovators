@@ -114,6 +114,23 @@ test("intelligence pages use real atlas geography and interactive analytics", as
   assert.match(analytics, /startup-directory-table/);
 });
 
+test("Canva pages 6 through 13 are implemented as interactive product routes", async () => {
+  const experience = await readProjectFile("components/landing/ExperiencePages.tsx");
+
+  for (const route of ["app/companyA/page.tsx", "app/AI/page.tsx", "app/innovators/page.tsx"]) {
+    assert.equal(existsSync(new URL(route, root)), true, `${route} should exist`);
+  }
+
+  assert.match(experience, /CompanyShowroomPage/);
+  assert.match(experience, /AiDiscoveryPage/);
+  assert.match(experience, /InnovatorsDirectoryPage/);
+  assert.match(experience, /Live showroom/);
+  assert.match(experience, /AI discovery agent/);
+  assert.match(experience, /Innovation encyclopedia/);
+  assert.match(experience, /GeographicMap mode="world"/);
+  assert.match(experience, /Search innovators/);
+});
+
 test("admin route has an access-control proxy", async () => {
   const proxy = await readProjectFile("proxy.ts");
   assert.match(proxy, /ADMIN_USERNAME/);
