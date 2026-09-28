@@ -14,6 +14,7 @@ export function ScrollRail({ children, className = "", label }: ScrollRailProps)
   const dragRef = useRef({
     active: false,
     moved: false,
+    pointerId: -1,
     scrollLeft: 0,
     startX: 0,
   });
@@ -35,29 +36,35 @@ export function ScrollRail({ children, className = "", label }: ScrollRailProps)
     dragRef.current = {
       active: true,
       moved: false,
+      pointerId: event.pointerId,
       scrollLeft: railRef.current.scrollLeft,
       startX: event.clientX,
     };
-    railRef.current.classList.add("is-dragging");
-    railRef.current.setPointerCapture?.(event.pointerId);
   }
 
   function drag(event: PointerEvent<HTMLDivElement>) {
     if (!dragRef.current.active || !railRef.current) return;
     const distance = event.clientX - dragRef.current.startX;
-    if (Math.abs(distance) > 4) dragRef.current.moved = true;
+    if (!dragRef.current.moved && Math.abs(distance) > 8) {
+      dragRef.current.moved = true;
+      railRef.current.classList.add("is-dragging");
+      railRef.current.setPointerCapture?.(event.pointerId);
+    }
+    if (!dragRef.current.moved) return;
     railRef.current.scrollLeft = dragRef.current.scrollLeft - distance;
-    if (dragRef.current.moved) event.preventDefault();
+    event.preventDefault();
   }
 
-  function endDrag(event: PointerEvent<HTMLDivElement>) {
+  function endDrag() {
     if (!railRef.current) return;
     if (!dragRef.current.active) return;
     if (dragRef.current.moved) suppressClickRef.current = true;
     dragRef.current.active = false;
     railRef.current.classList.remove("is-dragging");
     try {
-      railRef.current.releasePointerCapture?.(event.pointerId);
+      if (railRef.current.hasPointerCapture?.(dragRef.current.pointerId)) {
+        railRef.current.releasePointerCapture?.(dragRef.current.pointerId);
+      }
     } catch {}
     window.setTimeout(() => {
       suppressClickRef.current = false;
