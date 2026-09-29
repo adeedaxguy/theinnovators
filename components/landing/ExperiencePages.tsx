@@ -230,6 +230,7 @@ const companyVideoGroups = [
   { label: "Product demos", videos: [videos[8], videos[11], videos[17], videos[18], videos[26], videos[35]] },
   { label: "Founder stories", videos: [videos[13], videos[20], videos[30], videos[38]] },
 ];
+const companyVideoCount = companyVideoGroups.reduce((total, group) => total + group.videos.length, 0);
 
 const companyActions = [
   {
@@ -381,7 +382,7 @@ export function CompanyShowroomPage() {
             </div>
 
             <aside className="company-playlist-panel">
-              <SectionHeading title="Playlist" action={`${companyVideoGroups.reduce((total, group) => total + group.videos.length, 0)} videos`} />
+              <SectionHeading title="Playlist" action={`${companyVideoCount} videos`} />
               <nav className="company-playlist-tabs" aria-label="Company video playlists">
                 {companyVideoGroups.map((group) => (
                   <button aria-pressed={activeGroup === group.label} className={activeGroup === group.label ? "is-active" : undefined} key={group.label} onClick={() => { setActiveGroup(group.label); setActiveVideo(group.videos[0]); }} type="button">{group.label}</button>
@@ -399,7 +400,7 @@ export function CompanyShowroomPage() {
           </section>
 
           <section className="company-video-library">
-            <SectionHeading title="Company video library" body="Every company story has a dedicated frame: instruction, history, product proof, and leadership." action="24 videos" />
+            <SectionHeading title="Company video library" body="Every company story has a dedicated frame: instruction, history, product proof, and leadership." action={`${companyVideoCount} videos`} />
             {companyVideoGroups.slice(1).map((group) => (
               <section className="company-video-row" key={group.label}>
                 <header><h3>{group.label}</h3><span>{group.videos.length} videos</span></header>
