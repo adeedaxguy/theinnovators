@@ -1602,6 +1602,404 @@
   }
 }
 
+/* Preserve the established leader and Innovators visual language before adding tools. */
+.ai-reference-directory {
+  margin-bottom: 54px;
+}
+
+.ai-reference-directory > .xp-section-heading {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.ai-reference-directory > .xp-section-heading h2 {
+  font-size: 34px;
+}
+
+.ai-reference-directory > .xp-section-heading p {
+  max-width: 70ch;
+}
+
+.ai-reference-leader-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.ai-reference-leader-card {
+  display: grid;
+  min-width: 0;
+  min-height: 112px;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: #e5e8ec;
+  color: var(--xp-ink);
+  text-align: left;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.ai-reference-leader-card:hover,
+.ai-reference-leader-card:focus-visible {
+  background: #dce1e6;
+}
+
+.ai-reference-leader-card.is-active {
+  box-shadow: inset 0 0 0 3px var(--xp-blue);
+}
+
+.ai-reference-leader-card img {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.ai-reference-leader-card > span {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 15px 18px;
+}
+
+.ai-reference-leader-card strong {
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.ai-reference-leader-card small {
+  color: #293743;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.ai-reference-profile {
+  margin: 0 0 64px;
+}
+
+.ai-reference-profile > header {
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--xp-ink);
+  text-align: center;
+}
+
+.ai-reference-profile > header h2 {
+  margin: 0;
+  padding: 0 18px 10px;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.ai-reference-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.ai-reference-video-wrap {
+  position: relative;
+  min-width: 0;
+}
+
+.ai-reference-video {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: #05090c;
+  box-shadow: none;
+}
+
+.ai-reference-video > img {
+  object-position: center top;
+}
+
+.ai-reference-actions {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+}
+
+.ai-reference-actions button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  background: var(--xp-blue);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(0, 91, 137, 0.28);
+}
+
+.ai-reference-actions button:hover,
+.ai-reference-actions button:focus-visible {
+  background: #087eb6;
+}
+
+.ai-reference-actions svg {
+  width: 21px;
+}
+
+.ai-reference-playlist {
+  display: grid;
+  background: #e8ebee;
+}
+
+.ai-reference-playlist button {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  gap: 5px;
+  padding: 14px 18px;
+  border: 0;
+  border-bottom: 1px solid #cbd1d6;
+  background: transparent;
+  color: var(--xp-ink);
+  font-size: 15px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.ai-reference-playlist button.is-active,
+.ai-reference-playlist button:hover,
+.ai-reference-playlist button:focus-visible {
+  background: #d9edf7;
+  color: #056b9d;
+}
+
+.ai-reference-status {
+  min-height: 22px;
+  margin: 10px 0 0;
+  color: var(--xp-muted);
+  font-size: 13px;
+  text-align: right;
+}
+
+.ai-reference-profile + .xp-section-heading {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.innovators-reference-stage {
+  margin-top: 24px;
+}
+
+.innovators-reference-stage .innovators-central-stage {
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: #030507;
+  box-shadow: none;
+}
+
+.innovators-reference-stage .xp-stage-kicker {
+  display: none;
+}
+
+.innovators-reference-stage .xp-stage-play {
+  width: 76px;
+  height: 76px;
+  background: #f30f36;
+}
+
+.innovators-reference-stage .xp-stage-play svg {
+  width: 31px;
+}
+
+.innovators-reference-feeds {
+  margin-top: 62px;
+}
+
+.innovators-reference-feeds .innovators-feed-section + .innovators-feed-section {
+  margin-top: 58px;
+}
+
+.innovators-reference-feeds .scroll-rail {
+  grid-auto-columns: minmax(245px, calc((100% - 54px) / 4));
+  gap: 18px;
+}
+
+.innovators-reference-feeds .xp-media-tile {
+  grid-template-rows: 210px minmax(118px, auto);
+  overflow: hidden;
+  border-radius: 4px;
+  background: #e5e8ec;
+}
+
+.innovators-reference-feeds .xp-media-image {
+  min-height: 210px;
+}
+
+.innovators-reference-feeds .xp-media-copy {
+  align-content: center;
+  padding: 18px;
+  background: #e5e8ec;
+}
+
+.innovators-reference-feeds .xp-media-copy strong {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.innovators-reference-feeds .xp-media-copy small {
+  font-size: 13px;
+}
+
+.innovators-enhancements {
+  margin-top: 66px;
+}
+
+.innovators-enhancement-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+.innovators-enhancement-grid .innovators-ranking,
+.innovators-enhancement-grid .innovators-watch-panel,
+.innovators-enhancement-grid .innovators-agent {
+  min-width: 0;
+}
+
+.innovators-recommended {
+  margin-top: 58px;
+}
+
+.innovators-experience .all-innovators {
+  margin-top: 64px;
+}
+
+.innovators-experience .innovators-directory {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  border: 0;
+}
+
+.innovators-experience .innovators-directory > button {
+  position: relative;
+  display: grid;
+  min-height: 246px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 146px minmax(100px, auto);
+  gap: 0;
+  align-items: stretch;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: #e5e8ec;
+}
+
+.innovators-experience .innovators-directory > button:hover,
+.innovators-experience .innovators-directory > button:focus-visible {
+  background: #d9edf7;
+}
+
+.innovators-experience .innovators-directory img {
+  width: 100%;
+  height: 146px;
+  box-sizing: border-box;
+  padding: 22px;
+  object-fit: contain;
+  background: #fff;
+}
+
+.innovators-experience .innovators-directory span {
+  align-content: center;
+  padding: 16px 18px;
+}
+
+.innovators-experience .innovators-directory strong {
+  font-size: 17px;
+}
+
+.innovators-experience .innovators-directory svg {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+}
+
+@media (max-width: 1300px) {
+  .ai-reference-leader-grid,
+  .innovators-enhancement-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .innovators-experience .innovators-directory {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .ai-reference-profile-layout,
+  .innovators-enhancement-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .innovators-reference-feeds .scroll-rail {
+    grid-auto-columns: minmax(245px, 72%);
+  }
+
+  .innovators-experience .innovators-directory {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .ai-reference-directory > .xp-section-heading h2 {
+    font-size: 27px;
+  }
+
+  .ai-reference-leader-grid,
+  .innovators-experience .innovators-directory {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-reference-leader-card {
+    grid-template-columns: 96px minmax(0, 1fr);
+    min-height: 96px;
+  }
+
+  .ai-reference-leader-card img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .ai-reference-profile > header h2 {
+    font-size: 26px;
+  }
+
+  .ai-reference-actions {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .ai-reference-actions button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .innovators-reference-stage .xp-stage-play {
+    width: 62px;
+    height: 62px;
+  }
+
+  .innovators-reference-feeds .scroll-rail {
+    grid-auto-columns: 88%;
+  }
+}
+
 /* USA intelligence refinement */
 .usa-shell,
 .usa-map-only {
@@ -12385,5 +12783,29 @@ img {
   .ai-leader-row .scroll-rail,
   .innovators-feed-section .scroll-rail {
     grid-auto-columns: 88%;
+  }
+}
+
+/* Keep the reference leader player fluid after the shared stage breakpoints. */
+.ai-reference-video-wrap,
+.ai-reference-video {
+  width: 100%;
+  max-width: 100%;
+}
+
+.ai-reference-video {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 640px) {
+  .ai-reference-actions {
+    position: static;
+    justify-content: flex-end;
+    padding-top: 10px;
+  }
+
+  .ai-reference-actions button {
+    border-color: #fff;
   }
 }

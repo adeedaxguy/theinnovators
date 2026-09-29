@@ -2,6 +2,7 @@
 
 import {
   BarChart3,
+  BookOpen,
   Bookmark,
   Bot,
   Building2,
@@ -9,6 +10,9 @@ import {
   Check,
   ChevronRight,
   Eye,
+  FileText,
+  Headphones,
+  Heart,
   Map,
   Play,
   Radio,
@@ -168,6 +172,28 @@ function LeaderTile({ onOpen, video }: { onOpen: OpenVideo; video: VideoItem }) 
         <small>{video.category}</small>
         <em>{video.source}</em>
       </span>
+    </button>
+  );
+}
+
+function ReferenceLeaderCard({
+  active,
+  onSelect,
+  video,
+}: {
+  active: boolean;
+  onSelect: (video: VideoItem) => void;
+  video: VideoItem;
+}) {
+  return (
+    <button
+      aria-pressed={active}
+      className={`ai-reference-leader-card ${active ? "is-active" : ""}`}
+      onClick={() => onSelect(video)}
+      type="button"
+    >
+      <img alt={`${video.title}, ${video.category}`} src={video.image} />
+      <span><strong>{video.title}</strong><small>{video.category}</small></span>
     </button>
   );
 }
@@ -466,6 +492,19 @@ const aiPerspectives: VideoItem[] = [
 
 const aiTrending = [...aiAcademiaLeaders.slice(0, 2), ...aiIndustryLeaders.slice(0, 2), aiPolicyLeaders[2]];
 const aiWatchlist = [aiAcademiaLeaders[0], aiIndustryLeaders[0], aiPolicyLeaders[2], aiPerspectives[0]];
+const aiReferenceLeaders = Array.from(
+  new globalThis.Map<string, VideoItem>(
+    [...aiAcademiaLeaders, ...aiIndustryLeaders, ...aiPolicyLeaders]
+      .map((video) => [video.title, video]),
+  ).values(),
+).slice(0, 12);
+const aiLeaderTopics = ["Innovation leadership", "Future of AI", "Advice to innovators"];
+const aiProfileActions = [
+  { icon: BookOpen, label: "Research", message: "Research brief selected." },
+  { icon: Headphones, label: "Listen", message: "Audio briefing selected." },
+  { icon: FileText, label: "Transcript", message: "Transcript view selected." },
+  { icon: Heart, label: "Save", message: "Leader saved to your watchlist." },
+];
 
 function AiLeaderRail({ label, onOpen, source }: { label: string; onOpen: OpenVideo; source: VideoItem[] }) {
   return (
@@ -480,6 +519,8 @@ function AiLeaderRail({ label, onOpen, source }: { label: string; onOpen: OpenVi
 
 export function AiDiscoveryPage() {
   const [activeVideo, setActiveVideo] = useState(aiTrending[0]);
+  const [activeTopic, setActiveTopic] = useState(aiLeaderTopics[0]);
+  const [profileStatus, setProfileStatus] = useState("Select a leader, topic, or research action.");
   const [prompt, setPrompt] = useState("");
   const [answer, setAnswer] = useState("Choose a research path or ask the AI discovery desk.");
 
@@ -492,6 +533,61 @@ export function AiDiscoveryPage() {
     <ExperienceChrome defaultAudience="Universities" defaultCategory="AI" defaultModule="Discover">
       {(openVideo) => (
         <div className="experience-main ai-experience">
+          <section className="ai-reference-directory">
+            <SectionHeading title="AI Thought Leaders" body="Meet the researchers, executives, policy makers, and builders shaping artificial intelligence." />
+            <div className="ai-reference-leader-grid">
+              {aiReferenceLeaders.map((video) => (
+                <ReferenceLeaderCard
+                  active={activeVideo.title === video.title}
+                  key={`reference-${video.title}`}
+                  onSelect={(selected) => {
+                    setActiveVideo(selected);
+                    setActiveTopic(aiLeaderTopics[0]);
+                    setProfileStatus(`${selected.title} selected.`);
+                  }}
+                  video={video}
+                />
+              ))}
+            </div>
+          </section>
+
+          <section className="ai-reference-profile">
+            <header><h2>{activeVideo.title}</h2></header>
+            <div className="ai-reference-profile-layout">
+              <div className="ai-reference-video-wrap">
+                <VideoStage className="ai-reference-video" eyebrow="Thought leader insight" onOpen={openVideo} video={activeVideo} />
+                <nav aria-label="Leader research actions" className="ai-reference-actions">
+                  {aiProfileActions.map((action) => {
+                    const ActionIcon = action.icon;
+                    return (
+                      <button aria-label={action.label} key={action.label} onClick={() => setProfileStatus(action.message)} title={action.label} type="button">
+                        <ActionIcon />
+                      </button>
+                    );
+                  })}
+                </nav>
+              </div>
+              <aside className="ai-reference-playlist" aria-label={`${activeVideo.title} topics`}>
+                {aiLeaderTopics.map((topic, index) => (
+                  <button
+                    aria-pressed={activeTopic === topic}
+                    className={activeTopic === topic ? "is-active" : undefined}
+                    key={topic}
+                    onClick={() => {
+                      setActiveTopic(topic);
+                      setProfileStatus(`${topic} selected for ${activeVideo.title}.`);
+                    }}
+                    type="button"
+                  >
+                    <span>{index + 1}.</span> {topic}
+                  </button>
+                ))}
+              </aside>
+            </div>
+            <p aria-live="polite" className="ai-reference-status">{profileStatus}</p>
+          </section>
+
+          <SectionHeading title="AI Intelligence Workspace" body="New discovery, watchlist, and briefing tools added around the established leader experience." />
           <section className="ai-newsroom-grid">
             <aside className="ai-trending-panel">
               <SectionHeading title="Trending" action="Live" />
@@ -616,48 +712,44 @@ export function InnovatorsDirectoryPage() {
             <button type="button"><Eye /> My watchlist</button>
           </nav>
 
-          <section className="innovators-top-grid">
-            <div className="innovators-featured">
-              <SectionHeading title={mapView ? "Innovation world map" : "Global Innovation Stage"} body={mapView ? "Explore companies by ecosystem without leaving the directory." : "Watch the people and companies shaping the global innovation economy."} />
-              {mapView ? (
-                <div className="innovators-map-panel">
-                  <GeographicMap mode="world" onSelectPoint={setSelectedPoint} points={mapPoints} selectedPoint={selectedPoint} />
-                  <article><small>Selected ecosystem</small><h1>{selectedPoint.label}</h1><strong>{selectedPoint.summary}</strong><p>{selectedPoint.details.join(" · ")}</p><button type="button">Open ecosystem <ChevronRight /></button></article>
-                </div>
-              ) : (
-                <VideoStage className="innovators-central-stage" eyebrow="Featured now" onOpen={openVideo} video={activeVideo} />
-              )}
-            </div>
-            <aside className="innovators-ranking">
-              <SectionHeading title="Innovators ranking" action="Global" />
-              {[["Most Trusted", "Nexa Robotics", 96], ["Best Branding", "Mosaic Commerce", 92], ["Most Creative", "OpenField AI", 89], ["Best Techie", "Northstar Quantum", 94], ["Most Human", "Luma Health", 91]].map(([label, company, score], index) => (
-                <button key={label as string} type="button"><span>{index + 1}</span><p><small>{label}</small><strong>{company}</strong></p><b>{score}</b></button>
-              ))}
-              <h3>Innovators on my watch</h3>
-              {innovatorCompanies.slice(0, 3).map(([name, industry, , image]) => <button key={name} type="button"><img alt="" src={image} /><p><strong>{name}</strong><small>{industry}</small></p><Bookmark /></button>)}
-            </aside>
+          <section className="innovators-reference-stage">
+            <SectionHeading title={mapView ? "Innovation world map" : "Global Innovation Stage"} body={mapView ? "Explore companies by ecosystem without leaving the directory." : "Watch the people and companies shaping the global innovation economy."} />
+            {mapView ? (
+              <div className="innovators-map-panel">
+                <GeographicMap mode="world" onSelectPoint={setSelectedPoint} points={mapPoints} selectedPoint={selectedPoint} />
+                <article><small>Selected ecosystem</small><h1>{selectedPoint.label}</h1><strong>{selectedPoint.summary}</strong><p>{selectedPoint.details.join(" · ")}</p><button type="button">Open ecosystem <ChevronRight /></button></article>
+              </div>
+            ) : (
+              <VideoStage className="innovators-central-stage" eyebrow="Featured now" onOpen={openVideo} video={activeVideo} />
+            )}
           </section>
 
-          <section className="innovators-discovery-grid innovators-media-grid">
-            <div>
-              <section className="innovators-feed-section">
-                <SectionHeading title="Featured" body="Video profiles selected by The Innovators editorial desk." action="5 stories" />
-                <ScrollRail label="featured innovators">
-                  {innovatorsFeatured.map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={`featured-${video.title}`} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}
-                </ScrollRail>
-              </section>
-              <section className="innovators-feed-section">
-                <SectionHeading title="Trending" body="The companies, researchers, and technologies attracting attention now." action="Live signals" />
-                <ScrollRail label="trending innovators">
-                  {innovatorsTrending.map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={`trending-${video.title}`} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}
-                </ScrollRail>
-              </section>
-              <section className="innovators-recommended">
-                <SectionHeading title="Recommended for you" body="Fresh companies and ecosystem signals based on your sectors and watchlist." />
-                <div>{[videos[21], videos[8], videos[15]].map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={video.title} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}</div>
-              </section>
-            </div>
-            <aside className="innovators-side-stack">
+          <section className="innovators-reference-feeds">
+            <section className="innovators-feed-section">
+              <SectionHeading title="Featured" body="Video profiles selected by The Innovators editorial desk." action="5 stories" />
+              <ScrollRail label="featured innovators">
+                {innovatorsFeatured.map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={`featured-${video.title}`} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}
+              </ScrollRail>
+            </section>
+            <section className="innovators-feed-section">
+              <SectionHeading title="Trending" body="The companies, researchers, and technologies attracting attention now." action="Live signals" />
+              <ScrollRail label="trending innovators">
+                {innovatorsTrending.map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={`trending-${video.title}`} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}
+              </ScrollRail>
+            </section>
+          </section>
+
+          <section className="innovators-enhancements">
+            <SectionHeading title="Innovation intelligence" body="Ranking, watchlist, and AI discovery added on top of the established Innovators experience." />
+            <div className="innovators-enhancement-grid">
+              <aside className="innovators-ranking">
+                <SectionHeading title="Innovators ranking" action="Global" />
+                {[["Most Trusted", "Nexa Robotics", 96], ["Best Branding", "Mosaic Commerce", 92], ["Most Creative", "OpenField AI", 89], ["Best Techie", "Northstar Quantum", 94], ["Most Human", "Luma Health", 91]].map(([label, company, score], index) => (
+                  <button key={label as string} type="button"><span>{index + 1}</span><p><small>{label}</small><strong>{company}</strong></p><b>{score}</b></button>
+                ))}
+                <h3>Innovators on my watch</h3>
+                {innovatorCompanies.slice(0, 3).map(([name, industry, , image]) => <button key={name} type="button"><img alt="" src={image} /><p><strong>{name}</strong><small>{industry}</small></p><Bookmark /></button>)}
+              </aside>
               <section className="innovators-watch-panel">
                 <SectionHeading title="Innovators watch list" action="24 saved" />
                 {innovatorCompanies.slice(3, 8).map(([name, industry, , image]) => (
@@ -672,7 +764,12 @@ export function InnovatorsDirectoryPage() {
                 <button className="innovators-agent-action" onClick={() => setStage(stage === "All stages" ? "Series A–C" : "All stages")} type="button">Discover innovators <Sparkles /></button>
                 <div><small>New discovery today</small><strong>48 high-fit companies</strong><span>Across AI, biotech, climate, and advanced manufacturing.</span></div>
               </section>
-            </aside>
+            </div>
+          </section>
+
+          <section className="innovators-recommended">
+            <SectionHeading title="Recommended for you" body="Fresh companies and ecosystem signals based on your sectors and watchlist." />
+            <div>{[videos[21], videos[8], videos[15]].map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={video.title} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}</div>
           </section>
 
           <section className="innovation-encyclopedia">
