@@ -1880,64 +1880,10 @@
   margin-top: 64px;
 }
 
-.innovators-experience .innovators-directory {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-  border: 0;
-}
-
-.innovators-experience .innovators-directory > button {
-  position: relative;
-  display: grid;
-  min-height: 246px;
-  grid-template-columns: 1fr;
-  grid-template-rows: 146px minmax(100px, auto);
-  gap: 0;
-  align-items: stretch;
-  overflow: hidden;
-  padding: 0;
-  border: 0;
-  border-radius: 4px;
-  background: #e5e8ec;
-}
-
-.innovators-experience .innovators-directory > button:hover,
-.innovators-experience .innovators-directory > button:focus-visible {
-  background: #d9edf7;
-}
-
-.innovators-experience .innovators-directory img {
-  width: 100%;
-  height: 146px;
-  box-sizing: border-box;
-  padding: 22px;
-  object-fit: contain;
-  background: #fff;
-}
-
-.innovators-experience .innovators-directory span {
-  align-content: center;
-  padding: 16px 18px;
-}
-
-.innovators-experience .innovators-directory strong {
-  font-size: 17px;
-}
-
-.innovators-experience .innovators-directory svg {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-}
-
 @media (max-width: 1300px) {
   .ai-reference-leader-grid,
   .innovators-enhancement-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .innovators-experience .innovators-directory {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -1951,9 +1897,6 @@
     grid-auto-columns: minmax(245px, 72%);
   }
 
-  .innovators-experience .innovators-directory {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 640px) {
@@ -1961,8 +1904,7 @@
     font-size: 27px;
   }
 
-  .ai-reference-leader-grid,
-  .innovators-experience .innovators-directory {
+  .ai-reference-leader-grid {
     grid-template-columns: 1fr;
   }
 
