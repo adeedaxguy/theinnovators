@@ -11941,3 +11941,449 @@ img {
     transition: none;
   }
 }
+
+/* Precision pass: complete showroom media, human-led AI, and video-first innovators. */
+.xp-media-tile.is-selected {
+  box-shadow: inset 0 0 0 3px var(--xp-blue);
+}
+
+.xp-media-tile.is-selected .xp-media-copy {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.company-experience .xp-showroom-copy h1 {
+  max-width: 16ch;
+  font-size: clamp(38px, 3.35vw, 62px);
+}
+
+.company-action-strip button.is-active {
+  background: var(--xp-blue);
+  color: #fff;
+}
+
+.company-action-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px 22px;
+  align-items: center;
+  padding: 20px 22px;
+  background: #082636;
+  color: #fff;
+}
+
+.company-action-workspace > div {
+  min-width: 0;
+}
+
+.company-action-workspace small {
+  color: #80dcff;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.company-action-workspace h2 {
+  margin: 4px 0 6px;
+  font-size: clamp(21px, 1.6vw, 29px);
+}
+
+.company-action-workspace p {
+  max-width: 68ch;
+  margin: 0;
+  color: #d5e9f2;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.company-action-workspace > button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 0;
+  background: #fff;
+  color: #072235;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.company-action-workspace > button svg,
+.company-action-workspace > span svg {
+  width: 17px;
+}
+
+.company-action-workspace > span {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 6px;
+  color: #9cdfff;
+  font-size: 13px;
+}
+
+.company-view-rail .scroll-rail > button.is-active {
+  box-shadow: inset 0 0 0 3px var(--xp-blue);
+}
+
+.company-view-rail .scroll-rail > button.is-active span {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.company-playlist-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.company-playlist-tabs button {
+  min-height: 38px;
+  border: 1px solid #ccdae1;
+  background: #fff;
+  color: var(--xp-ink);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.company-playlist-tabs button.is-active {
+  border-color: var(--xp-blue);
+  background: var(--xp-blue);
+  color: #fff;
+}
+
+.company-playlist-panel > button.company-play-selected {
+  display: flex;
+  min-height: 46px;
+  grid-template-columns: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 0 12px;
+  border: 0;
+  background: var(--xp-ink);
+  color: #fff;
+  font-weight: 800;
+}
+
+.company-play-selected svg {
+  width: 17px;
+}
+
+.company-video-library {
+  margin-top: 46px;
+}
+
+.company-video-row + .company-video-row {
+  margin-top: 34px;
+}
+
+.company-video-row > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 11px;
+}
+
+.company-video-row h3 {
+  margin: 0;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.company-video-row > header span {
+  color: var(--xp-blue-dark);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.company-video-row .scroll-rail {
+  grid-auto-columns: minmax(220px, calc((100% - 48px) / 4));
+  gap: 16px;
+}
+
+.company-video-row .xp-media-tile {
+  grid-template-rows: 170px auto;
+}
+
+.company-video-row .xp-media-image {
+  min-height: 170px;
+}
+
+.ai-trending-panel > button {
+  grid-template-columns: 54px 28px minmax(0, 1fr);
+  gap: 2px 8px;
+  align-items: center;
+}
+
+.ai-trending-panel > button > img {
+  width: 54px;
+  height: 62px;
+  grid-row: 1 / 3;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.ai-trending-panel > button > span {
+  grid-row: 1 / 3;
+}
+
+.ai-central-stage > img {
+  object-position: center 18%;
+}
+
+.ai-leader-row .scroll-rail {
+  grid-auto-columns: minmax(180px, calc((100% - 64px) / 5));
+  gap: 16px;
+}
+
+.ai-leader-tile {
+  position: relative;
+  display: block;
+  min-width: 0;
+  height: 300px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: #0a151d;
+  color: #fff;
+  text-align: left;
+}
+
+.ai-leader-tile > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 220ms ease;
+}
+
+.ai-leader-tile:hover > img,
+.ai-leader-tile:focus-visible > img {
+  transform: scale(1.025);
+}
+
+.ai-leader-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 38%, rgba(4, 13, 20, 0.94) 100%);
+}
+
+.ai-leader-play {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--xp-blue);
+}
+
+.ai-leader-play svg {
+  width: 17px;
+}
+
+.ai-leader-copy {
+  position: absolute;
+  right: 14px;
+  bottom: 15px;
+  left: 14px;
+  display: grid;
+  gap: 3px;
+}
+
+.ai-leader-copy strong {
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.ai-leader-copy small {
+  color: #d8edf6;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.ai-leader-copy em {
+  color: #70d7ff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.innovators-central-stage {
+  min-height: 570px;
+}
+
+.innovators-central-stage > img {
+  object-position: center;
+}
+
+.innovators-media-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 370px);
+  margin-top: 42px;
+}
+
+.innovators-feed-section + .innovators-feed-section {
+  margin-top: 38px;
+}
+
+.innovators-feed-section .scroll-rail {
+  grid-auto-columns: minmax(220px, calc((100% - 48px) / 4));
+  gap: 16px;
+}
+
+.innovators-feed-section .xp-media-tile {
+  grid-template-rows: 180px auto;
+}
+
+.innovators-feed-section .xp-media-image {
+  min-height: 180px;
+}
+
+.innovators-side-stack {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+}
+
+.innovators-watch-panel {
+  padding: 18px;
+  background: #f4f7f9;
+}
+
+.innovators-watch-panel > button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 60px minmax(0, 1fr) 18px;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--xp-line);
+  background: transparent;
+  color: var(--xp-ink);
+  text-align: left;
+}
+
+.innovators-watch-panel > button img {
+  width: 60px;
+  height: 54px;
+  object-fit: contain;
+  background: #fff;
+}
+
+.innovators-watch-panel > button span {
+  display: grid;
+  gap: 3px;
+}
+
+.innovators-watch-panel > button strong {
+  font-size: 14px;
+}
+
+.innovators-watch-panel > button small {
+  color: var(--xp-muted);
+  font-size: 12px;
+}
+
+.innovators-watch-panel > button svg {
+  width: 17px;
+}
+
+.innovators-directory {
+  gap: 0;
+}
+
+.innovators-directory > button {
+  grid-template-columns: 82px minmax(0, 1fr) 18px;
+  min-height: 118px;
+  background: #f1f3f5;
+}
+
+.innovators-directory > button:hover,
+.innovators-directory > button:focus-visible {
+  background: #e8f6fc;
+}
+
+.innovators-directory img {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  background: #fff;
+}
+
+@media (max-width: 1300px) {
+  .ai-leader-row .scroll-rail,
+  .innovators-feed-section .scroll-rail,
+  .company-video-row .scroll-rail {
+    grid-auto-columns: minmax(210px, calc((100% - 32px) / 3));
+  }
+}
+
+@media (max-width: 1080px) {
+  .innovators-media-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .innovators-side-stack {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .company-action-workspace {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .company-action-workspace > button {
+    justify-content: center;
+  }
+
+  .company-action-workspace > span {
+    grid-column: auto;
+  }
+
+  .company-playlist-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .company-video-row .scroll-rail,
+  .ai-leader-row .scroll-rail,
+  .innovators-feed-section .scroll-rail {
+    grid-auto-columns: minmax(230px, 82%);
+  }
+
+  .ai-leader-tile {
+    height: 330px;
+  }
+
+  .innovators-side-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .innovators-central-stage {
+    min-height: 440px;
+  }
+}
+
+@media (max-width: 520px) {
+  .company-action-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .company-playlist-panel {
+    display: block;
+  }
+
+  .company-video-row .scroll-rail,
+  .ai-leader-row .scroll-rail,
+  .innovators-feed-section .scroll-rail {
+    grid-auto-columns: 88%;
+  }
+}

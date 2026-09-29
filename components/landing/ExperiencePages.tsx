@@ -6,6 +6,7 @@ import {
   Bot,
   Building2,
   CalendarDays,
+  Check,
   ChevronRight,
   Eye,
   Map,
@@ -32,7 +33,7 @@ import {
 } from "./chrome";
 import { GeographicMap } from "./GeographicMap";
 import { ScrollRail } from "./ScrollRail";
-import { editorialImages, leaderGroups, realImages, videos } from "./data";
+import { asset, leaderGroups, videos } from "./data";
 import type { IntelligencePoint } from "./intelligence-data";
 import type { ModalVideo, VideoItem } from "./types";
 
@@ -128,6 +129,49 @@ function MediaTile({
   );
 }
 
+function SelectableMediaTile({
+  active,
+  onSelect,
+  video,
+}: {
+  active: boolean;
+  onSelect: (video: VideoItem) => void;
+  video: VideoItem;
+}) {
+  return (
+    <button
+      aria-pressed={active}
+      className={`xp-media-tile ${active ? "is-selected" : ""}`}
+      onClick={() => onSelect(video)}
+      type="button"
+    >
+      <span className="xp-media-image">
+        <img alt={`${video.title} video thumbnail`} src={video.image} />
+        <span className="xp-play"><Play fill="currentColor" /></span>
+      </span>
+      <span className="xp-media-copy">
+        <small>{video.source ?? video.category}</small>
+        <strong>{video.title}</strong>
+      </span>
+    </button>
+  );
+}
+
+function LeaderTile({ onOpen, video }: { onOpen: OpenVideo; video: VideoItem }) {
+  return (
+    <button className="ai-leader-tile" onClick={() => onOpen(video)} type="button">
+      <img alt={`${video.title}, ${video.category}`} src={video.image} />
+      <span className="ai-leader-shade" />
+      <span className="ai-leader-play"><Play fill="currentColor" /></span>
+      <span className="ai-leader-copy">
+        <strong>{video.title}</strong>
+        <small>{video.category}</small>
+        <em>{video.source}</em>
+      </span>
+    </button>
+  );
+}
+
 function VideoStage({
   className = "",
   eyebrow,
@@ -153,7 +197,44 @@ function VideoStage({
   );
 }
 
-const showroomPlaylist = [videos[24], videos[15], videos[19], videos[8], videos[36]];
+const companyVideoGroups = [
+  { label: "Live now", videos: [videos[24], videos[15], videos[19], videos[8], videos[36]] },
+  { label: "Tutorial videos", videos: [videos[29], videos[6], videos[27], videos[14], videos[2], videos[31]] },
+  { label: "Historical videos", videos: [videos[3], videos[5], videos[12], videos[21], videos[32]] },
+  { label: "Product demos", videos: [videos[8], videos[11], videos[17], videos[18], videos[26], videos[35]] },
+  { label: "Founder stories", videos: [videos[13], videos[20], videos[30], videos[38]] },
+];
+
+const companyActions = [
+  {
+    icon: Radio,
+    label: "Live now",
+    title: "Join the live showroom",
+    body: "Watch the selected broadcast and move between product, team, and factory demonstrations.",
+    cta: "Watch selected video",
+  },
+  {
+    icon: Users,
+    label: "Invite audience",
+    title: "Invite peers or an audience",
+    body: "Prepare a shared viewing room for buyers, partners, investors, or internal teams.",
+    cta: "Prepare invite link",
+  },
+  {
+    icon: WandSparkles,
+    label: "Build showroom",
+    title: "Build your showroom",
+    body: "Organize live streams, tutorials, product demos, founder stories, and company intelligence.",
+    cta: "Open showroom builder",
+  },
+  {
+    icon: Share2,
+    label: "Share / white label",
+    title: "Share or white-label it",
+    body: "Create a presentation-ready company experience for a campaign, event, or partner portal.",
+    cta: "Prepare share options",
+  },
+];
 
 const companyFacts = [
   ["Company", "Nexa Robotics"],
@@ -187,9 +268,12 @@ const companyTools = [
 ];
 
 export function CompanyShowroomPage() {
-  const [activeVideo, setActiveVideo] = useState(showroomPlaylist[0]);
-  const [showroomView, setShowroomView] = useState(0);
-  const showroomViews = [realImages.manufacturing, realImages.robotics, realImages.city];
+  const [activeVideo, setActiveVideo] = useState(companyVideoGroups[0].videos[0]);
+  const [activeGroup, setActiveGroup] = useState(companyVideoGroups[0].label);
+  const [activeAction, setActiveAction] = useState(companyActions[0].label);
+  const [actionStatus, setActionStatus] = useState("Select an action to begin.");
+  const selectedGroup = companyVideoGroups.find((group) => group.label === activeGroup) ?? companyVideoGroups[0];
+  const selectedAction = companyActions.find((action) => action.label === activeAction) ?? companyActions[0];
 
   return (
     <ExperienceChrome defaultAudience="Corporations" defaultCategory="Advanced Manufacturing" defaultModule="Demo">
@@ -198,23 +282,26 @@ export function CompanyShowroomPage() {
           <section className="company-showroom-grid">
             <div className="company-showroom-core">
               <div className="xp-showroom-stage">
-                <img alt="Nexa Robotics virtual showroom" src={showroomViews[showroomView]} />
+                <img alt={`${activeVideo.title} showroom video`} src={activeVideo.image} />
                 <span className="xp-showroom-gridlines" />
                 <span className="xp-live"><Radio /> Live showroom</span>
                 <div className="xp-showroom-copy">
                   <small>Nexa Robotics · Boston</small>
-                  <h1>Step inside the intelligent factory</h1>
-                  <p>Explore products, live demonstrations, team stories, and company intelligence in one visual space.</p>
-                  <button onClick={() => openVideo(activeVideo)} type="button"><Play fill="currentColor" /> Enter live tour</button>
+                  <h1>{activeVideo.title}</h1>
+                  <p>Explore the company through live broadcasts, tutorials, historical briefings, product demos, and founder stories.</p>
+                  <button onClick={() => openVideo(activeVideo)} type="button"><Play fill="currentColor" /> Play selected video</button>
                 </div>
-                <nav aria-label="Showroom views">
-                  {showroomViews.map((image, index) => (
+                <nav aria-label="Showroom video groups">
+                  {companyVideoGroups.map((group) => (
                     <button
-                      aria-label={`Show showroom view ${index + 1}`}
-                      aria-pressed={showroomView === index}
-                      className={showroomView === index ? "is-active" : undefined}
-                      key={image}
-                      onClick={() => setShowroomView(index)}
+                      aria-label={`Show ${group.label}`}
+                      aria-pressed={activeGroup === group.label}
+                      className={activeGroup === group.label ? "is-active" : undefined}
+                      key={group.label}
+                      onClick={() => {
+                        setActiveGroup(group.label);
+                        setActiveVideo(group.videos[0]);
+                      }}
                       type="button"
                     />
                   ))}
@@ -222,19 +309,43 @@ export function CompanyShowroomPage() {
               </div>
 
               <div className="company-action-strip" aria-label="Showroom actions">
-                {[
-                  [Radio, "Live now"],
-                  [Users, "Invite audience"],
-                  [WandSparkles, "Build showroom"],
-                  [Share2, "Share / white label"],
-                ].map(([ActionIcon, label]) => (
-                  <button key={label as string} type="button"><ActionIcon /> <span>{label as string}</span></button>
-                ))}
+                {companyActions.map((action) => {
+                  const ActionIcon = action.icon;
+                  return (
+                    <button
+                      aria-pressed={activeAction === action.label}
+                      className={activeAction === action.label ? "is-active" : undefined}
+                      key={action.label}
+                      onClick={() => {
+                        setActiveAction(action.label);
+                        setActionStatus(`${action.label} workspace ready.`);
+                      }}
+                      type="button"
+                    >
+                      <ActionIcon /> <span>{action.label}</span>
+                    </button>
+                  );
+                })}
               </div>
 
+              <section className="company-action-workspace" aria-live="polite">
+                <div><small>Showroom action</small><h2>{selectedAction.title}</h2><p>{selectedAction.body}</p></div>
+                <button
+                  onClick={() => {
+                    if (selectedAction.label === "Live now") openVideo(activeVideo);
+                    else setActionStatus(`${selectedAction.cta} is ready for configuration.`);
+                  }}
+                  type="button"
+                >
+                  {selectedAction.label === "Live now" ? <Play fill="currentColor" /> : <ChevronRight />}
+                  {selectedAction.cta}
+                </button>
+                <span><Check /> {actionStatus}</span>
+              </section>
+
               <ScrollRail className="company-view-rail" label="showroom highlights">
-                {showroomPlaylist.map((video) => (
-                  <button key={video.title} onClick={() => setActiveVideo(video)} type="button">
+                {companyVideoGroups[0].videos.map((video) => (
+                  <button aria-pressed={activeVideo.title === video.title} className={activeVideo.title === video.title ? "is-active" : undefined} key={video.title} onClick={() => setActiveVideo(video)} type="button">
                     <img alt="" src={video.image} />
                     <span><strong>{video.title}</strong><small>{video.category}</small></span>
                     <Play fill="currentColor" />
@@ -244,22 +355,33 @@ export function CompanyShowroomPage() {
             </div>
 
             <aside className="company-playlist-panel">
-              <SectionHeading title="Playlist" action={`${showroomPlaylist.length} videos`} />
-              <h3>Tutorial videos</h3>
-              {showroomPlaylist.slice(0, 3).map((video, index) => (
+              <SectionHeading title="Playlist" action={`${companyVideoGroups.reduce((total, group) => total + group.videos.length, 0)} videos`} />
+              <nav className="company-playlist-tabs" aria-label="Company video playlists">
+                {companyVideoGroups.map((group) => (
+                  <button aria-pressed={activeGroup === group.label} className={activeGroup === group.label ? "is-active" : undefined} key={group.label} onClick={() => { setActiveGroup(group.label); setActiveVideo(group.videos[0]); }} type="button">{group.label}</button>
+                ))}
+              </nav>
+              <h3>{selectedGroup.label}</h3>
+              {selectedGroup.videos.map((video, index) => (
                 <button className={activeVideo.title === video.title ? "is-active" : undefined} key={video.title} onClick={() => setActiveVideo(video)} type="button">
                   <img alt="" src={video.image} />
                   <span><small>0{index + 1}</small><strong>{video.title}</strong></span>
                 </button>
               ))}
-              <h3>Historical videos</h3>
-              {showroomPlaylist.slice(3).map((video, index) => (
-                <button className={activeVideo.title === video.title ? "is-active" : undefined} key={video.title} onClick={() => setActiveVideo(video)} type="button">
-                  <img alt="" src={video.image} />
-                  <span><small>0{index + 4}</small><strong>{video.title}</strong></span>
-                </button>
-              ))}
+              <button className="company-play-selected" onClick={() => openVideo(activeVideo)} type="button"><Play fill="currentColor" /> Play selected video</button>
             </aside>
+          </section>
+
+          <section className="company-video-library">
+            <SectionHeading title="Company video library" body="Every company story has a dedicated frame: instruction, history, product proof, and leadership." action="24 videos" />
+            {companyVideoGroups.slice(1).map((group) => (
+              <section className="company-video-row" key={group.label}>
+                <header><h3>{group.label}</h3><span>{group.videos.length} videos</span></header>
+                <ScrollRail label={group.label}>
+                  {group.videos.map((video) => <MediaTile key={`${group.label}-${video.title}`} onOpen={openVideo} video={video} />)}
+                </ScrollRail>
+              </section>
+            ))}
           </section>
 
           <section className="company-intelligence-grid">
@@ -308,15 +430,49 @@ export function CompanyShowroomPage() {
   );
 }
 
-const aiTrending = [videos[14], videos[29], videos[2], videos[16], videos[30]];
-const aiWatchlist = [videos[26], videos[17], videos[31], videos[11]];
+const aiAcademiaLeaders: VideoItem[] = [
+  { title: leaderGroups.Academia[0][0], image: leaderGroups.Academia[0][1], category: "Biomedical innovation researcher", source: "Academia" },
+  { title: leaderGroups.Academia[1][0], image: leaderGroups.Academia[1][1], category: "AI research and policy", source: "Academia" },
+  { title: leaderGroups.Academia[2][0], image: leaderGroups.Academia[2][1], category: "Innovation ecosystem scholar", source: "Academia" },
+  { title: leaderGroups.Academia[3][0], image: leaderGroups.Academia[3][1], category: "Technology and innovation leader", source: "Academia" },
+  { title: leaderGroups.Industry[1][0], image: leaderGroups.Industry[1][1], category: "Research commercialization", source: "Academic medicine" },
+  { title: leaderGroups.Industry[2][0], image: leaderGroups.Industry[2][1], category: "Digital health systems", source: "Academic medicine" },
+];
 
-function AiVideoRail({ label, onOpen, source }: { label: string; onOpen: OpenVideo; source: VideoItem[] }) {
+const aiIndustryLeaders: VideoItem[] = [
+  { title: leaderGroups.Industry[0][0], image: leaderGroups.Industry[0][1], category: "Industrial technology leadership", source: "Industry" },
+  { title: leaderGroups.Industry[1][0], image: leaderGroups.Industry[1][1], category: "Healthcare innovation", source: "Industry" },
+  { title: leaderGroups.Industry[2][0], image: leaderGroups.Industry[2][1], category: "Clinical AI and digital health", source: "Industry" },
+  { title: leaderGroups.Industry[3][0], image: leaderGroups.Industry[3][1], category: "Healthcare strategy", source: "Industry" },
+  { title: leaderGroups.Government[0][0], image: leaderGroups.Government[0][1], category: "Connected systems leadership", source: "Industry" },
+  { title: leaderGroups.Government[1][0], image: leaderGroups.Government[1][1], category: "Health-system transformation", source: "Industry" },
+];
+
+const aiPolicyLeaders: VideoItem[] = [
+  { title: leaderGroups.Government[0][0], image: leaderGroups.Government[0][1], category: "Technology policy and infrastructure", source: "Policy makers" },
+  { title: leaderGroups.Government[1][0], image: leaderGroups.Government[1][1], category: "Healthcare systems policy", source: "Policy makers" },
+  { title: leaderGroups.Government[2][0], image: leaderGroups.Government[2][1], category: "Responsible AI and health", source: "Policy makers" },
+  { title: leaderGroups.Government[3][0], image: leaderGroups.Government[3][1], category: "Enterprise technology policy", source: "Policy makers" },
+  { title: leaderGroups.Academia[2][0], image: leaderGroups.Academia[2][1], category: "Innovation institutions", source: "Policy makers" },
+];
+
+const aiPerspectives: VideoItem[] = [
+  { title: leaderGroups.VC[0][0], image: leaderGroups.VC[0][1], category: "Venture and company building", source: "People's perspective" },
+  { title: leaderGroups.VC[1][0], image: leaderGroups.VC[1][1], category: "Fintech investment", source: "People's perspective" },
+  { title: leaderGroups.VC[2][0], image: leaderGroups.VC[2][1], category: "Healthcare venture capital", source: "People's perspective" },
+  { title: leaderGroups.VC[3][0], image: leaderGroups.VC[3][1], category: "Startup acceleration", source: "People's perspective" },
+  { title: leaderGroups.Industry[0][0], image: leaderGroups.Industry[0][1], category: "Future of industry", source: "People's perspective" },
+];
+
+const aiTrending = [...aiAcademiaLeaders.slice(0, 2), ...aiIndustryLeaders.slice(0, 2), aiPolicyLeaders[2]];
+const aiWatchlist = [aiAcademiaLeaders[0], aiIndustryLeaders[0], aiPolicyLeaders[2], aiPerspectives[0]];
+
+function AiLeaderRail({ label, onOpen, source }: { label: string; onOpen: OpenVideo; source: VideoItem[] }) {
   return (
-    <section className="ai-video-row">
+    <section className="ai-video-row ai-leader-row">
       <SectionHeading title={label} action="View all" />
       <ScrollRail label={label}>
-        {source.map((video, index) => <MediaTile className={index === 0 ? "is-featured" : ""} key={`${label}-${video.title}`} onOpen={onOpen} video={video} />)}
+        {source.map((video) => <LeaderTile key={`${label}-${video.title}`} onOpen={onOpen} video={video} />)}
       </ScrollRail>
     </section>
   );
@@ -341,14 +497,14 @@ export function AiDiscoveryPage() {
               <SectionHeading title="Trending" action="Live" />
               {aiTrending.map((video, index) => (
                 <button className={activeVideo.title === video.title ? "is-active" : undefined} key={video.title} onClick={() => setActiveVideo(video)} type="button">
-                  <span>{String(index + 1).padStart(2, "0")}</span><strong>{video.title}</strong><small>{video.source}</small>
+                  <img alt="" src={video.image} /><span>{String(index + 1).padStart(2, "0")}</span><strong>{video.title}</strong><small>{video.category}</small>
                 </button>
               ))}
               <h3>Issues today</h3>
               {["AI safety and trust", "Compute sovereignty", "Clinical AI validation", "Copyright and model data"].map((issue) => <button key={issue} type="button"><ChevronRight /> {issue}</button>)}
             </aside>
 
-            <VideoStage className="ai-central-stage" eyebrow="AI briefing now" onOpen={openVideo} video={activeVideo} />
+            <VideoStage className="ai-central-stage" eyebrow="Leader briefing now" onOpen={openVideo} video={activeVideo} />
 
             <aside className="ai-watchlist-panel">
               <SectionHeading title="Watchlist" action="Saved" />
@@ -360,9 +516,9 @@ export function AiDiscoveryPage() {
 
           <section className="ai-discovery-layout">
             <div>
-              <AiVideoRail label="AI Academia Researchers" onOpen={openVideo} source={[videos[29], videos[16], videos[6], videos[24], videos[35]]} />
-              <AiVideoRail label="AI Industry Insights" onOpen={openVideo} source={[videos[30], videos[19], videos[8], videos[15], videos[27]]} />
-              <AiVideoRail label="Policy Makers Insights" onOpen={openVideo} source={[videos[26], videos[12], videos[5], videos[21], videos[34]]} />
+              <AiLeaderRail label="AI Academia Researchers" onOpen={openVideo} source={aiAcademiaLeaders} />
+              <AiLeaderRail label="AI Industry Insights" onOpen={openVideo} source={aiIndustryLeaders} />
+              <AiLeaderRail label="Policy Makers Insights" onOpen={openVideo} source={aiPolicyLeaders} />
             </div>
             <aside className="ai-discover-agent">
               <span><Bot /> Discover</span>
@@ -382,9 +538,9 @@ export function AiDiscoveryPage() {
             </aside>
           </section>
 
-          <AiVideoRail label="People's Perspectives" onOpen={openVideo} source={[videos[13], videos[38], videos[32], videos[20], videos[10]]} />
-          <AiVideoRail label="Industry Trending" onOpen={openVideo} source={[videos[8], videos[31], videos[18]]} />
-          <AiVideoRail label="AI Innovators" onOpen={openVideo} source={[videos[14], videos[2], videos[15], videos[27], videos[36], videos[24], videos[29]]} />
+          <AiLeaderRail label="People's Perspectives" onOpen={openVideo} source={aiPerspectives} />
+          <AiLeaderRail label="Industry Trending" onOpen={openVideo} source={aiIndustryLeaders.slice(0, 5)} />
+          <AiLeaderRail label="AI Innovators" onOpen={openVideo} source={[...aiAcademiaLeaders.slice(0, 3), ...aiIndustryLeaders.slice(0, 3)]} />
         </div>
       )}
     </ExperienceChrome>
@@ -392,19 +548,28 @@ export function AiDiscoveryPage() {
 }
 
 const innovatorCompanies = [
-  ["Nexa Robotics", "Industrial AI", "Boston", editorialImages[11]],
-  ["Helix BioSystems", "Biotechnology", "Cambridge", editorialImages[4]],
-  ["Northstar Quantum", "Quantum", "Toronto", editorialImages[35]],
-  ["Luma Health", "Digital health", "London", editorialImages[0]],
-  ["Gridline Energy", "Clean tech", "Berlin", editorialImages[18]],
-  ["Aster Finance", "Fintech", "Singapore", editorialImages[1]],
-  ["Terra Materials", "Advanced materials", "Oslo", editorialImages[34]],
-  ["OpenField AI", "Agriculture", "Nairobi", editorialImages[21]],
-  ["OrbitWorks", "Space", "Los Angeles", editorialImages[32]],
-  ["Cipher Trust", "Cybersecurity", "Tel Aviv", editorialImages[26]],
-  ["Forge Systems", "Manufacturing", "Detroit", editorialImages[8]],
-  ["Mosaic Commerce", "Digital commerce", "Paris", editorialImages[20]],
+  ["[24]7.ai", "Customer experience AI", "United States", `${asset}/2024/02/247.ai_.png`],
+  ["0pass", "Cybersecurity", "United States", `${asset}/2024/02/0pass-4.png`],
+  ["1000 Kelvin", "Advanced manufacturing", "Germany", `${asset}/2024/02/1000-Kelvin.png`],
+  ["123COMPARE.ME", "Travel technology", "Spain", `${asset}/2022/09/123C-logo-squared-4-1024x1021.png`],
+  ["13 Mari", "Maritime technology", "Norway", `${asset}/2024/03/13-Mari.png`],
+  ["14BIS Supply Tracking", "Supply-chain technology", "United Kingdom", `${asset}/2024/03/14BIS-Supply-Tracking.png`],
+  ["1928 diagnostics", "Health technology", "Sweden", `${asset}/2024/03/1928-diagnostics.png`],
+  ["1DocWay", "Digital health", "United States", `${asset}/2024/03/1DocWay.png`],
+  ["1Flow", "Enterprise software", "United States", `${asset}/2024/02/1Flow.png`],
+  ["4AG Robotics", "Agricultural robotics", "Canada", `${asset}/2024/03/4AG-Robotics.png`],
+  ["About:Energy", "Battery intelligence", "United Kingdom", `${asset}/2024/02/about-energy.jpg`],
+  ["ABAGY Robotic Systems", "Industrial robotics", "United States", `${asset}/2024/03/ABAGY-Robotic-Systems.png`],
+  ["AMOS Power", "Autonomous electric vehicles", "United States", `${asset}/2024/03/AMOS-Power.png`],
+  ["Apptronik", "Humanoid robotics", "United States", `${asset}/2024/03/Apptronik.png`],
+  ["Coactive AI", "Computer vision", "United States", `${asset}/2024/03/Coactive-AI.png`],
+  ["Tethys Robotics", "Marine robotics", "Switzerland", `${asset}/2024/03/Tethys-Robotics.png`],
+  ["3D BioFibR", "Biotechnology", "Canada", `${asset}/2024/02/3D-BioFibr.png`],
+  ["Muddy Machines", "Agricultural robotics", "United Kingdom", `${asset}/2024/03/Muddy-Machines.png`],
 ] as const;
+
+const innovatorsFeatured = [videos[24], videos[19], videos[29], videos[14], videos[8]];
+const innovatorsTrending = [videos[2], videos[15], videos[27], videos[31], videos[18], videos[35]];
 
 const mapPoints: IntelligencePoint[] = [
   { id: "us", label: "United States", summary: "42,180 innovators", details: ["AI", "Health", "DeepTech"] },
@@ -430,9 +595,10 @@ const encyclopedia = {
 export function InnovatorsDirectoryPage() {
   const [selectedPoint, setSelectedPoint] = useState(mapPoints[0]);
   const [activeAudience, setActiveAudience] = useState<keyof typeof encyclopedia>("Corporations");
+  const [activeVideo, setActiveVideo] = useState(innovatorsFeatured[0]);
   const [query, setQuery] = useState("");
   const [stage, setStage] = useState("All stages");
-  const [mapView, setMapView] = useState(true);
+  const [mapView, setMapView] = useState(false);
   const filteredCompanies = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     return innovatorCompanies.filter(([name, industry]) => !normalized || `${name} ${industry}`.toLowerCase().includes(normalized));
@@ -443,7 +609,7 @@ export function InnovatorsDirectoryPage() {
       {(openVideo) => (
         <div className="experience-main innovators-experience">
           <nav className="innovators-utility-nav" aria-label="Innovators tools">
-            <strong>Global Innovation Stage</strong>
+            <strong>The Innovators Directory</strong>
             <button className={mapView ? "is-active" : undefined} onClick={() => setMapView(true)} type="button"><Map /> Browse by map</button>
             <button className={!mapView ? "is-active" : undefined} onClick={() => setMapView(false)} type="button"><Building2 /> Browse companies</button>
             <button type="button"><CalendarDays /> My events</button>
@@ -452,16 +618,14 @@ export function InnovatorsDirectoryPage() {
 
           <section className="innovators-top-grid">
             <div className="innovators-featured">
-              <SectionHeading title={mapView ? "Innovation world map" : "Featured innovators"} body="Discover companies, people, research, capital, and ecosystems worldwide." />
+              <SectionHeading title={mapView ? "Innovation world map" : "Global Innovation Stage"} body={mapView ? "Explore companies by ecosystem without leaving the directory." : "Watch the people and companies shaping the global innovation economy."} />
               {mapView ? (
                 <div className="innovators-map-panel">
                   <GeographicMap mode="world" onSelectPoint={setSelectedPoint} points={mapPoints} selectedPoint={selectedPoint} />
                   <article><small>Selected ecosystem</small><h1>{selectedPoint.label}</h1><strong>{selectedPoint.summary}</strong><p>{selectedPoint.details.join(" · ")}</p><button type="button">Open ecosystem <ChevronRight /></button></article>
                 </div>
               ) : (
-                <div className="innovators-feature-grid">
-                  {[videos[14], videos[18], videos[24]].map((video) => <MediaTile key={video.title} onOpen={openVideo} video={video} />)}
-                </div>
+                <VideoStage className="innovators-central-stage" eyebrow="Featured now" onOpen={openVideo} video={activeVideo} />
               )}
             </div>
             <aside className="innovators-ranking">
@@ -474,24 +638,40 @@ export function InnovatorsDirectoryPage() {
             </aside>
           </section>
 
-          <section className="innovators-discovery-grid">
+          <section className="innovators-discovery-grid innovators-media-grid">
             <div>
-              <SectionHeading title="Innovators watch list" action="24 saved" />
-              <ScrollRail label="innovators watch list">
-                {[videos[19], videos[29], videos[1], videos[35], videos[31]].map((video) => <MediaTile key={video.title} onOpen={openVideo} video={video} />)}
-              </ScrollRail>
+              <section className="innovators-feed-section">
+                <SectionHeading title="Featured" body="Video profiles selected by The Innovators editorial desk." action="5 stories" />
+                <ScrollRail label="featured innovators">
+                  {innovatorsFeatured.map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={`featured-${video.title}`} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}
+                </ScrollRail>
+              </section>
+              <section className="innovators-feed-section">
+                <SectionHeading title="Trending" body="The companies, researchers, and technologies attracting attention now." action="Live signals" />
+                <ScrollRail label="trending innovators">
+                  {innovatorsTrending.map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={`trending-${video.title}`} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}
+                </ScrollRail>
+              </section>
               <section className="innovators-recommended">
                 <SectionHeading title="Recommended for you" body="Fresh companies and ecosystem signals based on your sectors and watchlist." />
-                <div>{[videos[21], videos[8], videos[15]].map((video) => <MediaTile key={video.title} onOpen={openVideo} video={video} />)}</div>
+                <div>{[videos[21], videos[8], videos[15]].map((video) => <SelectableMediaTile active={activeVideo.title === video.title} key={video.title} onSelect={(selected) => { setActiveVideo(selected); setMapView(false); }} video={video} />)}</div>
               </section>
             </div>
-            <aside className="innovators-agent">
-              <span><Bot /> AI discover agent</span>
-              <h2>Find the right innovators</h2>
-              <p>Set your parameters and scan the global innovation ecosystem.</p>
-              {["Stage", "Location", "Industry", "Funding", "Market time", "Founders"].map((filter) => <button key={filter} type="button"><SlidersHorizontal /><span>{filter}</span><strong>{filter === "Stage" ? stage : "Any"}</strong><ChevronRight /></button>)}
-              <button className="innovators-agent-action" onClick={() => setStage(stage === "All stages" ? "Series A–C" : "All stages")} type="button">Discover innovators <Sparkles /></button>
-              <div><small>New discovery today</small><strong>48 high-fit companies</strong><span>Across AI, biotech, climate, and advanced manufacturing.</span></div>
+            <aside className="innovators-side-stack">
+              <section className="innovators-watch-panel">
+                <SectionHeading title="Innovators watch list" action="24 saved" />
+                {innovatorCompanies.slice(3, 8).map(([name, industry, , image]) => (
+                  <button key={name} type="button"><img alt="" src={image} /><span><strong>{name}</strong><small>{industry}</small></span><Bookmark /></button>
+                ))}
+              </section>
+              <section className="innovators-agent">
+                <span><Bot /> AI discover agent</span>
+                <h2>Find the right innovators</h2>
+                <p>Set your parameters and scan the global innovation ecosystem.</p>
+                {["Stage", "Location", "Industry", "Funding", "Market time", "Founders"].map((filter) => <button key={filter} type="button"><SlidersHorizontal /><span>{filter}</span><strong>{filter === "Stage" ? stage : "Any"}</strong><ChevronRight /></button>)}
+                <button className="innovators-agent-action" onClick={() => setStage(stage === "All stages" ? "Series A–C" : "All stages")} type="button">Discover innovators <Sparkles /></button>
+                <div><small>New discovery today</small><strong>48 high-fit companies</strong><span>Across AI, biotech, climate, and advanced manufacturing.</span></div>
+              </section>
             </aside>
           </section>
 
