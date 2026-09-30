@@ -124,9 +124,9 @@ test("Canva pages 6 through 13 are implemented as interactive product routes", a
   assert.match(experience, /CompanyShowroomPage/);
   assert.match(experience, /AiDiscoveryPage/);
   assert.match(experience, /InnovatorsDirectoryPage/);
-  assert.match(experience, /Live showroom/);
+  assert.match(experience, /Live showroom: stream not connected/);
   assert.match(experience, /AI discovery agent/);
-  assert.match(experience, /Innovation encyclopedia/);
+  assert.doesNotMatch(experience, /Innovation encyclopedia|Recommended for you|AI Thought Leaders/);
   assert.match(experience, /GeographicMap mode="world"/);
   assert.match(experience, /Search innovators/);
 });

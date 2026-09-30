@@ -15,6 +15,8 @@ type GeographicMapProps = {
   points: IntelligencePoint[];
   selectedPoint?: IntelligencePoint;
   onSelectPoint?: (point: IntelligencePoint) => void;
+  onSelectCountry?: (country: string) => void;
+  selectedCountry?: string;
 };
 
 type MapShape = {
@@ -62,7 +64,9 @@ function normalizeLocationName(name: string) {
   return aliases[name] ?? name;
 }
 
-export function GeographicMap({ mode, onSelectPoint, points, selectedPoint }: GeographicMapProps) {
+export const worldCountryNames = mapShapes.world.map((shape) => normalizeLocationName(shape.name));
+
+export function GeographicMap({ mode, onSelectPoint, onSelectCountry, points, selectedPoint, selectedCountry }: GeographicMapProps) {
   const pointsByName = new Map(points.map((point) => [point.label.toLowerCase(), point]));
 
   return (
@@ -70,7 +74,7 @@ export function GeographicMap({ mode, onSelectPoint, points, selectedPoint }: Ge
       aria-label={mode === "usa" ? "Detailed map of the United States" : "Detailed world map"}
       className="geographic-map"
       preserveAspectRatio="xMidYMid meet"
-      role={onSelectPoint ? "group" : "img"}
+      role={onSelectPoint || onSelectCountry ? "group" : "img"}
       viewBox="0 0 1000 560"
     >
       <rect className="geographic-map-ocean" height="560" width="1000" />
@@ -87,25 +91,27 @@ export function GeographicMap({ mode, onSelectPoint, points, selectedPoint }: Ge
           const locationName = normalizeLocationName(shape.name);
           const point = pointsByName.get(locationName.toLowerCase());
           const interactivePoint = onSelectPoint ? point : undefined;
-          const isSelected = Boolean(point && point.id === selectedPoint?.id);
+          const isSelected = selectedCountry === locationName || Boolean(point && point.id === selectedPoint?.id);
+          const interactive = Boolean(interactivePoint || onSelectCountry);
 
             return (
               <g className={isSelected ? "is-selected" : undefined} key={`${shape.id}-${shape.name}`}>
                 <path
-                  aria-label={interactivePoint ? `Open ${locationName} intelligence profile` : locationName}
+                  aria-label={onSelectCountry ? `Show companies in ${locationName}` : interactivePoint ? `Open ${locationName} intelligence profile` : locationName}
                   className={cx(`map-tone-${index % 6}`, point && "has-profile", isSelected && "is-selected")}
                   d={shape.path}
-                  onClick={() => interactivePoint && onSelectPoint?.(interactivePoint)}
+                  onClick={() => { if (onSelectCountry) onSelectCountry(locationName); else if (interactivePoint) onSelectPoint?.(interactivePoint); }}
                   onFocus={() => interactivePoint && onSelectPoint?.(interactivePoint)}
                   onKeyDown={(event) => {
-                    if (interactivePoint && (event.key === "Enter" || event.key === " ")) {
+                    if (interactive && (event.key === "Enter" || event.key === " ")) {
                       event.preventDefault();
-                      onSelectPoint?.(interactivePoint);
+                      if (onSelectCountry) onSelectCountry(locationName);
+                      else if (interactivePoint) onSelectPoint?.(interactivePoint);
                     }
                   }}
                   onMouseEnter={() => interactivePoint && onSelectPoint?.(interactivePoint)}
-                  role={interactivePoint ? "button" : undefined}
-                  tabIndex={interactivePoint ? 0 : -1}
+                  role={interactive ? "button" : undefined}
+                  tabIndex={interactive ? 0 : -1}
                 >
                   <title>{point ? `${locationName}: profile available` : locationName}</title>
                 </path>

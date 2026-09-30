@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./styles/typography-admin.css";
+import "./styles/experience-hub.css";
 import FontSettingsProvider from "./FontSettingsProvider";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";

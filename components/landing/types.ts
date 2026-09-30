@@ -6,6 +6,9 @@ export type VideoItem = {
   source?: string;
   age?: string;
   reactions?: number;
+  youtubeId?: string;
+  videoUrl?: string;
+  sourceUrl?: string;
 };
 
 export type ModalVideo = Pick<VideoItem, "title" | "category" | "image">;
