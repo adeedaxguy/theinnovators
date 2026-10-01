@@ -10,6 +10,7 @@ import { ScrollRail } from "./ScrollRail";
 import { ExperiencePlayer, useExperiencePlayer } from "./ExperiencePlayer";
 import { academiaLeaders, aiCompanies, aiTopics, companies, companyBlocks, companyFacts, companyVideo, companyVideoGroups, featuredCompanies, industryLeaders, peoplePerspectives, policyLeaders, trendingCompanies } from "./experience-data";
 import type { DirectoryCompany } from "./experience-data";
+import { companyDemoGroups, demoAiScores, demoCompanyScores, demoDirectoryScores, demoToolContent, isSampleMedia } from "./experience-demo";
 import { companySlug, filterCompanies, parseVideoUrl, readSavedIds } from "./experience-utils";
 import type { VideoItem } from "./types";
 
@@ -46,7 +47,7 @@ function NewsColumn({ title, items, selected, onSelect }: { title: string; items
       <SectionHeading title={title} />
       {items.map((video) => (
         <button aria-pressed={selected === video.title} className="hub-news-item" key={video.title} onClick={() => onSelect(video)} type="button">
-          <span><strong>{video.title}</strong><small>{video.category}</small></span>
+          <span><strong>{video.title}</strong><small>{video.category}{isSampleMedia(video) && " | Sample media"}</small></span>
           <img alt="" src={video.image} />
         </button>
       ))}
@@ -63,7 +64,7 @@ function VideoRail({ title, items, onSelect, selected, kind = "landscape" }: {
       <ScrollRail label={title}>
         {items.map((video) => (
           <button aria-pressed={selected === video.title} className="hub-video-tile" key={video.title} onClick={() => onSelect(video)} type="button">
-            <span className="hub-tile-image"><img alt={kind === "landscape" ? "" : video.title} loading="lazy" src={video.image} /><span className="hub-tile-play"><Play fill="currentColor" /></span></span>
+            <span className="hub-tile-image"><img alt={kind === "landscape" ? "" : video.title} loading="lazy" src={video.image} />{isSampleMedia(video) && <span className="hub-sample-badge">Sample</span>}<span className="hub-tile-play"><Play fill="currentColor" /></span></span>
             <span className="hub-tile-copy"><strong>{video.title}</strong><small>{video.category}</small></span>
           </button>
         ))}
@@ -124,7 +125,7 @@ function ResearchTools({ library, onSelect, company = false }: { library: VideoI
   return (
     <section className="hub-research" aria-label="AI agent and tools">
       <SectionHeading title={company ? "AI agent & tools" : "AI discovery agent"} />
-      <p className="hub-connection-status"><Bot /> AI connection pending</p>
+      <p className="hub-connection-status"><Bot /> Demo mode | AI not connected</p>
       <form className="hub-search" onSubmit={search}>
         <label className="sr-only" htmlFor="hub-library-search">Search this page&apos;s library</label>
         <input id="hub-library-search" onChange={(event) => setQuery(event.target.value)} placeholder="Search library" type="search" value={query} />
@@ -134,9 +135,17 @@ function ResearchTools({ library, onSelect, company = false }: { library: VideoI
       <div className="hub-tool-grid">
         {(company ? tools : tools.slice(0, 6)).map((tool) => <button aria-pressed={activeTool === tool} key={tool} onClick={() => setActiveTool(activeTool === tool ? "" : tool)} type="button"><Bot />{tool}</button>)}
       </div>
-      {activeTool && <div className="hub-tool-status" role="status"><strong>{activeTool}</strong><p>This service is not connected yet. No report has been generated.</p></div>}
+      {activeTool && <div className="hub-tool-status" role="status"><strong>{activeTool} | Sample brief</strong><ul>{demoToolContent[activeTool].map((item) => <li key={item}>{item}</li>)}</ul><p>Illustrative content. No live AI analysis or company assessment.</p></div>}
     </section>
   );
+}
+
+function SampleRanking({ title, scores }: { title: string; scores: readonly (readonly [string, number])[] }) {
+  return <section className="hub-ranking">
+    <SectionHeading title={title} detail="Sample data" />
+    <p className="hub-empty">Illustrative scores, not company assessments.</p>
+    {scores.map(([label, score]) => <div key={label}><span>{label}</span><meter aria-label={label + " sample score"} max={100} value={score} /><strong>{score}</strong></div>)}
+  </section>;
 }
 
 function SaveButton({ video, watchlist }: { video: VideoItem; watchlist: ReturnType<typeof useWatchlist> }) {
@@ -167,7 +176,7 @@ export function AiDiscoveryPage() {
           <aside className="hub-right" aria-label="AI intelligence tools">
             <ResearchTools library={aiLibrary} onSelect={player.selectVideo} />
             <Watchlist error={watchlist.error} library={[...aiLibrary, player.selection.video]} onRemove={watchlist.toggle} onSelect={player.selectVideo} saved={watchlist.saved} />
-            <section><SectionHeading title="AI index" /><p className="hub-empty">Index and ranking feed not connected.</p></section>
+            <SampleRanking title="AI index" scores={demoAiScores} />
           </aside>
         </div>
       </div>
@@ -178,16 +187,24 @@ export function AiDiscoveryPage() {
 function CompanyRail({ title, items, onSelect, selected }: { title: string; items: DirectoryCompany[]; onSelect: SelectVideo; selected: string }) {
   return <section className="hub-video-row hub-company-row" aria-label={title}>
     <SectionHeading title={title} />
-    <ScrollRail label={title}>{items.map((company) => <button className="hub-company-tile" aria-pressed={selected === company.name} key={company.name} onClick={() => onSelect(companyVideo(company))} type="button"><img alt={company.name + " logo"} loading="lazy" src={company.logo} /><strong>{company.name}</strong><small>{company.industry}</small><span>{company.youtubeId ? <Play /> : <Building2 />}</span></button>)}</ScrollRail>
+    <ScrollRail label={title}>{items.map((company) => <button className="hub-company-tile" aria-pressed={selected === company.name} key={company.name} onClick={() => onSelect(companyVideo(company))} type="button"><img alt={company.name + " logo"} loading="lazy" src={company.logo} /><strong>{company.name}</strong><small>{company.industry}{!company.youtubeId && " | Sample media"}</small><span><Play /></span></button>)}</ScrollRail>
   </section>;
 }
 
 export function CompanyShowroomPage({ company }: { company?: DirectoryCompany }) {
   const headingRef = useRef<HTMLElement>(null);
   useEffect(() => {
-    if (company) headingRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    if (!company) return;
+    let cancelled = false;
+    let frame = 0;
+    // Wait for font layout and the browser's initial scroll restoration.
+    void document.fonts.ready.then(() => {
+      if (cancelled) return;
+      frame = requestAnimationFrame(() => headingRef.current?.scrollIntoView({ block: "start", behavior: "instant" }));
+    });
+    return () => { cancelled = true; cancelAnimationFrame(frame); };
   }, [company]);
-  const groups = company ? [{ label: "Company videos", videos: [companyVideo(company)] }] : companyVideoGroups;
+  const groups = company ? companyDemoGroups(company.name, companyVideo(company)) : companyVideoGroups;
   const showroomLibrary = groups.flatMap((group) => group.videos);
   const companyName = company?.name ?? "Nexa Robotics";
   const profilePath = company ? "/company/" + companySlug(company) : "/companyA";
@@ -199,7 +216,8 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
   const [sourceUrl, setSourceUrl] = useState("");
   const [status, setStatus] = useState("");
   const [customVideo, setCustomVideo] = useState<VideoItem | null>(null);
-  const library = customVideo ? [customVideo, ...showroomLibrary] : showroomLibrary;
+  const showroomPreview: VideoItem = { title: companyName + " | Showroom preview", category: "Recorded demo, not a live stream", image: "/assets/billboards/broadcast-stage.jpg" };
+  const library = [...(customVideo ? [customVideo] : []), showroomPreview, ...showroomLibrary];
   function previewSource(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const media = parseVideoUrl(sourceUrl);
@@ -221,7 +239,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
           <section className="hub-core" aria-label="Company video hub">
             <ExperiencePlayer {...player} onPlay={player.selectVideo} />
             <nav className="hub-company-actions" aria-label="Showroom actions">
-              <button aria-label="Live showroom: stream not connected" disabled title="Live stream not connected" type="button"><Radio /></button>
+              <button aria-label="Preview live showroom with recorded sample" onClick={() => { player.selectVideo(showroomPreview); setStatus("Recorded showroom sample. No live stream is connected."); }} title="Showroom preview (recorded sample)" type="button"><Radio /></button>
               <a aria-label="Invite audience by email" href={"mailto:?subject=" + encodeURIComponent(companyName + " showroom") + "&body=" + encodeURIComponent("https://theinnovators-two.vercel.app" + profilePath)} title="Invite audience"><Users /></a>
               <button aria-expanded={showSetup} aria-label="Configure showroom preview" onClick={() => setShowSetup(!showSetup)} title="Configure showroom preview" type="button"><WandSparkles /></button>
               <button aria-label="Share showroom" onClick={share} title="Share showroom" type="button"><Share2 /></button>
@@ -238,14 +256,18 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
             <section className="hub-company-overview">
               <SectionHeading title="Company overview" detail={company ? undefined : "Illustrative data"} />
               <dl className="hub-company-facts">{facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-              {company ? <p className="hub-empty hub-profile-pending">Additional company information has not been supplied.</p> : <div className="hub-company-data">{companyBlocks.map((block) => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></section>)}</div>}
+              {company ? <section className="hub-profile-samples" aria-label="Sample company sections">
+                <SectionHeading title="Company spotlights" detail="Demo content" />
+                <p className="hub-empty">Sample sections; company-specific content has not been supplied.</p>
+                <div>{[groups[0].videos[1], groups[0].videos[2], groups[2].videos[0]].map((video) => <button key={video.title} onClick={() => player.selectVideo(video)} type="button"><img alt="" loading="lazy" src={video.image} /><span><strong>{video.title.split(" | ")[1]}</strong><small>Sample content</small><Play /></span></button>)}</div>
+              </section> : <div className="hub-company-data">{companyBlocks.map((block) => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></section>)}</div>}
             </section>
             {groups.length > 1 && <section className="hub-video-archive" aria-label="Additional company videos">
               {groups.slice(1).map((group) => <details key={group.label}><summary>{group.label}<span>{group.videos.length} videos</span></summary><VideoRail title={group.label} items={group.videos} onSelect={player.selectVideo} selected={player.selection.video.title} /></details>)}
             </section>}
           </div>
           <aside className="hub-right" aria-label="Company intelligence tools">
-            <section className="hub-ranking"><SectionHeading title="Company ranking" detail={company ? undefined : "Demo"} />{company ? <p className="hub-empty">Ranking data not connected.</p> : [["Trust", 92], ["Brand", 84], ["Quality", 95], ["Innovation", 89], ["Responsibility", 86]].map(([label, score]) => <div key={label}><label htmlFor={"score-" + label}>{label}</label><meter id={"score-" + label} max="100" value={Number(score)} /><strong>{score}</strong></div>)}</section>
+            <SampleRanking title="Company ranking" scores={demoCompanyScores} />
             <ResearchTools company library={library} onSelect={player.selectVideo} />
             <Watchlist error={watchlist.error} library={[...library, player.selection.video]} onRemove={watchlist.toggle} onSelect={player.selectVideo} saved={watchlist.saved} />
           </aside>
@@ -302,7 +324,7 @@ export function InnovatorsDirectoryPage() {
           </div>
           <aside className="hub-right" aria-label="Innovators intelligence tools">
             <ResearchTools library={companyLibrary} onSelect={player.selectVideo} />
-            <section><SectionHeading title="Innovators ranking" /><p className="hub-empty">Ranking feed not connected.</p></section>
+            <SampleRanking title="Innovators ranking" scores={demoDirectoryScores} />
             <Watchlist error={watchlist.error} library={[...companyLibrary, player.selection.video]} onRemove={watchlist.toggle} onSelect={player.selectVideo} saved={watchlist.saved} />
             <section className="hub-index"><SectionHeading title="Directory data" /><dl><div><dt>Companies in this preview</dt><dd>{companies.length}</dd></div><div><dt>Countries represented</dt><dd>{countries.length}</dd></div></dl></section>
           </aside>

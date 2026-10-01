@@ -8,6 +8,8 @@ const read = (path) => readFile(new URL(path, root), "utf8");
 const source = await read("components/landing/experience-utils.ts");
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const { companySlug, filterCompanies, readSavedIds, parseVideoUrl } = await import("data:text/javascript;base64," + Buffer.from(compiled).toString("base64"));
+const demoCompiled = ts.transpileModule(await read("components/landing/experience-demo.ts"), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
+const { companyDemoGroups, demoToolContent, isSampleMedia, previewMedia } = await import("data:text/javascript;base64," + Buffer.from(demoCompiled).toString("base64"));
 
 test("company slugs handle directory punctuation without unsafe route characters", () => {
   assert.equal(companySlug({ name: "[24]7.ai" }), "24-7-ai");
@@ -30,18 +32,21 @@ test("every directory record has a unique nonempty company route", async () => {
   assert.equal(new Set(slugs).size, slugs.length);
 });
 
-test("individual company routes use their own records without demo facts or rankings", async () => {
+test("individual company routes retain real facts and clearly distinguish sample sections", async () => {
   const route = await read("app/company/[slug]/page.tsx");
   const page = await read("components/landing/ExperiencePages.tsx");
   assert.match(route, /generateStaticParams/);
   assert.match(route, /dynamicParams = false/);
   assert.match(route, /if \(!company\) notFound\(\)/);
   assert.match(route, /company=\{company\} key=\{slug\}/);
-  assert.match(page, /company \? \[\{ label: "Company videos", videos: \[companyVideo\(company\)\]/);
+  assert.match(page, /company \? companyDemoGroups\(company.name, companyVideo\(company\)\)/);
   assert.match(page, /\["Industry", company.industry\], \["Country", company.country\]/);
-  assert.match(page, /Ranking data not connected/);
+  assert.match(page, /Illustrative scores, not company assessments/);
+  assert.match(page, /company-specific content has not been supplied/);
   assert.match(page, /Open " \+ company.name \+ " company page/);
-  assert.match(page, /if \(company\) headingRef.current\?\.scrollIntoView/);
+  assert.match(page, /if \(!company\) return/);
+  assert.match(page, /document.fonts.ready/);
+  assert.match(page, /requestAnimationFrame\(\(\) => headingRef.current\?\.scrollIntoView/);
 });
 
 test("country, industry, and text filters compose without changing source order", () => {
@@ -79,11 +84,51 @@ test("all three routes select one inline central player instead of preview modal
   assert.doesNotMatch(page, /VideoModal|setModalVideo/);
   assert.match(player, /youtube\.com\/embed/);
   assert.match(player, /allowFullScreen/);
-  assert.match(player, /Video source pending/);
+  assert.match(player, /Sample media/);
+  assert.match(player, /previewMedia\(video\)/);
   assert.match(page, /showModal\(\)/);
   assert.match(page, /Close company map/);
   assert.match(page, /worldCountryNames/);
   assert.match(page, /localStorage\.setItem/);
+});
+
+test("sample media fills missing sources without overwriting real or custom videos", () => {
+  const missing = { title: "0pass", category: "Cybersecurity", image: "logo.png" };
+  const before = { ...missing };
+  assert.equal(isSampleMedia(missing), true);
+  assert.equal(previewMedia(missing).youtubeId, "uJOA5IDaL5g");
+  assert.match(previewMedia(missing).sampleAttribution, /Apptronik/);
+  assert.match(previewMedia(missing).sampleAttribution, /Not the selected/);
+  assert.deepEqual(missing, before);
+  for (const media of [{ ...missing, youtubeId: "YVvbhJlxlf4" }, { ...missing, videoUrl: "https://example.com/real.mp4" }]) {
+    assert.equal(isSampleMedia(media), false);
+    assert.equal(previewMedia(media), media);
+    assert.equal(previewMedia(media).sampleAttribution, undefined);
+  }
+});
+
+test("company demo playlists have distinct saved titles and preserve the actual primary video", () => {
+  const primary = { title: "Apptronik", category: "Robotics", image: "poster.jpg", youtubeId: "uJOA5IDaL5g" };
+  const groups = companyDemoGroups("Apptronik", primary);
+  assert.equal(groups.length, 5);
+  assert.equal(groups[0].videos[0], primary);
+  const samples = groups.flatMap((group) => group.videos).slice(1);
+  assert.equal(new Set(samples.map((video) => video.title)).size, samples.length);
+  assert.ok(samples.every((video) => isSampleMedia(video) && video.category.startsWith("Sample ")));
+  const other = companyDemoGroups("0pass", { ...primary, title: "0pass", youtubeId: undefined });
+  assert.ok(other.flatMap((group) => group.videos).every((video) => !video.title.includes("Apptronik")));
+});
+
+test("every AI tool has a sample brief while keeping live analysis disconnected", async () => {
+  const page = await read("components/landing/ExperiencePages.tsx");
+  const data = ts.createSourceFile("ExperiencePages.tsx", page, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+  const declarations = data.statements.filter(ts.isVariableStatement).flatMap((statement) => statement.declarationList.declarations);
+  const toolNames = declarations.find((entry) => entry.name.getText(data) === "tools").initializer.elements.map((entry) => entry.text);
+  assert.equal(toolNames.length, 12);
+  assert.ok(toolNames.every((tool) => demoToolContent[tool]?.length === 3));
+  assert.match(page, /No live AI analysis or company assessment/);
+  assert.match(page, /Recorded showroom sample. No live stream is connected/);
+  assert.match(page, /detail="Sample data"/);
 });
 
 test("AI separates topics, people, shorts, and companies in the correct order", async () => {
