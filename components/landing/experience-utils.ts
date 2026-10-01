@@ -1,5 +1,9 @@
 import type { DirectoryCompany } from "./experience-data";
 
+export function companySlug(company: Pick<DirectoryCompany, "name">) {
+  return company.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 export function filterCompanies(source: DirectoryCompany[], filters: { country: string; industry: string; query: string; sort: string }) {
   const query = filters.query.trim().toLowerCase();
   const filtered = source.filter((company) =>

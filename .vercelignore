@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+dist
+work
+.DS_Store
+*.log
+.vercel
+*.tsbuildinfo
+.git
+.env*
+outputs

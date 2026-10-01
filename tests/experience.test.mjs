@@ -7,7 +7,42 @@ const root = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, root), "utf8");
 const source = await read("components/landing/experience-utils.ts");
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
-const { filterCompanies, readSavedIds, parseVideoUrl } = await import("data:text/javascript;base64," + Buffer.from(compiled).toString("base64"));
+const { companySlug, filterCompanies, readSavedIds, parseVideoUrl } = await import("data:text/javascript;base64," + Buffer.from(compiled).toString("base64"));
+
+test("company slugs handle directory punctuation without unsafe route characters", () => {
+  assert.equal(companySlug({ name: "[24]7.ai" }), "24-7-ai");
+  assert.equal(companySlug({ name: "About:Energy" }), "about-energy");
+  assert.equal(companySlug({ name: "3D BioFibR" }), "3d-biofibr");
+});
+
+test("every directory record has a unique nonempty company route", async () => {
+  const data = ts.createSourceFile("experience-data.ts", await read("components/landing/experience-data.ts"), ts.ScriptTarget.Latest, true);
+  const declarations = data.statements.filter(ts.isVariableStatement).flatMap((statement) => statement.declarationList.declarations);
+  const initializer = declarations.find((entry) => entry.name.getText(data) === "companies").initializer;
+  assert.ok(ts.isArrayLiteralExpression(initializer));
+  const slugs = initializer.elements.map((entry) => {
+    assert.ok(ts.isObjectLiteralExpression(entry));
+    const name = entry.properties.find((property) => property.name?.getText(data) === "name").initializer.text;
+    return companySlug({ name });
+  });
+  assert.equal(slugs.length, 18);
+  assert.ok(slugs.every((slug) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)));
+  assert.equal(new Set(slugs).size, slugs.length);
+});
+
+test("individual company routes use their own records without demo facts or rankings", async () => {
+  const route = await read("app/company/[slug]/page.tsx");
+  const page = await read("components/landing/ExperiencePages.tsx");
+  assert.match(route, /generateStaticParams/);
+  assert.match(route, /dynamicParams = false/);
+  assert.match(route, /if \(!company\) notFound\(\)/);
+  assert.match(route, /company=\{company\} key=\{slug\}/);
+  assert.match(page, /company \? \[\{ label: "Company videos", videos: \[companyVideo\(company\)\]/);
+  assert.match(page, /\["Industry", company.industry\], \["Country", company.country\]/);
+  assert.match(page, /Ranking data not connected/);
+  assert.match(page, /Open " \+ company.name \+ " company page/);
+  assert.match(page, /if \(company\) headingRef.current\?\.scrollIntoView/);
+});
 
 test("country, industry, and text filters compose without changing source order", () => {
   const companies = [

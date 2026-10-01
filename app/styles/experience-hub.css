@@ -10,6 +10,13 @@
 .hub-page-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid #101820; }
 .hub-page-heading h1 { font-size: 26px; font-weight: 800; line-height: 1.25; }
 .hub-page-heading p { margin-top: 4px; font-size: 14px; color: #53626b; }
+.hub-company-identity { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.hub-company-identity > img { width: 56px; height: 56px; object-fit: contain; flex-shrink: 0; }
+.hub-company-identity h1 { overflow-wrap: anywhere; }
+.hub-page-heading nav > a { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #c7d2da; border-radius: 3px; color: #17222b; background: #fff; }
+.hub-page-heading nav > a:hover { background: #e6f5fc; }
+.hub-profile-pending { margin-top: 16px !important; }
+.company-experience .hub-page-heading { scroll-margin-top: 185px; }
 .hub-page-heading nav { display: flex; flex-wrap: wrap; gap: 8px; }
 .hub-page-heading button, .hub-company-actions :is(button, a) { display: inline-flex; min-width: 40px; min-height: 40px; gap: 8px; align-items: center; justify-content: center; padding: 8px 10px; background: #fff; border: 1px solid #c7d2da; border-radius: 3px; color: #17222b; text-decoration: none; font-size: 14px; font-weight: 600; }
 .hub-page-heading button:hover, .hub-company-actions :is(button, a):hover { background: #e6f5fc; }
@@ -121,8 +128,10 @@
 .hub-filter-options input { width: 16px; height: 16px; accent-color: #0a79a8; }
 .hub-filter-options button { padding: 6px 0; border: 0; background: transparent; color: #066d9a; text-decoration: underline; }
 .feedback-hub .hub-directory { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 16px; border: 0; }
-.feedback-hub .hub-directory > button { grid-template-columns: 72px minmax(0, 1fr) 12px; gap: 10px; min-height: 110px; padding: 8px 8px 8px 0; border: 0; border-radius: 3px; background: #e5e8ec; }
-.feedback-hub .hub-directory > button:hover { background: #dcecf3; }
+.hub-directory-entry { display: grid; grid-template-columns: minmax(0, 1fr) 40px; min-height: 110px; border-radius: 3px; background: #e5e8ec; }
+.hub-directory-entry:hover, .hub-directory-entry:focus-within { background: #dcecf3; }
+.hub-directory-entry > button { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 10px; align-items: center; min-width: 0; padding: 8px 0; border: 0; background: transparent; color: #15212b; text-align: left; }
+.hub-directory-entry > a { display: grid; place-items: center; align-self: center; min-height: 44px; color: #15212b; }
 .feedback-hub .hub-directory img { width: 72px; height: 86px; padding: 3px; }
 .feedback-hub .hub-directory strong { font-size: 15px; line-height: 1.4; overflow-wrap: anywhere; }
 .feedback-hub .hub-directory small { font-size: 13px; line-height: 1.4; color: #435361; }
@@ -169,6 +178,7 @@
   .hub-page-heading nav button { font-size: 13px; }
   .hub-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "core" "news" "feeds" "right"; gap: 24px; }
   .company-experience .hub-layout { grid-template-areas: "core" "feeds" "right" "news"; }
+  .company-experience .hub-page-heading { scroll-margin-top: 260px; }
   .hub-right { padding-left: 0; padding-top: 20px; border-left: 0; border-top: 2px solid #15212b; }
   .hub-news { grid-template-columns: minmax(0, 1fr); }
   .hub-section-heading h2 { font-size: 17px; }

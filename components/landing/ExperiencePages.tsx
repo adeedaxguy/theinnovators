@@ -1,7 +1,8 @@
 "use client";
 
-import { Bookmark, Bot, Building2, ChevronRight, Map, Play, Radio, Search, Share2, SlidersHorizontal, Users, WandSparkles, X } from "lucide-react";
-import { useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { ArrowLeft, Bookmark, Bot, Building2, ChevronRight, Map, Play, Radio, Search, Share2, SlidersHorizontal, Users, WandSparkles, X } from "lucide-react";
+import Link from "next/link";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { FormEvent, ReactNode } from "react";
 import { AudienceSidebar, CategoryBar, FeatureBoard, MarketStrip, PortalHeader, SiteFooter } from "./chrome";
 import { GeographicMap, worldCountryNames } from "./GeographicMap";
@@ -9,7 +10,7 @@ import { ScrollRail } from "./ScrollRail";
 import { ExperiencePlayer, useExperiencePlayer } from "./ExperiencePlayer";
 import { academiaLeaders, aiCompanies, aiTopics, companies, companyBlocks, companyFacts, companyVideo, companyVideoGroups, featuredCompanies, industryLeaders, peoplePerspectives, policyLeaders, trendingCompanies } from "./experience-data";
 import type { DirectoryCompany } from "./experience-data";
-import { filterCompanies, parseVideoUrl, readSavedIds } from "./experience-utils";
+import { companySlug, filterCompanies, parseVideoUrl, readSavedIds } from "./experience-utils";
 import type { VideoItem } from "./types";
 
 type SelectVideo = (video: VideoItem) => void;
@@ -181,11 +182,18 @@ function CompanyRail({ title, items, onSelect, selected }: { title: string; item
   </section>;
 }
 
-const showroomLibrary = companyVideoGroups.flatMap((group) => group.videos);
-
-export function CompanyShowroomPage() {
-  const player = useExperiencePlayer(companyVideoGroups[0].videos[0]);
-  const watchlist = useWatchlist("innovators-company-watchlist");
+export function CompanyShowroomPage({ company }: { company?: DirectoryCompany }) {
+  const headingRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (company) headingRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, [company]);
+  const groups = company ? [{ label: "Company videos", videos: [companyVideo(company)] }] : companyVideoGroups;
+  const showroomLibrary = groups.flatMap((group) => group.videos);
+  const companyName = company?.name ?? "Nexa Robotics";
+  const profilePath = company ? "/company/" + companySlug(company) : "/companyA";
+  const facts = company ? [["Company", company.name], ["Industry", company.industry], ["Country", company.country]] : companyFacts;
+  const player = useExperiencePlayer(groups[0].videos[0]);
+  const watchlist = useWatchlist("innovators-company-watchlist" + (company ? "-" + companySlug(company) : ""));
   const [activeGroup, setActiveGroup] = useState(0);
   const [showSetup, setShowSetup] = useState(false);
   const [sourceUrl, setSourceUrl] = useState("");
@@ -206,15 +214,15 @@ export function CompanyShowroomPage() {
     catch { setStatus("Copy this page link: " + window.location.href); }
   }
   return (
-    <ExperienceChrome audience="Corporations" category="Advanced Manufacturing" module="Demo" onSelectVideo={player.selectVideo}>
+    <ExperienceChrome audience="Corporations" category={company?.industry ?? "Advanced Manufacturing"} module="Demo" onSelectVideo={player.selectVideo}>
       <div className="experience-main feedback-hub company-experience">
-        <header className="hub-page-heading"><div><h1>Nexa Robotics</h1><p>Demo company profile</p></div><SaveButton video={player.selection.video} watchlist={watchlist} /></header>
+        <header className="hub-page-heading" ref={headingRef}><div className="hub-company-identity">{company && <img alt={company.name + " logo"} src={company.logo} />}<div><h1>{companyName}</h1><p>{company ? company.industry + " | " + company.country : "Demo company profile"}</p></div></div><nav aria-label="Company navigation">{company && <Link aria-label="Back to innovators directory" href="/innovators" title="Back to innovators directory"><ArrowLeft /></Link>}<SaveButton video={player.selection.video} watchlist={watchlist} /></nav></header>
         <div className="hub-layout">
           <section className="hub-core" aria-label="Company video hub">
             <ExperiencePlayer {...player} onPlay={player.selectVideo} />
             <nav className="hub-company-actions" aria-label="Showroom actions">
               <button aria-label="Live showroom: stream not connected" disabled title="Live stream not connected" type="button"><Radio /></button>
-              <a aria-label="Invite audience by email" href="mailto:?subject=Nexa%20Robotics%20showroom&body=https%3A%2F%2Ftheinnovators-two.vercel.app%2FcompanyA" title="Invite audience"><Users /></a>
+              <a aria-label="Invite audience by email" href={"mailto:?subject=" + encodeURIComponent(companyName + " showroom") + "&body=" + encodeURIComponent("https://theinnovators-two.vercel.app" + profilePath)} title="Invite audience"><Users /></a>
               <button aria-expanded={showSetup} aria-label="Configure showroom preview" onClick={() => setShowSetup(!showSetup)} title="Configure showroom preview" type="button"><WandSparkles /></button>
               <button aria-label="Share showroom" onClick={share} title="Share showroom" type="button"><Share2 /></button>
             </nav>
@@ -222,26 +230,26 @@ export function CompanyShowroomPage() {
             {status && <p className="hub-status" role="status">{status}</p>}
             <section className="hub-company-playlist" aria-label="Company video playlists">
               <label htmlFor="company-playlist">Playlist</label>
-              <select id="company-playlist" onChange={(event) => setActiveGroup(Number(event.target.value))} value={activeGroup}>{companyVideoGroups.map((group, index) => <option key={group.label} value={index}>{group.label} ({group.videos.length})</option>)}</select>
-              <div><VideoRail title={companyVideoGroups[activeGroup].label} items={companyVideoGroups[activeGroup].videos} onSelect={player.selectVideo} selected={player.selection.video.title} /></div>
+              <select id="company-playlist" onChange={(event) => setActiveGroup(Number(event.target.value))} value={activeGroup}>{groups.map((group, index) => <option key={group.label} value={index}>{group.label} ({group.videos.length})</option>)}</select>
+              <div><VideoRail title={groups[activeGroup].label} items={groups[activeGroup].videos} onSelect={player.selectVideo} selected={player.selection.video.title} /></div>
             </section>
           </section>
           <div className="hub-feeds">
             <section className="hub-company-overview">
-              <SectionHeading title="Company overview" detail="Illustrative data" />
-              <dl className="hub-company-facts">{companyFacts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-              <div className="hub-company-data">{companyBlocks.map((block) => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></section>)}</div>
+              <SectionHeading title="Company overview" detail={company ? undefined : "Illustrative data"} />
+              <dl className="hub-company-facts">{facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+              {company ? <p className="hub-empty hub-profile-pending">Additional company information has not been supplied.</p> : <div className="hub-company-data">{companyBlocks.map((block) => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map((item) => <li key={item}>{item}</li>)}</ul></section>)}</div>}
             </section>
-            <section className="hub-video-archive" aria-label="Additional company videos">
-              {companyVideoGroups.slice(1).map((group) => <details key={group.label}><summary>{group.label}<span>{group.videos.length} videos</span></summary><VideoRail title={group.label} items={group.videos} onSelect={player.selectVideo} selected={player.selection.video.title} /></details>)}
-            </section>
+            {groups.length > 1 && <section className="hub-video-archive" aria-label="Additional company videos">
+              {groups.slice(1).map((group) => <details key={group.label}><summary>{group.label}<span>{group.videos.length} videos</span></summary><VideoRail title={group.label} items={group.videos} onSelect={player.selectVideo} selected={player.selection.video.title} /></details>)}
+            </section>}
           </div>
           <aside className="hub-right" aria-label="Company intelligence tools">
-            <section className="hub-ranking"><SectionHeading title="Company ranking" detail="Demo" />{[["Trust", 92], ["Brand", 84], ["Quality", 95], ["Innovation", 89], ["Responsibility", 86]].map(([label, score]) => <div key={label}><label htmlFor={"score-" + label}>{label}</label><meter id={"score-" + label} max="100" value={Number(score)} /><strong>{score}</strong></div>)}</section>
+            <section className="hub-ranking"><SectionHeading title="Company ranking" detail={company ? undefined : "Demo"} />{company ? <p className="hub-empty">Ranking data not connected.</p> : [["Trust", 92], ["Brand", 84], ["Quality", 95], ["Innovation", 89], ["Responsibility", 86]].map(([label, score]) => <div key={label}><label htmlFor={"score-" + label}>{label}</label><meter id={"score-" + label} max="100" value={Number(score)} /><strong>{score}</strong></div>)}</section>
             <ResearchTools company library={library} onSelect={player.selectVideo} />
             <Watchlist error={watchlist.error} library={[...library, player.selection.video]} onRemove={watchlist.toggle} onSelect={player.selectVideo} saved={watchlist.saved} />
           </aside>
-          <NewsColumn title="Company updates" items={companyVideoGroups[0].videos.slice(0, 4)} onSelect={player.selectVideo} selected={player.selection.video.title} />
+          <NewsColumn title={company ? "Company videos" : "Company updates"} items={groups[0].videos.slice(0, 4)} onSelect={player.selectVideo} selected={player.selection.video.title} />
         </div>
       </div>
     </ExperienceChrome>
@@ -287,7 +295,7 @@ export function InnovatorsDirectoryPage() {
               </div>
               <div className="hub-filter-options"><label><input checked={savedOnly} onChange={(event) => setSavedOnly(event.target.checked)} type="checkbox" /> Saved only</label><button onClick={resetFilters} type="button">Clear filters</button></div>
               <div className="innovators-directory hub-directory">
-                {filtered.map((company) => <button key={company.name} onClick={() => openCompany(company)} type="button"><img alt={company.name + " logo"} loading="lazy" src={company.logo} /><span><strong>{company.name}</strong><small>{company.industry}</small><em>{company.country}</em></span><ChevronRight /></button>)}
+                {filtered.map((company) => <div className="hub-directory-entry" key={company.name}><button aria-label={"Select " + company.name + " video"} onClick={() => openCompany(company)} type="button"><img alt={company.name + " logo"} loading="lazy" src={company.logo} /><span><strong>{company.name}</strong><small>{company.industry}</small><em>{company.country}</em></span></button><Link aria-label={"Open " + company.name + " company page"} href={"/company/" + companySlug(company)} title={"Open " + company.name + " company page"}><ChevronRight /></Link></div>)}
               </div>
               {!filtered.length && <p className="hub-empty" role="status">No companies match these filters.</p>}
             </section>
