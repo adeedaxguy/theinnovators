@@ -149,3 +149,34 @@ test("company overview precedes optional archive, with all 26 media slots retain
   assert.equal((groups.match(/videos\[\d+\]/g) ?? []).length, 26);
   assert.doesNotMatch(page, /workspace ready|brief prepared|1,248 signals|48 high-fit/);
 });
+
+test("company template puts overview under the central frame with full-height thumbnail-left news", async () => {
+  const page = await read("components/landing/ExperiencePages.tsx");
+  const css = await read("app/styles/experience-hub.css");
+  assert.match(page, /companyHeading=\{!company\}/);
+  assert.match(page, /items=\{company \? groups\[0\]\.videos\.slice\(0, 4\) : newsLibrary\}/);
+  assert.match(css, /grid-template-areas: "news core right" "news feeds right"/);
+  assert.match(css, /\.company-template \.hub-news-item img \{ order: -1/);
+  assert.match(css, /\.company-template \.hub-news \{ align-self: stretch/);
+});
+
+test("showroom toolbar switches features within the player and media selections return to video", async () => {
+  const page = await read("components/landing/ExperiencePages.tsx");
+  const player = await read("components/landing/ExperiencePlayer.tsx");
+  for (const view of ["Videos", "Overview", "Products", "History", "Tutorials", "Live now", "Invite", "Build showroom", "Share"]) assert.ok(page.includes('"' + view + '"'));
+  assert.match(page, /content=\{stageContent\} controls=/);
+  assert.match(page, /function selectCompanyVideo[\s\S]*?setActiveView\("Videos"\)/);
+  assert.match(player, /content \?\? \(playing/);
+  assert.match(page, /Publishing and white-label hosting are not connected/);
+  assert.match(page, /No invitation is sent automatically/);
+});
+
+test("landing text has readable floors without viewport-dependent title sizing", async () => {
+  const css = await read("app/styles/landing-readable.css");
+  const adminCss = await read("app/styles/typography-admin.css");
+  const page = await read("components/landing/InnovationDashboard.tsx");
+  assert.match(page, /portal-shell landing-readable/);
+  assert.match(css, /max\(16px, var\(--admin-font-body-size/);
+  assert.match(css, /max\(18px, var\(--admin-font-video-titles-size/);
+  assert.doesNotMatch(adminCss, /clamp\(12px, 0\.78vw, 14px\)/);
+});

@@ -69,7 +69,7 @@ export default function InnovationDashboard() {
   }
 
   return (
-    <main className={cx("portal-shell", sidebarOpen ? "is-sidebar-open" : "is-sidebar-collapsed")}>
+    <main className={cx("portal-shell landing-readable", sidebarOpen ? "is-sidebar-open" : "is-sidebar-collapsed")}>
       <PortalHeader activeModule={activeModule} setActiveModule={setActiveModule} />
       <MarketStrip />
       <AudienceSidebar

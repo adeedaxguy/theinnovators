@@ -1,0 +1,49 @@
+/* Keep public text readable, including browsers with older saved font settings. */
+.landing-readable :is(p, li, label, input, textarea, select, small, .source-line, .reaction-line, .cta-card, .mini-action, .compact-feature-nav button, .on-innovation-section nav button, .feature-title, .news-carousel-kicker, .deals-footer, .copilot-panel button, .ideas-panel form button, .floating-copilot button, .floating-copilot input) {
+  font-size: max(16px, var(--admin-font-body-size, 16px)) !important;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+.landing-readable .feature-tile::after { font-size: 16px; min-height: 28px; line-height: 1.2; }
+.landing-readable :is(.module-label, .journey-actions a, .category-scroll button, .category-search input, .ticker-item) { font-size: 16px !important; line-height: 1.35; }
+.landing-readable .journey-actions a { min-height: 58px; height: auto; }
+.landing-readable :is(.leader-row button span, .leader-row button strong, .leader-row button small) { font-size: max(16px, var(--admin-font-leader-card-text-size, 16px)) !important; line-height: 1.35; }
+.landing-readable :is(.video-copy strong, .image-play-card strong) { font-size: max(18px, var(--admin-font-video-titles-size, 18px)) !important; line-height: 1.4 !important; }
+.landing-readable .captioned-video h3 { font-size: max(18px, var(--admin-font-small-captions-size, 18px)) !important; line-height: 1.4; }
+.landing-readable .news-carousel-copy h3 { font-size: 24px !important; line-height: 1.35; }
+.landing-readable .section-row-heading :is(h2, h3) { font-size: 28px !important; line-height: 1.3; }
+.landing-readable .portal-grid { --top-panel-height: auto; grid-template-rows: auto auto; align-items: start; }
+.landing-readable :is(.spotlight-panel, .leaders-panel, .innovators-panel, .ideas-panel) { height: auto; min-height: 0; overflow: visible; }
+.landing-readable .leader-row button:not(.rail-arrow) { height: auto; min-height: 160px; }
+.landing-readable .leader-row button span { position: static; display: grid; gap: 4px; padding: 8px; background: #17222b; color: white; }
+.landing-readable .leader-row button img { height: 112px; width: 100%; object-fit: cover; }
+.landing-readable .leader-row :is(strong, small) { white-space: normal; text-overflow: clip; overflow-wrap: anywhere; }
+.landing-readable .leaders-panel { grid-template-rows: auto; grid-auto-rows: auto; gap: 16px; }
+.landing-readable .leader-strip .scroll-rail { grid-auto-columns: 145px; height: auto; align-items: start; }
+.landing-readable .leader-row .scroll-rail-shell { height: auto; }
+.landing-readable .news-block { grid-template-columns: minmax(0, 1fr); }
+.landing-readable .news-thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; align-items: start; }
+.landing-readable :is(.video-line, .news-thumbs) .video-card { height: auto; display: flex; flex-direction: column; }
+.landing-readable :is(.video-line, .news-thumbs) .video-card .video-copy { position: static; padding: 10px; background: #17222b; }
+.landing-readable .news-thumbs .video-card .video-copy { display: block; }
+.landing-readable :is(.video-line, .news-thumbs) .video-card .media-frame { height: auto; }
+.landing-readable :is(.video-line, .news-thumbs) .video-card::after { display: none; }
+.landing-readable :is(.video-line, .news-thumbs) .video-card img { height: auto; aspect-ratio: 16 / 9; }
+.landing-readable .bottom-videos { height: auto; }
+.landing-readable .bottom-videos .video-card.is-editorial { height: auto; grid-template-rows: 140px auto; }
+.landing-readable .video-copy { height: auto; min-height: 0; overflow: visible; }
+.landing-readable .video-copy strong { display: block; -webkit-line-clamp: unset; }
+.landing-readable .video-line { min-height: 0; height: auto; align-items: start; }
+.landing-readable .video-line-rail { height: auto; }
+.landing-readable .video-line-rail .scroll-rail { grid-auto-columns: 190px; height: auto; align-items: stretch; }
+.landing-readable .bottom-videos .scroll-rail { grid-auto-columns: 220px; height: auto; }
+.landing-readable .captioned-video h3 { display: block; -webkit-line-clamp: unset; }
+.landing-readable :is(.feature-small-rail, .ai-card-grid, .ai-card-rail) { height: auto; min-height: 0; }
+.landing-readable :is(.feature-small-rail, .ai-card-rail) .scroll-rail { height: auto; }
+.landing-readable .feature-small-rail .captioned-video { height: auto; grid-template-rows: 150px auto; }
+.landing-readable .ai-card-grid .captioned-video { height: auto; }
+.landing-readable :is(button, a, input, select, textarea):focus-visible { outline: 3px solid #087fbd; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .landing-readable .journey-actions a { font-size: 16px !important; }
+  .landing-readable .section-row-heading :is(h2, h3) { font-size: 24px !important; }
+}

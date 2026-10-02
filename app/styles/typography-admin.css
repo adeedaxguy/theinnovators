@@ -107,9 +107,9 @@ textarea {
 
 .portal-grid .video-line .video-card .video-copy strong,
 .portal-grid .bottom-videos .video-card .video-copy strong {
-  font-size: clamp(12px, 0.78vw, 14px) !important;
+  font-size: max(18px, var(--admin-font-video-titles-size, 18px)) !important;
   font-weight: 560 !important;
-  line-height: 1.12 !important;
+  line-height: 1.4 !important;
 }
 
 .captioned-video h3,
