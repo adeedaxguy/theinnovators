@@ -323,7 +323,7 @@ export function applyTypographySettings(settings: unknown) {
   TYPOGRAPHY_AREAS.forEach((area) => {
     const value = normalized[area.id];
     root.style.setProperty(`--admin-font-${area.id}-family`, value.family);
-    root.style.setProperty(`--admin-font-${area.id}-size`, `${value.size}px`);
+    root.style.setProperty(`--admin-font-${area.id}-size`, `${value.size / 16}rem`);
     root.style.setProperty(`--admin-font-${area.id}-style`, value.style);
     root.style.setProperty(`--admin-font-${area.id}-weight`, String(value.weight));
   });

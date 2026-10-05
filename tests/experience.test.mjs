@@ -140,13 +140,15 @@ test("AI separates topics, people, shorts, and companies in the correct order", 
   assert.match(page, /<CompanyRail title="AI Innovators"/);
 });
 
-test("company overview precedes optional archive, with all 26 media slots retained", async () => {
+test("company overview precedes optional archives and recommendations without fictional company facts", async () => {
   const page = await read("components/landing/ExperiencePages.tsx");
-  const data = await read("components/landing/experience-data.ts");
+  const data = await read("components/landing/innovators-profile.ts");
   assert.ok(page.indexOf('title="Company overview"') < page.indexOf('aria-label="Additional company videos"'));
   assert.match(page, /<details key=\{group\.label\}>/);
-  const groups = data.slice(data.indexOf("export const companyVideoGroups"), data.indexOf("export const companyFacts"));
-  assert.equal((groups.match(/videos\[\d+\]/g) ?? []).length, 26);
+  assert.match(data, /The INNOVATORS/);
+  assert.match(data, /"Founders", "Not published"/);
+  assert.match(page, /title="You may also like"/);
+  assert.doesNotMatch(page, /Nexa Robotics|companyFacts|companyBlocks|company-playlist/);
   assert.doesNotMatch(page, /workspace ready|brief prepared|1,248 signals|48 high-fit/);
 });
 
@@ -160,10 +162,10 @@ test("company template puts overview under the central frame with full-height th
   assert.match(css, /\.company-template \.hub-news \{ align-self: stretch/);
 });
 
-test("showroom toolbar switches features within the player and media selections return to video", async () => {
+test("showroom icon controls switch features and media selections return to the player", async () => {
   const page = await read("components/landing/ExperiencePages.tsx");
   const player = await read("components/landing/ExperiencePlayer.tsx");
-  for (const view of ["Videos", "Overview", "Products", "History", "Tutorials", "Live now", "Invite", "Build showroom", "Share"]) assert.ok(page.includes('"' + view + '"'));
+  for (const view of ["Videos", "Company profile", "Products", "Community", "Leadership", "Growth & data", "Tools", "Comments", "Search videos", "Live now", "Offerings", "Save video", "Private access", "Like video", "Invite", "Build showroom", "Share"]) assert.ok(page.includes('"' + view + '"'));
   assert.match(page, /content=\{stageContent\} controls=/);
   assert.match(page, /function selectCompanyVideo[\s\S]*?setActiveView\("Videos"\)/);
   assert.match(player, /content \?\? \(playing/);
@@ -176,7 +178,10 @@ test("landing text has readable floors without viewport-dependent title sizing",
   const adminCss = await read("app/styles/typography-admin.css");
   const page = await read("components/landing/InnovationDashboard.tsx");
   assert.match(page, /portal-shell landing-readable/);
-  assert.match(css, /max\(16px, var\(--admin-font-body-size/);
-  assert.match(css, /max\(18px, var\(--admin-font-video-titles-size/);
+  assert.match(css, /--portal-body: 1rem/);
+  assert.match(css, /--portal-ui: \.9375rem/);
+  assert.match(css, /--portal-meta: \.8125rem/);
+  assert.match(css, /font-size: 1rem !important/);
+  assert.doesNotMatch(css, /\dvw|font-size:.*clamp/);
   assert.doesNotMatch(adminCss, /clamp\(12px, 0\.78vw, 14px\)/);
 });

@@ -1,4 +1,5 @@
 import type { ReactElement, SVGProps } from "react";
+import { CaseSensitive } from "lucide-react";
 
 export function Icon({ name }: { name: string }) {
   const common: SVGProps<SVGSVGElement> = {
@@ -54,13 +55,7 @@ export function Icon({ name }: { name: string }) {
         <path d="M4 20c3-5 7-8 12-10" />
       </svg>
     ),
-    letters: (
-      <svg className="ui-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <text x="2.5" y="15.5" fill="currentColor" fontFamily="Arial, Helvetica, sans-serif" fontSize="8.2" fontWeight="800">
-          Abc
-        </text>
-      </svg>
-    ),
+    letters: <CaseSensitive className="ui-icon" aria-hidden="true" />,
     receipt: (
       <svg {...common}>
         <path d="M6 3h12v18l-2-1.2-2 1.2-2-1.2-2 1.2-2-1.2L6 21V3Z" />

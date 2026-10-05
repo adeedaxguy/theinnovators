@@ -364,7 +364,7 @@ export const worldIntelligencePage: IntelligencePageContent = {
       { label: "Capital access", value: "88", tone: "red" },
     ],
   },
-  agentTitle: "AI Agent Tools",
+  agentTitle: "Inno Magic AI",
   agentPrompts: [
     "Compare two country ecosystems",
     "Find grant programs by sector",
@@ -619,7 +619,7 @@ export const usaIntelligencePage: IntelligencePageContent = {
       { label: "Video briefings", value: "900+", tone: "red" },
     ],
   },
-  agentTitle: "AI Discover Agent",
+  agentTitle: "Inno Magic AI",
   agentPrompts: [
     "Find grants by sector and state",
     "Compare state innovation rankings",
@@ -694,7 +694,7 @@ export const usaIntelligencePage: IntelligencePageContent = {
     },
     {
       title: "Seek Help From Us",
-      body: "Use the AI Discover Agent to assemble a state, sector, or company action brief.",
+      body: "Use Inno Magic AI to assemble a state, sector, or company action brief.",
     },
   ],
 };

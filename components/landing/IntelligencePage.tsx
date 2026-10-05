@@ -110,7 +110,7 @@ function WorldAgent({
     <section className="world-panel world-agent-panel">
       <div className="world-panel-heading">
         <Bot aria-hidden="true" />
-        <h2>AI Agent</h2>
+        <h2>Inno Magic AI</h2>
       </div>
       <form onSubmit={onAsk}>
         <Search aria-hidden="true" />

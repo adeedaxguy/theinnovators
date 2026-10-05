@@ -112,7 +112,7 @@ function AgentTool({
       <div className="usa-tool-heading">
         <Bot aria-hidden="true" />
         <div>
-          <h2>AI Discover Agent</h2>
+          <h2>Inno Magic AI</h2>
           <span>Search companies, capital, programs, and ecosystems</span>
         </div>
       </div>
@@ -158,7 +158,7 @@ function AgentTool({
       <form onSubmit={onAsk}>
         <Search aria-hidden="true" />
         <input
-          aria-label="Ask the AI Discover Agent"
+          aria-label="Ask Inno Magic AI"
           onChange={(event) => setPrompt(event.target.value)}
           placeholder="Ask about a state, industry, or program"
           value={prompt}

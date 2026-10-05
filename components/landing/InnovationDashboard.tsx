@@ -236,7 +236,7 @@ export default function InnovationDashboard() {
 
         <section className="copilot-panel">
           <VideoCard video={videos[2]} onPlay={setModalVideo} />
-          <h2>c-pilot Agent</h2>
+          <h2>Inno Magic AI</h2>
           <form onSubmit={askCopilot}>
             <input
               aria-label="Ask the innovation co-pilot"

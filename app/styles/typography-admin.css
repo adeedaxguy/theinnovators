@@ -107,7 +107,7 @@ textarea {
 
 .portal-grid .video-line .video-card .video-copy strong,
 .portal-grid .bottom-videos .video-card .video-copy strong {
-  font-size: max(18px, var(--admin-font-video-titles-size, 18px)) !important;
+  font-size: var(--admin-font-video-titles-size, 1rem) !important;
   font-weight: 560 !important;
   line-height: 1.4 !important;
 }

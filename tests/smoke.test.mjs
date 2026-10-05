@@ -57,7 +57,7 @@ test("USA uses its dedicated Canva-aligned layout and map overlay", async () => 
   assert.doesNotMatch(video, /usa-frame-stars/);
   assert.match(video, /USA States Video Playlists/);
   assert.doesNotMatch(video, /usa-video-menu/);
-  assert.match(page, /AI Discover Agent/);
+  assert.match(page, /Inno Magic AI/);
   assert.match(video, /usa-youtube-playlist/);
   assert.match(page, /America’s Leaders/);
   assert.match(page, /America’s Industries/);
@@ -126,7 +126,7 @@ test("Canva pages 6 through 13 are implemented as interactive product routes", a
   assert.match(experience, /InnovatorsDirectoryPage/);
   assert.match(experience, /Preview live showroom with recorded sample/);
   assert.match(experience, /No live stream is connected/);
-  assert.match(experience, /AI discovery agent/);
+  assert.match(experience, /Inno Magic AI/);
   assert.doesNotMatch(experience, /Innovation encyclopedia|Recommended for you|AI Thought Leaders/);
   assert.match(experience, /GeographicMap mode="world"/);
   assert.match(experience, /Search innovators/);

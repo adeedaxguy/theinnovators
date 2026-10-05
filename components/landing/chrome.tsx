@@ -301,20 +301,20 @@ export function FloatingCopilot({
   setCopilotPrompt: ActiveSetter;
 }) {
   return (
-    <section className="floating-copilot" aria-label="Site AI co-pilot">
+    <section className="floating-copilot" aria-label="Inno Magic AI">
       <button
         className="floating-copilot-orb"
         onClick={() => setActiveModule("AI co-pilot")}
         type="button"
-        aria-label="Open AI co-pilot"
+        aria-label="Open Inno Magic AI"
       >
         AI
       </button>
       <form onSubmit={askCopilot}>
         <input
-          aria-label="Ask the site co-pilot"
+          aria-label="Ask Inno Magic AI"
           onChange={(event) => setCopilotPrompt(event.target.value)}
-          placeholder="Ask co-pilot..."
+          placeholder="Ask Inno Magic AI..."
           value={copilotPrompt}
         />
         <button type="submit">Ask</button>
