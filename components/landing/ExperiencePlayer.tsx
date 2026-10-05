@@ -17,7 +17,7 @@ export function useExperiencePlayer(initialVideo: VideoItem) {
     setSelection((previous) => ({ video, playing: true, revision: previous.revision + 1 }));
     const bounds = playerRef.current?.getBoundingClientRect();
     if (bounds && (bounds.top < 100 || bounds.bottom > window.innerHeight)) {
-      playerRef.current?.scrollIntoView({ behavior: "instant", block: "center" });
+      playerRef.current?.scrollIntoView({ behavior: "instant", block: "start" });
     }
   }
 

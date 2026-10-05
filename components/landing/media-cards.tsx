@@ -137,6 +137,7 @@ export function ImagePlayCard({
 }: ImagePlayCardProps) {
   return (
     <button
+      aria-label={`Play ${title}`}
       className={cx("image-play-card", size)}
       data-testid={`image-card-${slug(title)}`}
       onClick={() => onPlay({ title, image, category: "Innovation" })}

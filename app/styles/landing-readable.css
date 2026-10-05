@@ -29,6 +29,7 @@ html { font-size: 100%; }
 .portal-shell .geographic-map-state-label { font-size: .75rem; }
 .portal-shell .usa-map-dialog-actions a { font-size: .875rem; }
 .portal-shell :is(button, a, input, select, textarea):focus-visible { outline: 3px solid #087fbd; outline-offset: 3px; }
+.portal-shell :is(.hub-player, .hub-directory-section) { scroll-margin-top: calc(var(--header-height) + 4.5rem); }
 
 /* Three readable editorial columns, rather than four undersized columns. */
 .landing-readable .portal-grid { --top-panel-height: auto; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr) minmax(0, 1.1fr); grid-template-areas: "spotlight leaders innovators" "ideas ideas ideas" "bottom bottom bottom"; grid-template-rows: auto auto auto; align-items: start; gap: 1.5rem; overflow: visible; padding: 1rem 0; border: 0; border-radius: 0; background: #fff; box-shadow: none; }
@@ -84,7 +85,15 @@ html { font-size: 100%; }
 @media (max-width: 1100px) {
   .landing-readable .portal-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "spotlight spotlight" "leaders innovators" "ideas ideas" "bottom bottom"; }
 }
+@media (max-width: 900px) {
+  .portal-shell, .portal-shell.is-sidebar-collapsed { --header-height: 12rem; }
+  .portal-shell .portal-header { grid-template-rows: 7.125rem 4.875rem; }
+}
 @media (max-width: 760px) {
+  .portal-shell .portal-header { grid-template-rows: 6rem 6rem; }
+  .portal-shell .journey-actions { padding-block: .375rem; align-content: stretch; align-items: stretch; }
+  .portal-shell .journey-actions a { height: 5.25rem; min-height: 5.25rem; padding: .375rem .25rem; }
+  .portal-shell :is(.hub-player, .hub-directory-section, .company-experience .hub-page-heading, .usa-made-in-america, .usa-leaders-section, .usa-industries-section, .usa-united-section, .usa-states-section, .usa-content-core > div[id]) { scroll-margin-top: calc(var(--header-height) + 7rem); }
   .portal-shell .usa-map-dialog-header { flex-wrap: wrap; }
   .portal-shell .usa-map-dialog-actions { width: 100%; justify-content: flex-end; }
   .portal-shell .usa-map-dialog-actions a { width: auto; padding: 0 .625rem; margin-right: auto; }

@@ -7,7 +7,7 @@
 .tv-frame-radiant .tv-cabinet { position: relative; padding: var(--tv-bezel); border: 2px solid #eaffff; border-radius: var(--tv-radius); background: linear-gradient(135deg, #eaffff, var(--tv-frame-color) 18%, color-mix(in srgb, var(--tv-frame-color), #198aff 25%) 42%, #caffff 62%, var(--tv-frame-color) 82%, #fff); box-shadow: 0 0 18px color-mix(in srgb, var(--tv-frame-color), #146eff 40%), inset 0 0 7px #fff; }
 .tv-frame-radiant .tv-screen { background: #fff; border: 2px solid #eaffff; box-shadow: 0 0 7px #fff; }
 .tv-frame-radiant .tv-brand-plate { color: #15212b; font-size: .9375rem; }
-.tv-cabinet-controls { grid-column: 1 / -1; min-width: 0; }
+.tv-cabinet-controls { grid-column: 1 / -1; min-width: 0; container-type: inline-size; container-name: showroom-controls; }
 .tv-cabinet-controls .tv-icon-controls.hub-frame-controls { padding-top: 0; }
 .tv-brand-pattern { position: absolute; inset: 0; pointer-events: none; font: 700 .75rem/1 var(--portal-heading-font); color: #000; }
 .tv-brand-pattern > div { position: absolute; display: flex; align-items: center; justify-content: space-around; gap: .5rem; overflow: hidden; }
@@ -51,12 +51,28 @@
 .tv-icon-controls.hub-frame-controls button img { display: block; width: 2.75rem; height: 2.75rem; object-fit: contain; }
 .tv-icon-controls.hub-frame-controls button:hover, .tv-icon-controls.hub-frame-controls button[aria-pressed="true"] { background: #d4f2ff; outline: 2px solid #087ac2; outline-offset: 2px; }
 .tv-icon-controls.hub-frame-controls svg { width: 1.375rem; height: 1.375rem; }
-@container (min-width: 710px) { .tv-icon-controls.hub-frame-controls { grid-template-columns: repeat(14, minmax(0, 1fr)); } }
-@container (max-width: 350px) { .tv-icon-controls.hub-frame-controls { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-.tv-control-tooltip { display: none; position: absolute; bottom: calc(100% + .5rem); left: 50%; transform: translateX(-50%); min-width: max-content; max-width: 14rem; z-index: 3; padding: .375rem .5rem; background: #fff; color: #15212b; border: 1px solid #c7d2da; font-size: .8125rem; border-radius: 3px; }
+.tv-control-tooltip { display: none; position: absolute; bottom: calc(100% + .5rem); left: 50%; transform: translateX(-50%); width: max-content; max-width: min(14rem, 100cqw); z-index: 3; padding: .375rem .5rem; background: #fff; color: #15212b; border: 1px solid #c7d2da; font-size: .8125rem; border-radius: 3px; white-space: normal; overflow-wrap: anywhere; }
 .tv-icon-controls button:is(:hover, :focus-visible) .tv-control-tooltip { display: block; }
-.tv-icon-controls button:first-child .tv-control-tooltip { left: 0; transform: none; }
-.tv-icon-controls button:last-child .tv-control-tooltip { left: auto; right: 0; transform: none; }
+.tv-icon-controls button:nth-child(7n + 1) .tv-control-tooltip { left: 0; transform: none; }
+.tv-icon-controls button:nth-child(7n) .tv-control-tooltip { left: auto; right: 0; transform: none; }
+@container showroom-controls (min-width: 43.5rem) {
+  .tv-icon-controls.hub-frame-controls { grid-template-columns: repeat(14, minmax(0, 1fr)); }
+  .tv-icon-controls button:nth-child(n) .tv-control-tooltip { left: 50%; right: auto; transform: translateX(-50%); }
+  .tv-icon-controls button:first-child .tv-control-tooltip { left: 0; transform: none; }
+  .tv-icon-controls button:last-child .tv-control-tooltip { left: auto; right: 0; transform: none; }
+}
+@container showroom-controls (max-width: 21.5rem) {
+  .tv-icon-controls.hub-frame-controls { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .tv-icon-controls button:nth-child(n) .tv-control-tooltip { left: 50%; right: auto; transform: translateX(-50%); }
+  .tv-icon-controls button:nth-child(5n + 1) .tv-control-tooltip { left: 0; transform: none; }
+  .tv-icon-controls button:nth-child(5n) .tv-control-tooltip { left: auto; right: 0; transform: none; }
+}
+@container showroom-controls (max-width: 15.25rem) {
+  .tv-icon-controls.hub-frame-controls { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tv-icon-controls button:nth-child(n) .tv-control-tooltip { left: 50%; right: auto; transform: translateX(-50%); }
+  .tv-icon-controls button:nth-child(4n + 1) .tv-control-tooltip { left: 0; transform: none; }
+  .tv-icon-controls button:nth-child(4n) .tv-control-tooltip { left: auto; right: 0; transform: none; }
+}
 .company-experience .hub-layout { grid-template-columns: minmax(14rem, .85fr) minmax(0, 2.8fr) minmax(15rem, 1fr); grid-template-rows: min-content 1fr; grid-template-areas: "news core right" "news feeds right"; gap: 1rem 1.125rem; align-items: start; }
 .innovators-experience .hub-layout { grid-template-columns: minmax(12rem, .7fr) minmax(0, 2.8fr) minmax(14rem, 1fr); }
 /* Crop preview-image letterboxing only; never crop the actual video or its controls. */

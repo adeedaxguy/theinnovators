@@ -242,3 +242,18 @@ test("latest JY feedback keeps Now headings, prominent accessible icons and alig
   assert.match(thumbnail, /is-letterboxed/);
   assert.match(frame, /\.video-thumbnail\.is-letterboxed > img \{ transform: scale\(1\.12\)/);
 });
+
+test("double-check fixes fit the inner toolbar and label image-only videos and empty searches", async () => {
+  const frame = await read("app/styles/tv-frame.css");
+  const cards = await read("components/landing/media-cards.tsx");
+  const page = await read("components/landing/ExperiencePages.tsx");
+  const css = await read("app/styles/landing-readable.css");
+  assert.match(frame, /container-name: showroom-controls/);
+  assert.match(frame, /@container showroom-controls \(min-width: 43\.5rem\)/);
+  assert.match(frame, /@container showroom-controls \(max-width: 15\.25rem\)/);
+  assert.match(cards, /aria-label=\{`Play \$\{title\}`\}/);
+  assert.match(page, /value=\{videoQuery\} onChange=\{e => setVideoQuery/);
+  assert.match(page, /videoQuery\.trim\(\)\.toLowerCase\(\)/);
+  assert.match(page, /role="status">No videos found\./);
+  assert.match(css, /grid-template-rows: 6rem 6rem/);
+});
