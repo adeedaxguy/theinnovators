@@ -52,6 +52,40 @@ export const demoToolContent: Record<string, string[]> = {
   "Events": ["Example format: founder roundtable", "Agenda: product briefing and audience questions", "Follow-up: opt-in attendee resources"],
 };
 
+export const companyToolGroups = [
+  { title: "Research & Discovery", tools: ["AI Research", "Innovation Summarize", "AI Market Research & Analysis", "Competitive Landscape", "Innovation Portfolio", "Product Research"] },
+  { title: "Marketing & Sales", tools: ["AI Marketing", "Product Launch / Demo", "Product Market Fit", "A/B Testing", "Marketing & Sales Data Insights", "Private Data Room"] },
+  { title: "Creator & Community", tools: ["AI Creation Toolkit", "AI Mentorship", "AI Discovery", "AI Recruitment", "AI Customer Service"] },
+  { title: "Deals", tools: ["Deals Matchmaking", "Deals Screening", "Deals Valuation Estimator", "Due Diligence", "Benchmark With Competition"] },
+  { title: "Data Insights", tools: ["Viewing History", "Discovery History", "Market Analysis", "Viewership Analysis"] },
+];
+
+export const companyToolContent: Record<string, string[]> = {
+  "AI Research": demoToolContent["AI Research"],
+  "Innovation Summarize": ["Input: a primary-source video or document", "Review: claims, evidence and limitations", "Output: a source-linked summary for human review"],
+  "AI Market Research & Analysis": demoToolContent["Market Research"],
+  "Competitive Landscape": demoToolContent["Competitive Analysis"],
+  "Innovation Portfolio": ["Inventory: products and research projects", "Compare: maturity, evidence and strategic fit", "Review: verified ownership and project status"],
+  "Product Research": ["Input: product documentation and demonstrations", "Review: capabilities, constraints and user needs", "Validate: primary sources and customer evidence"],
+  "AI Marketing": ["Input: a verified product brief and audience", "Draft: messaging options for human review", "Validate: claims before publishing"],
+  "Product Launch / Demo": demoToolContent["Product Launch"],
+  "Product Market Fit": demoToolContent["PMF Testing"],
+  "A/B Testing": ["Define: one measurable hypothesis", "Plan: variants, sample size and success criteria", "Review: actual experiment data before conclusions"],
+  "Marketing & Sales Data Insights": demoToolContent["Sales Insights"],
+  "Private Data Room": demoToolContent["Data Room"],
+  "AI Creation Toolkit": ["Input: an approved creative brief", "Prepare: scripts, storyboards and asset requirements", "Review: licensing and factual accuracy before publication"],
+  "AI Mentorship": ["Define: the innovator's question and context", "Explore: options, tradeoffs and next steps", "Validate: advice with appropriate domain expertise"],
+  "AI Discovery": ["Start: a topic, industry or company", "Search: the available source library", "Review: source relevance and provenance"],
+  "AI Recruitment": demoToolContent["Recruitment"],
+  "AI Customer Service": ["Input: approved support documentation", "Draft: a response grounded in that documentation", "Escalate: unresolved requests to a human"],
+  "Deals Matchmaking": demoToolContent["Investor Match"],
+  "Deals Screening": ["Check: stage, sector and investment mandate", "Review: verified company and financial information", "Escalate: eligibility and investment decisions for human review"],
+  "Deals Valuation Estimator": demoToolContent["Valuation"],
+  "Due Diligence": demoToolContent["Due Diligence"],
+  "Benchmark With Competition": demoToolContent["Competitive Analysis"],
+  "Market Analysis": demoToolContent["Market Research"],
+};
+
 export const demoCompanyScores = [["Trust", 92], ["Brand", 84], ["Quality", 95], ["Innovation", 89], ["Responsibility", 86]] as const;
 export const demoAiScores = [["Research", 88], ["Adoption", 81], ["Policy", 76]] as const;
 export const demoDirectoryScores = [["Innovation", 89], ["Traction", 82], ["Readiness", 78]] as const;

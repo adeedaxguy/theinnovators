@@ -10,7 +10,7 @@ import { ScrollRail } from "./ScrollRail";
 import { ExperiencePlayer, useExperiencePlayer } from "./ExperiencePlayer";
 import { academiaLeaders, aiCompanies, aiTopics, companies, companyVideo, featuredCompanies, industryLeaders, peoplePerspectives, policyLeaders, trendingCompanies } from "./experience-data";
 import type { DirectoryCompany } from "./experience-data";
-import { companyDemoGroups, demoAiScores, demoCompanyScores, demoDirectoryScores, demoToolContent, isSampleMedia } from "./experience-demo";
+import { companyDemoGroups, companyToolGroups, companyToolContent, demoAiScores, demoCompanyScores, demoDirectoryScores, demoToolContent, isSampleMedia } from "./experience-demo";
 import { companySlug, filterCompanies, parseVideoUrl, readSavedIds } from "./experience-utils";
 import type { VideoItem } from "./types";
 import { innovatorsProfile, innovatorsVideos, innovatorsVideoGroups } from "./innovators-profile";
@@ -119,13 +119,20 @@ function Watchlist({ library, saved, onSelect, onRemove, error }: {
 
 const tools = ["AI Research", "Market Research", "Competitive Analysis", "Product Launch", "PMF Testing", "Sales Insights", "Data Room", "Investor Match", "Valuation", "Due Diligence", "Recruitment", "Events"];
 
-function ResearchTools({ library, onSelect, company = false }: { library: VideoItem[]; onSelect: SelectVideo; company?: boolean }) {
+function ResearchTools({ library, onSelect, company = false, viewingHistory = [] }: { library: VideoItem[]; onSelect: SelectVideo; company?: boolean; viewingHistory?: VideoItem[] }) {
   const searchId = useId();
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState<string | null>(null);
   const [activeTool, setActiveTool] = useState("");
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const matches = useMemo(() => submitted === null ? [] : Array.from(new globalThis.Map(library.map((video) => [video.title, video])).values()).filter((video) => (video.title + " " + video.category).toLowerCase().includes(submitted.toLowerCase())), [library, submitted]);
-  function search(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setSubmitted(query.trim()); }
+  function search(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const term = query.trim(); setSubmitted(term); if (term) setSearchHistory(previous => [term, ...previous.filter(value => value !== term)].slice(0, 20)); }
+  function toolResult(tool: string) {
+    if (tool === "Viewing History") return <div className="hub-tool-status"><strong>Viewing History</strong><p>Recent selections in this browser session, not completed views.</p>{viewingHistory.length ? viewingHistory.map((video, index) => <button key={index} onClick={() => onSelect(video)} type="button">{video.title}<Play /></button>) : <p>No videos selected yet.</p>}</div>;
+    if (tool === "Discovery History") return <div className="hub-tool-status"><strong>Discovery History</strong><p>Searches in this panel during this browser session.</p>{searchHistory.length ? searchHistory.map(term => <button key={term} onClick={() => { setQuery(term); setSubmitted(term); }} type="button">{term}<Search /></button>) : <p>No library searches yet.</p>}</div>;
+    if (tool === "Viewership Analysis") return <div className="hub-tool-status"><strong>Viewership Analysis</strong><p>{viewingHistory.length} recent video selections in this browser session. Audience counts, watch duration and aggregate analytics are not connected.</p></div>;
+    return <div className="hub-tool-status" role="status"><strong>{tool} | Sample brief</strong><ul>{(company ? companyToolContent : demoToolContent)[tool].map(item => <li key={item}>{item}</li>)}</ul><p>Illustrative content. No live AI analysis or company assessment.</p></div>;
+  }
   return (
     <section className="hub-research" aria-label="Inno Magic AI tools">
       <SectionHeading title="Inno Magic AI" />
@@ -136,10 +143,7 @@ function ResearchTools({ library, onSelect, company = false }: { library: VideoI
         <button aria-label="Search library" title="Search library" type="submit"><Search /></button>
       </form>
       {submitted !== null && <div className="hub-search-results" aria-live="polite"><p>{matches.length} library results</p>{matches.map((video) => <button key={video.title} onClick={() => onSelect(video)} type="button">{video.title}<ChevronRight /></button>)}{!matches.length && <p>No matching videos. Try a name or topic.</p>}</div>}
-      <div className="hub-tool-grid">
-        {(company ? tools : tools.slice(0, 6)).map((tool) => <button aria-pressed={activeTool === tool} key={tool} onClick={() => setActiveTool(activeTool === tool ? "" : tool)} type="button"><Bot />{tool}</button>)}
-      </div>
-      {activeTool && <div className="hub-tool-status" role="status"><strong>{activeTool} | Sample brief</strong><ul>{demoToolContent[activeTool].map((item) => <li key={item}>{item}</li>)}</ul><p>Illustrative content. No live AI analysis or company assessment.</p></div>}
+      {company ? <div className="company-tool-groups">{companyToolGroups.map(group => <section key={group.title} aria-label={group.title}><h3>{group.title}</h3><div className="hub-tool-grid">{group.tools.map(tool => <div className="hub-tool-option" key={tool}><button aria-pressed={activeTool === tool} onClick={() => setActiveTool(activeTool === tool ? "" : tool)} type="button"><Bot />{tool}</button>{activeTool === tool && toolResult(tool)}</div>)}</div></section>)}</div> : <><div className="hub-tool-grid">{tools.slice(0, 6).map(tool => <button aria-pressed={activeTool === tool} key={tool} onClick={() => setActiveTool(activeTool === tool ? "" : tool)} type="button"><Bot />{tool}</button>)}</div>{activeTool && toolResult(activeTool)}</>}
     </section>
   );
 }
@@ -222,6 +226,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<string[]>([]);
   const [likedVideos, setLikedVideos] = useState<string[]>([]);
+  const [viewingHistory, setViewingHistory] = useState<VideoItem[]>([]);
   const liked = likedVideos.includes(player.selection.video.title);
   const [sourceUrl, setSourceUrl] = useState("");
   const [status, setStatus] = useState("");
@@ -236,6 +241,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
     setActiveView("Videos");
     setStatus("");
     player.selectVideo(video);
+    setViewingHistory(previous => [video, ...previous].slice(0, 20));
     scrollToFrame();
   }
   function previewSource(event: FormEvent<HTMLFormElement>) {
@@ -266,9 +272,9 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
       {activeView === "Company profile" && <><p>{company ? company.industry + " | " + company.country : innovatorsProfile.description}</p><dl className="hub-company-facts">{facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><button className="hub-stage-command" onClick={() => window.print()} type="button"><FileText /> Print company profile</button></>}
       {activeView === "Leadership" && <><p>{company ? "Company-specific leadership details have not been supplied." : "Founders and directors have not been publicly verified. The people below are interviews in our public library, not our employees."}</p><div className="hub-stage-library">{(company ? groups[0].videos : innovatorsVideos).map(video => <button key={video.title} onClick={() => selectCompanyVideo(video)} type="button"><img alt="" src={video.image} /><strong>{video.title}</strong><Play /></button>)}</div></>}
       {activeView === "Products" && <>{company ? <p>Company-specific products have not been supplied.</p> : <ul>{innovatorsProfile.offerings.map(name => <li key={name}><a href={innovatorsProfile.website} target="_blank" rel="noreferrer">{name}</a></li>)}</ul>}</>}
-      {activeView === "Growth & data" && <div className="hub-company-data">{innovatorsProfile.blocks.filter(block => ["Growth", "Funding"].includes(block.title)).map(block => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul></section>)}</div>}
+      {activeView === "Growth & data" && <div className="hub-company-data">{company ? <p>Company-specific growth and funding details have not been supplied.</p> : innovatorsProfile.blocks.filter(block => ["Growth", "Funding"].includes(block.title)).map(block => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul></section>)}</div>}
       {activeView === "Community" && <><p>{company ? "Company community links are not connected." : "Join the innovation community through The INNOVATORS public website."}</p><a className="hub-stage-command" href={company ? "mailto:?subject=" + encodeURIComponent(companyName + " community") : innovatorsProfile.website} target="_blank" rel="noreferrer"><Users /> Visit community</a></>}
-      {activeView === "Tools" && <ResearchTools company library={library} onSelect={selectCompanyVideo} />}
+      {activeView === "Tools" && <ResearchTools company library={library} onSelect={selectCompanyVideo} viewingHistory={viewingHistory} />}
       {activeView === "Comments" && <><p>Comments preview | Not published or shared</p><form className="hub-comment-form" onSubmit={event => { event.preventDefault(); if (comment.trim()) { setComments([...comments, comment.trim()]); setComment(""); } }}><label htmlFor="frame-comment">Your comment</label><textarea id="frame-comment" maxLength={1000} value={comment} onChange={e => setComment(e.target.value)} required /><button className="hub-stage-command" type="submit"><MessageCircle /> Add local comment</button></form>{comments.map((text, i) => <p key={i}>{text}</p>)}</>}
       {activeView === "Search videos" && <><form className="hub-source-form" onSubmit={event => event.preventDefault()}><label htmlFor="company-frame-search">Search videos</label><input id="company-frame-search" value={sourceUrl} onChange={e => setSourceUrl(e.target.value)} type="search" /></form><div className="hub-stage-library">{Array.from(new globalThis.Map(showroomLibrary.map(video => [video.title, video])).values()).filter(video => (video.title + " " + video.category).toLowerCase().includes(sourceUrl.toLowerCase())).map(video => <button key={video.title} onClick={() => selectCompanyVideo(video)} type="button"><img alt="" src={video.image} /><strong>{video.title}</strong><Play /></button>)}</div></>}
       {activeView === "Offerings" && <><p>{company ? "Pricing and checkout are not connected for this company." : "Explore the platform's offerings on our public website. Purchases are not processed in this preview."}</p><a className="hub-stage-command" href={company ? "mailto:?subject=" + encodeURIComponent(companyName + " offerings") : innovatorsProfile.website} target="_blank" rel="noreferrer"><ShoppingCart /> View offerings</a></>}
@@ -297,6 +303,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
             <section className="hub-company-overview">
               <SectionHeading title="Company overview" />
               {!company && <><p className="company-description">{innovatorsProfile.description}</p><nav className="company-public-links" aria-label="Public company links"><a href={innovatorsProfile.website} target="_blank" rel="noreferrer">Website</a><a href={innovatorsProfile.about} target="_blank" rel="noreferrer">About us</a><a href={"mailto:" + innovatorsProfile.contact}>Contact</a></nav></>}
+              <SectionHeading title="General" />
               <dl className="hub-company-facts">{facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
               {company ? <section className="hub-profile-samples" aria-label="Sample company sections">
                 <SectionHeading title="Company spotlights" detail="Demo content" />
@@ -313,7 +320,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
           <aside className="hub-right" aria-label="Company intelligence tools">
             {company ? <SampleRanking title="Company ranking" scores={demoCompanyScores} /> : <section className="hub-ranking"><SectionHeading title="Ranking" />{["Trust", "Brand", "Quality", "Innovation", "Responsibility"].map(label => <div key={label}><span>{label}</span><span>Not rated</span></div>)}</section>}
             <nav className="company-aux-actions" aria-label="Showroom sharing and design"><button onClick={() => openFeature("Invite")} type="button"><Users /> Invite peers or audience</button><button onClick={() => { setDesignerOpen(!designerOpen); if (!designerOpen) scrollToFrame(); }} aria-expanded={designerOpen} type="button"><WandSparkles /> Build your showroom</button><button onClick={() => openFeature("Share")} type="button"><Share2 /> Share or white label</button></nav>
-            <ResearchTools company library={library} onSelect={selectCompanyVideo} />
+            <ResearchTools company library={library} onSelect={selectCompanyVideo} viewingHistory={viewingHistory} />
             <Watchlist error={watchlist.error} library={[...library, player.selection.video]} onRemove={watchlist.toggle} onSelect={selectCompanyVideo} saved={watchlist.saved} />
           </aside>
           <div className="company-left-column"><NewsColumn title={company ? "Company videos" : companyName} companyHeading={!company} items={company ? groups[0].videos.slice(0, 4) : newsLibrary} onSelect={selectCompanyVideo} selected={player.selection.video.title} /><VideoRail title="Community" items={company ? groups[0].videos.slice(1, 3) : innovatorsVideos.slice(0, 2)} onSelect={selectCompanyVideo} selected={player.selection.video.title} /><section className="company-events"><SectionHeading title="Events" /><p className="hub-empty">Company event videos have not been supplied.</p></section></div>

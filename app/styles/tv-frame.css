@@ -66,6 +66,15 @@
 .company-template .hub-ranking > div { grid-template-columns: minmax(0, 1fr) auto; font-size: .8125rem; }
 .company-template .hub-ranking > div > span + span { color: #435361; }
 .company-template .hub-tool-grid button { font-size: .875rem !important; }
+.company-tool-groups > section { margin-top: 1.25rem; min-width: 0; }
+.company-tool-groups h3 { font-size: 1rem; margin: 0 0 .5rem; line-height: 1.35; }
+.company-tool-groups .hub-tool-grid { grid-template-columns: minmax(0, 1fr); }
+.company-tool-groups .hub-tool-grid button { width: 100%; flex-direction: row; align-items: center; min-height: 3rem; }
+.hub-tool-option { min-width: 0; }
+.hub-tool-option .hub-tool-status { margin: .5rem 0; padding: .5rem 0; font-size: 1rem; }
+.hub-tool-option .hub-tool-status button { background: #fff; color: #075f99; border: 0; padding: .5rem; }
+.hub-tool-option svg { flex-shrink: 0; }
+.portal-shell .hub-player > .hub-sample-attribution { margin: .5rem 0 0; font-size: .8125rem; line-height: 1.4; }
 .hub-comment-form { display: grid; gap: .5rem; margin: 1rem 0; }
 .hub-comment-form textarea { width: 100%; min-height: 6rem; padding: .75rem; border: 1px solid #aebdc6; color: #15212b; background: #fff; resize: vertical; }
 .hub-comment-form button { justify-self: start; }

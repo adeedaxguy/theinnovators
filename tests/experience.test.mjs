@@ -9,7 +9,7 @@ const source = await read("components/landing/experience-utils.ts");
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
 const { companySlug, filterCompanies, readSavedIds, parseVideoUrl } = await import("data:text/javascript;base64," + Buffer.from(compiled).toString("base64"));
 const demoCompiled = ts.transpileModule(await read("components/landing/experience-demo.ts"), { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2020 } }).outputText;
-const { companyDemoGroups, demoToolContent, isSampleMedia, previewMedia } = await import("data:text/javascript;base64," + Buffer.from(demoCompiled).toString("base64"));
+const { companyDemoGroups, companyToolGroups, companyToolContent, demoToolContent, isSampleMedia, previewMedia } = await import("data:text/javascript;base64," + Buffer.from(demoCompiled).toString("base64"));
 
 test("company slugs handle directory punctuation without unsafe route characters", () => {
   assert.equal(companySlug({ name: "[24]7.ai" }), "24-7-ai");
@@ -107,6 +107,12 @@ test("sample media fills missing sources without overwriting real or custom vide
   }
 });
 
+test("sample source attribution remains visible when the large player caption is removed", async () => {
+  const player = await read("components/landing/ExperiencePlayer.tsx");
+  assert.match(player, /!showCaption && !content && media\.sampleAttribution/);
+  assert.match(player, /hub-sample-attribution/);
+});
+
 test("company demo playlists have distinct saved titles and preserve the actual primary video", () => {
   const primary = { title: "Apptronik", category: "Robotics", image: "poster.jpg", youtubeId: "uJOA5IDaL5g" };
   const groups = companyDemoGroups("Apptronik", primary);
@@ -129,6 +135,34 @@ test("every AI tool has a sample brief while keeping live analysis disconnected"
   assert.match(page, /No live AI analysis or company assessment/);
   assert.match(page, /Recorded showroom sample. No live stream is connected/);
   assert.match(page, /detail="Sample data"/);
+});
+
+test("company tools cover all 22 Canva AI features and four data insights", () => {
+  const expected = ["AI Research", "Innovation Summarize", "AI Market Research & Analysis", "Competitive Landscape", "Innovation Portfolio", "Product Research", "AI Marketing", "Product Launch / Demo", "Product Market Fit", "A/B Testing", "Marketing & Sales Data Insights", "Private Data Room", "AI Creation Toolkit", "AI Mentorship", "AI Discovery", "AI Recruitment", "AI Customer Service", "Deals Matchmaking", "Deals Screening", "Deals Valuation Estimator", "Due Diligence", "Benchmark With Competition", "Viewing History", "Discovery History", "Market Analysis", "Viewership Analysis"];
+  const names = companyToolGroups.flatMap(group => group.tools);
+  assert.deepEqual(names, expected);
+  assert.equal(new Set(names).size, 26);
+  const localTools = ["Viewing History", "Discovery History", "Viewership Analysis"];
+  assert.ok(names.filter(name => !localTools.includes(name)).every(name => companyToolContent[name]?.length === 3));
+});
+
+test("company overview preserves the supplied copy and every Canva data field", async () => {
+  const compiled = ts.transpileModule(await read("components/landing/innovators-profile.ts"), { compilerOptions: { module: ts.ModuleKind.ESNext } }).outputText;
+  const { innovatorsProfile } = await import("data:text/javascript;base64," + Buffer.from(compiled).toString("base64"));
+  assert.ok(innovatorsProfile.description.startsWith("The INNOVATORS is a Super Platform for Everything Innovation"));
+  assert.ok(innovatorsProfile.description.includes("We reinvent an innovative way to do business."));
+  assert.ok(innovatorsProfile.description.endsWith("leaving no one behind."));
+  assert.equal(innovatorsProfile.description, [
+    "The INNOVATORS is a Super Platform for Everything Innovation, powered by a first-of-its-kind educational+entertaining, tech+biz video ecosystem of all innovation stakeholders.",
+    "As an one-stop-shop for innovation, it revolutionizes innovation ecosystems, boosts innovation productivity, transcends geographic & social boundaries, and accelerates innovation on global arena 24/7.",
+    "By championing an innovation & entrepreneurship movement, we foster thought leadership, cultivate a community of leaders + innovators, and empower everyone to harness the power of emerging technologies for success and impact.",
+    "We reinvent an innovative way to do business.",
+    "We redefine a new lifestyle to discover the most innovative products & services while accelerating innovators' growth.",
+    "Our mission is to drive emerging technologies' positive impact on people's daily lives and our society, leaving no one behind.",
+  ].join(" "));
+  const details = innovatorsProfile.blocks.flatMap(block => block.items).join(" ");
+  for (const field of ["Investors:", "Funding rounds:", "Valuation:", "Cap table:", "Active fundraising:", "Technologies:", "Customers:", "Patents:", "Industries:", "Revenue:", "Hiring:", "ARR:", "Market-growth figures:", "Job openings:", "Accelerator affiliations:", "University affiliations:", "Industry association affiliations:"]) assert.ok(details.includes(field), field);
+  assert.ok(innovatorsProfile.offerings.includes("INNOVATORS Video Show"));
 });
 
 test("AI separates topics, people, shorts, and companies in the correct order", async () => {

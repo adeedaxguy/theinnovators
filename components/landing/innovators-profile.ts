@@ -6,14 +6,14 @@ export const innovatorsProfile = {
   about: "https://innovators.ventures/about/",
   contact: "info@innovators.ventures",
   logo: "/assets/logos/INNOVATORS square.png",
-  description: "The INNOVATORS connects innovation stakeholders through an educational and entertaining tech-and-business video ecosystem. Its platform brings together thought leadership, innovators, emerging technologies, products and services. Its mission is to drive emerging technologies' positive impact on people's daily lives and society, leaving no one behind.",
+  description: "The INNOVATORS is a Super Platform for Everything Innovation, powered by a first-of-its-kind educational+entertaining, tech+biz video ecosystem of all innovation stakeholders. As an one-stop-shop for innovation, it revolutionizes innovation ecosystems, boosts innovation productivity, transcends geographic & social boundaries, and accelerates innovation on global arena 24/7. By championing an innovation & entrepreneurship movement, we foster thought leadership, cultivate a community of leaders + innovators, and empower everyone to harness the power of emerging technologies for success and impact. We reinvent an innovative way to do business. We redefine a new lifestyle to discover the most innovative products & services while accelerating innovators' growth. Our mission is to drive emerging technologies' positive impact on people's daily lives and our society, leaving no one behind.",
   facts: [["Company", "The INNOVATORS"], ["Industry", "Innovation media & education"], ["Founded", "Not published"], ["Location", "Not published"], ["Stage", "Not published"], ["Founders", "Not published"], ["Employees", "Not published"]],
-  offerings: ["INNOVATORS Thought Leadership", "INNOVATORSverse", "INNOVATORS AI co-pilot", "INNOVATORS VideoShow", "INNOVATORS Discover"],
+  offerings: ["INNOVATORS Thought Leadership", "INNOVATORSverse", "INNOVATORS AI", "INNOVATORS Video Show", "INNOVATORS Discover"],
   blocks: [
-    { title: "Funding", items: ["Investors, funding rounds and valuation: not published", "Cap table and fundraising status: not published"] },
-    { title: "Products & Technology", items: ["Thought leadership and innovation videos", "Innovators and emerging-product discovery", "AI co-pilot is a publicly described offering; this preview is not connected to a live AI service"] },
-    { title: "Growth", items: ["Revenue, ARR and customer count: not published", "Hiring and market-growth figures: not published"] },
-    { title: "Connections", items: ["Platform for leaders, innovators and innovation stakeholders", "Accelerator, university and association affiliations: not verified"] },
+    { title: "Funding", items: ["Investors: not published", "Funding rounds: not published", "Valuation: not published", "Cap table: not published", "Active fundraising: not published"] },
+    { title: "Products & Technology", items: ["Technologies: video-led innovation discovery and education", "Products: thought leadership, innovators and emerging-product discovery", "Customers: not published", "Patents: not published", "Industries: innovation media, technology and education", "AI co-pilot is a publicly described offering; this preview is not connected to a live AI service"] },
+    { title: "Growth", items: ["Revenue: not published", "Hiring: not published", "ARR: not published", "Market-growth figures: not published", "Job openings: not published"] },
+    { title: "Connections", items: ["Platform for leaders, innovators and innovation stakeholders", "Accelerator affiliations: not verified", "University affiliations: not verified", "Industry association affiliations: not verified"] },
   ],
 };
 

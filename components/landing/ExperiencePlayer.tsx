@@ -70,6 +70,7 @@ export function ExperiencePlayer({
   return (
     <div className="hub-player" ref={playerRef} data-testid="central-player">
       {frame ? <TVFrame settings={frame} controls={controls} overlays={!content}>{screen}</TVFrame> : <>{screen}{controls}</>}
+      {!showCaption && !content && media.sampleAttribution && <p className="hub-sample-notice hub-sample-attribution"><span>Sample media</span>{media.sampleAttribution}</p>}
       {showCaption && !content && <div className="hub-player-caption" aria-live="polite">
         <div><h2>{video.title}</h2><p>{video.category}</p>{media.sampleAttribution && <p className="hub-sample-notice"><span>Sample media</span>{media.sampleAttribution}</p>}</div>
         {media.sourceUrl && <a aria-label={`${media.sampleAttribution ? "Sample" : "Original"} source for ${video.title}`} href={media.sourceUrl} rel="noreferrer" target="_blank" title={media.sampleAttribution ? "Sample source: Apptronik" : "Original source"}><ExternalLink /></a>}
