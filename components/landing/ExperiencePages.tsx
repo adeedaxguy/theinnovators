@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, BarChart3, Bookmark, Bot, Building2, ChevronRight, FileText, Grid3X3, Heart, Keyboard, LockKeyhole, Map, MessageCircle, Play, Radio, Search, Share2, ShoppingCart, SlidersHorizontal, Store, ThumbsUp, UserRound, Users, WandSparkles, X } from "lucide-react";
+import { ArrowLeft, Bookmark, Bot, Building2, ChevronRight, FileText, LockKeyhole, Map, MessageCircle, Play, Search, Share2, ShoppingCart, SlidersHorizontal, Users, WandSparkles, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { FormEvent, ReactNode } from "react";
@@ -18,6 +18,10 @@ import { TVFrameDesigner, useTVFrameSettings } from "./TVFrameDesigner";
 import { TV_FRAME_STORAGE_KEY } from "./tv-frame-settings";
 
 type SelectVideo = (video: VideoItem) => void;
+const platformStories = [
+  { title: "The INNOVATORS brings innovation discovery and education together", summary: "The INNOVATORS describes its platform as an educational and entertaining video ecosystem connecting innovation stakeholders. Its public mission focuses on emerging technologies, entrepreneurship and positive impact.", image: innovatorsProfile.logo },
+  { title: "Inside The INNOVATORS thought-leadership video library", summary: "Our public library features conversations with leaders across healthcare, research, industry and policy. Explore the interviews in the central player or visit our website for more information.", image: innovatorsVideos[0].image },
+];
 
 function ExperienceChrome({ children, audience, category, module, onSelectVideo }: {
   children: ReactNode; audience: string; category: string; module: string; onSelectVideo: SelectVideo;
@@ -40,20 +44,25 @@ function ExperienceChrome({ children, audience, category, module, onSelectVideo 
   );
 }
 
-function SectionHeading({ title, detail }: { title: string; detail?: string }) {
-  return <header className="hub-section-heading"><h2>{title}</h2>{detail && <span>{detail}</span>}</header>;
+function SectionHeading({ title, detail, children }: { title: string; detail?: string; children?: ReactNode }) {
+  return <header className="hub-section-heading"><h2>{title}</h2>{detail && <span>{detail}</span>}{children}</header>;
 }
 
-function NewsColumn({ title, items, selected, onSelect, companyHeading = false }: { title: string; items: VideoItem[]; selected: string; onSelect: SelectVideo; companyHeading?: boolean }) {
+function NewsColumn({ title, items, selected, onSelect, companyHeading = false, onReadStory }: { title: string; items: VideoItem[]; selected: string; onSelect: SelectVideo; companyHeading?: boolean; onReadStory?: (index: number) => void }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = companyHeading && !expanded ? items.slice(0, 6) : items;
   return (
     <aside className="hub-news" aria-label={title}>
       {companyHeading ? <header className="hub-section-heading"><h1>{title}</h1></header> : <SectionHeading title={title} />}
-      {items.map((video) => (
+      {companyHeading && <SectionHeading title="News & insights" />}
+      {companyHeading && platformStories.map((story, index) => <button className="hub-news-item" key={story.title} onClick={() => onReadStory?.(index)} type="button"><img alt="" src={story.image} /><span><strong>{story.title}</strong><small>Platform overview | The INNOVATORS</small></span></button>)}
+      {visible.map((video) => (
         <button aria-pressed={selected === video.title} className="hub-news-item" key={video.title} onClick={() => onSelect(video)} type="button">
-          <span><strong>{video.title}</strong><small>{video.category}{isSampleMedia(video) && " | Sample media"}</small></span>
+          <span><strong>{companyHeading ? video.category + ": insights from " + video.title : video.title}</strong><small>{companyHeading ? "The INNOVATORS | Video interview" : video.category}{isSampleMedia(video) && " | Sample media"}</small></span>
           <img alt="" src={video.image} />
         </button>
       ))}
+      {companyHeading && items.length > 6 && <button className="company-news-more" aria-expanded={expanded} onClick={() => setExpanded(!expanded)} type="button">{expanded ? "Show fewer stories" : "More stories"}</button>}
     </aside>
   );
 }
@@ -164,6 +173,7 @@ function SaveButton({ video, watchlist }: { video: VideoItem; watchlist: ReturnT
 const aiLibrary = [...aiTopics, ...academiaLeaders, ...industryLeaders, ...policyLeaders, ...peoplePerspectives, ...aiCompanies.map(companyVideo)];
 
 export function AiDiscoveryPage() {
+  const frameSettings = useTVFrameSettings(TV_FRAME_STORAGE_KEY + ":AI", "The INNOVATORS");
   const player = useExperiencePlayer(aiTopics[0]);
   const watchlist = useWatchlist("innovators-ai-watchlist");
   return (
@@ -171,7 +181,7 @@ export function AiDiscoveryPage() {
       <div className="experience-main feedback-hub ai-experience">
         <header className="hub-page-heading"><h1>Artificial Intelligence</h1><SaveButton video={player.selection.video} watchlist={watchlist} /></header>
         <div className="hub-layout">
-          <section className="hub-core" aria-label="Central video"><ExperiencePlayer {...player} onPlay={player.selectVideo} /></section>
+          <section className="hub-core" aria-label="Central video"><ExperiencePlayer {...player} frame={frameSettings} onPlay={player.selectVideo} /></section>
           <NewsColumn title="Trending topics" items={aiTopics} onSelect={player.selectVideo} selected={player.selection.video.title} />
           <div className="hub-feeds">
             <VideoRail title="AI Academia Researchers" items={academiaLeaders} kind="portrait" onSelect={player.selectVideo} selected={player.selection.video.title} />
@@ -222,6 +232,9 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
   const player = useExperiencePlayer(groups[0].videos[0]);
   const watchlist = useWatchlist("innovators-company-watchlist" + (company ? "-" + companySlug(company) : ""));
   const [activeView, setActiveView] = useState("Videos");
+  const [article, setArticle] = useState(0);
+  const [communityGroup, setCommunityGroup] = useState("");
+  const [eventFormat, setEventFormat] = useState("");
   const [designerOpen, setDesignerOpen] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<string[]>([]);
@@ -257,7 +270,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
     try { await navigator.clipboard.writeText(window.location.href); setStatus("Page link copied."); }
     catch { setStatus("Copy this page link: " + window.location.href); }
   }
-  const showroomActions = [["Community", Users], ["Leadership", UserRound], ["Company profile", FileText], ["Products", Store], ["Growth & data", BarChart3], ["Tools", Grid3X3], ["Comments", MessageCircle], ["Videos", Play], ["Search videos", Keyboard], ["Live now", Radio], ["Offerings", ShoppingCart], ["Save video", Heart], ["Private access", LockKeyhole], ["Like video", ThumbsUp]] as const;
+  const showroomActions = ["Innovation demos", "Leadership", "Company profile", "Products", "Growth & data", "Tools", "Comments", "Videos", "Search videos", "Live now", "Offerings", "Save video", "Private access", "Like video"] as const;
   function openFeature(label: string) {
     setStatus("");
     if (label === "Save video") { watchlist.toggle(player.selection.video.title); return; }
@@ -269,11 +282,14 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
   const stageContent = activeView === "Videos" || activeView === "Live now" ? undefined : (
     <section className="hub-stage-content" aria-label={activeView + " in central frame"}>
       <h2>{activeView === "Share" ? "Share or white label" : activeView}</h2>
+      {activeView === "News story" && <article><h3>{platformStories[article].title}</h3><p>{platformStories[article].summary}</p><a href={innovatorsProfile.about} target="_blank" rel="noreferrer">Source: The INNOVATORS public website</a><p><button className="hub-stage-command" onClick={() => selectCompanyVideo(innovatorsVideos[article])} type="button"><Play /> Watch related interview</button></p></article>}
+      {activeView === "Innovation demos" && <><p>{company ? "Illustrative company videos, not verified product demonstrations." : "Explore our innovation interview library. Product demonstrations have not been supplied."}</p><div className="hub-stage-library">{groups[0].videos.map(video => <button key={video.title} onClick={() => selectCompanyVideo(video)} type="button"><img alt="" src={video.image} /><strong>{video.title}</strong><Play /></button>)}</div></>}
+      {activeView === "Events" && <><h3>{eventFormat}</h3><p>Sample event format, not a scheduled event.</p><p>Dates, registration and company event recordings have not been supplied.</p><a className="hub-stage-command" href={"mailto:" + innovatorsProfile.contact}>Ask about events</a></>}
       {activeView === "Company profile" && <><p>{company ? company.industry + " | " + company.country : innovatorsProfile.description}</p><dl className="hub-company-facts">{facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl><button className="hub-stage-command" onClick={() => window.print()} type="button"><FileText /> Print company profile</button></>}
       {activeView === "Leadership" && <><p>{company ? "Company-specific leadership details have not been supplied." : "Founders and directors have not been publicly verified. The people below are interviews in our public library, not our employees."}</p><div className="hub-stage-library">{(company ? groups[0].videos : innovatorsVideos).map(video => <button key={video.title} onClick={() => selectCompanyVideo(video)} type="button"><img alt="" src={video.image} /><strong>{video.title}</strong><Play /></button>)}</div></>}
       {activeView === "Products" && <>{company ? <p>Company-specific products have not been supplied.</p> : <ul>{innovatorsProfile.offerings.map(name => <li key={name}><a href={innovatorsProfile.website} target="_blank" rel="noreferrer">{name}</a></li>)}</ul>}</>}
-      {activeView === "Growth & data" && <div className="hub-company-data">{company ? <p>Company-specific growth and funding details have not been supplied.</p> : innovatorsProfile.blocks.filter(block => ["Growth", "Funding"].includes(block.title)).map(block => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul></section>)}</div>}
-      {activeView === "Community" && <><p>{company ? "Company community links are not connected." : "Join the innovation community through The INNOVATORS public website."}</p><a className="hub-stage-command" href={company ? "mailto:?subject=" + encodeURIComponent(companyName + " community") : innovatorsProfile.website} target="_blank" rel="noreferrer"><Users /> Visit community</a></>}
+      {activeView === "Growth & data" && <div className="hub-company-data">{company ? <p>Company-specific growth and funding details have not been supplied.</p> : innovatorsProfile.blocks.filter(block => ["Product & Innovation Growth", "Funding", "Customer Profiles", "Market Position"].includes(block.title)).map(block => <section key={block.title}><h3>{block.title}</h3><ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul></section>)}</div>}
+      {activeView === "Community" && <>{communityGroup && <><h3>{communityGroup}</h3><p>Illustrative group. Membership and affiliations are not verified or connected.</p></>}<p>{company ? "Company community links are not connected." : "Explore the innovation community through The INNOVATORS public website."}</p><a className="hub-stage-command" href={company ? "mailto:?subject=" + encodeURIComponent(companyName + " community") : innovatorsProfile.website} target="_blank" rel="noreferrer"><Users /> Visit community</a></>}
       {activeView === "Tools" && <ResearchTools company library={library} onSelect={selectCompanyVideo} viewingHistory={viewingHistory} />}
       {activeView === "Comments" && <><p>Comments preview | Not published or shared</p><form className="hub-comment-form" onSubmit={event => { event.preventDefault(); if (comment.trim()) { setComments([...comments, comment.trim()]); setComment(""); } }}><label htmlFor="frame-comment">Your comment</label><textarea id="frame-comment" maxLength={1000} value={comment} onChange={e => setComment(e.target.value)} required /><button className="hub-stage-command" type="submit"><MessageCircle /> Add local comment</button></form>{comments.map((text, i) => <p key={i}>{text}</p>)}</>}
       {activeView === "Search videos" && <><form className="hub-source-form" onSubmit={event => event.preventDefault()}><label htmlFor="company-frame-search">Search videos</label><input id="company-frame-search" value={sourceUrl} onChange={e => setSourceUrl(e.target.value)} type="search" /></form><div className="hub-stage-library">{Array.from(new globalThis.Map(showroomLibrary.map(video => [video.title, video])).values()).filter(video => (video.title + " " + video.category).toLowerCase().includes(sourceUrl.toLowerCase())).map(video => <button key={video.title} onClick={() => selectCompanyVideo(video)} type="button"><img alt="" src={video.image} /><strong>{video.title}</strong><Play /></button>)}</div></>}
@@ -291,7 +307,7 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
         {company && <header className="hub-page-heading" ref={headingRef}><div className="hub-company-identity"><img alt={company.name + " logo"} src={company.logo} /><div><h1>{companyName}</h1><p>{company.industry + " | " + company.country}</p></div></div><nav aria-label="Company navigation"><Link aria-label="Back to innovators directory" href="/innovators" title="Back to innovators directory"><ArrowLeft /></Link><SaveButton video={player.selection.video} watchlist={watchlist} /></nav></header>}
         <div className="hub-layout">
           <section className="hub-core" aria-label="Company video hub">
-            <ExperiencePlayer {...player} frame={frameSettings} showCaption={false} onPlay={selectCompanyVideo} content={stageContent} controls={<nav className="hub-company-actions hub-frame-controls tv-icon-controls" aria-label="Showroom actions">{showroomActions.map(([label, Icon]) => <button aria-label={label === "Live now" ? "Preview live showroom with recorded sample" : label} aria-pressed={label === "Save video" ? watchlist.saved.includes(player.selection.video.title) : label === "Like video" ? liked : activeView === label} key={label} onClick={() => openFeature(label)} title={label} type="button"><Icon /><span className="tv-control-tooltip">{label}</span></button>)}</nav>} />
+            <ExperiencePlayer {...player} frame={frameSettings} showCaption={false} onPlay={selectCompanyVideo} content={stageContent} controls={<nav className="hub-company-actions hub-frame-controls tv-icon-controls" aria-label="Showroom actions">{showroomActions.map((label, index) => <button aria-label={label === "Live now" ? "Preview live showroom with recorded sample" : label} aria-pressed={label === "Save video" ? watchlist.saved.includes(player.selection.video.title) : label === "Like video" ? liked : activeView === label} key={label} onClick={() => openFeature(label)} title={label} type="button"><img alt="" src={"/assets/showroom-controls/button-" + String(index + 1).padStart(2, "0") + ".png"} /><span className="tv-control-tooltip">{label}</span></button>)}</nav>} />
             {frameSettings.showLive && <p className="hub-status">LIVE is a frame-overlay preview. This video is not a live stream.</p>}
             {status && <p className="hub-status" role="status">{status}</p>}
             {designerOpen && <TVFrameDesigner embedded storageKey={frameStorageKey} defaultBrand={companyName} />}
@@ -301,8 +317,8 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
           </section>
           <div className="hub-feeds">
             <section className="hub-company-overview">
-              <SectionHeading title="Company overview" />
-              {!company && <><p className="company-description">{innovatorsProfile.description}</p><nav className="company-public-links" aria-label="Public company links"><a href={innovatorsProfile.website} target="_blank" rel="noreferrer">Website</a><a href={innovatorsProfile.about} target="_blank" rel="noreferrer">About us</a><a href={"mailto:" + innovatorsProfile.contact}>Contact</a></nav></>}
+              <SectionHeading title="Company overview">{!company && <nav className="company-public-links" aria-label="Public company links"><a href={innovatorsProfile.website} target="_blank" rel="noreferrer">Website</a><a href={innovatorsProfile.about} target="_blank" rel="noreferrer">About us</a><a href={"mailto:" + innovatorsProfile.contact}>Contact</a></nav>}</SectionHeading>
+              {!company && <p className="company-description">{innovatorsProfile.description}</p>}
               <SectionHeading title="General" />
               <dl className="hub-company-facts">{facts.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
               {company ? <section className="hub-profile-samples" aria-label="Sample company sections">
@@ -319,11 +335,11 @@ export function CompanyShowroomPage({ company }: { company?: DirectoryCompany })
           </div>
           <aside className="hub-right" aria-label="Company intelligence tools">
             {company ? <SampleRanking title="Company ranking" scores={demoCompanyScores} /> : <section className="hub-ranking"><SectionHeading title="Ranking" />{["Trust", "Brand", "Quality", "Innovation", "Responsibility"].map(label => <div key={label}><span>{label}</span><span>Not rated</span></div>)}</section>}
-            <nav className="company-aux-actions" aria-label="Showroom sharing and design"><button onClick={() => openFeature("Invite")} type="button"><Users /> Invite peers or audience</button><button onClick={() => { setDesignerOpen(!designerOpen); if (!designerOpen) scrollToFrame(); }} aria-expanded={designerOpen} type="button"><WandSparkles /> Build your showroom</button><button onClick={() => openFeature("Share")} type="button"><Share2 /> Share or white label</button></nav>
+            <nav className="company-aux-actions" aria-label="Showroom sharing and design"><button aria-label="Invite peers or audience" title="Invite peers or audience" onClick={() => openFeature("Invite")} type="button"><Users /></button><button aria-label="Build your showroom" title="Build your showroom" onClick={() => { setDesignerOpen(!designerOpen); if (!designerOpen) scrollToFrame(); }} aria-expanded={designerOpen} type="button"><WandSparkles /></button><button aria-label="Share or white label" title="Share or white label" onClick={() => openFeature("Share")} type="button"><Share2 /></button></nav>
             <ResearchTools company library={library} onSelect={selectCompanyVideo} viewingHistory={viewingHistory} />
             <Watchlist error={watchlist.error} library={[...library, player.selection.video]} onRemove={watchlist.toggle} onSelect={selectCompanyVideo} saved={watchlist.saved} />
           </aside>
-          <div className="company-left-column"><NewsColumn title={company ? "Company videos" : companyName} companyHeading={!company} items={company ? groups[0].videos.slice(0, 4) : newsLibrary} onSelect={selectCompanyVideo} selected={player.selection.video.title} /><VideoRail title="Community" items={company ? groups[0].videos.slice(1, 3) : innovatorsVideos.slice(0, 2)} onSelect={selectCompanyVideo} selected={player.selection.video.title} /><section className="company-events"><SectionHeading title="Events" /><p className="hub-empty">Company event videos have not been supplied.</p></section></div>
+          <div className="company-left-column"><NewsColumn title={company ? "Company videos" : companyName} companyHeading={!company} items={company ? groups[0].videos.slice(0, 4) : newsLibrary} onReadStory={index => { setArticle(index); openFeature("News story"); }} onSelect={selectCompanyVideo} selected={player.selection.video.title} />{company ? <VideoRail title="Community" items={groups[0].videos.slice(1, 3)} onSelect={selectCompanyVideo} selected={player.selection.video.title} /> : <section className="company-community"><SectionHeading title="Community" detail="Sample groups" />{["US startup community", "US manufacturing community", "Manufacturing associations"].map(label => <button className="hub-news-item" key={label} onClick={() => { setCommunityGroup(label); openFeature("Community"); }} type="button"><Users /><span><strong>{label}</strong><small>Illustrative group, not a verified affiliation</small></span></button>)}</section>}<section className="company-events"><SectionHeading title="Events" detail="Sample formats" />{["Innovation demo day", "Product launch briefing", "Community roundtable"].map(label => <button className="hub-news-item" key={label} onClick={() => { setEventFormat(label); openFeature("Events"); }} type="button"><Play /><span><strong>{label}</strong><small>Sample event | Not scheduled</small></span></button>)}</section></div>
         </div>
       </div>
     </ExperienceChrome>
@@ -335,6 +351,7 @@ const allCountries = Array.from(new Set([...worldCountryNames, ...countries])).s
 const companyLibrary = companies.map(companyVideo);
 
 export function InnovatorsDirectoryPage() {
+  const frameSettings = useTVFrameSettings(TV_FRAME_STORAGE_KEY + ":directory", "The INNOVATORS");
   const player = useExperiencePlayer(featuredCompanies[0]);
   const watchlist = useWatchlist("innovators-directory-watchlist");
   const mapDialog = useRef<HTMLDialogElement>(null);
@@ -354,7 +371,7 @@ export function InnovatorsDirectoryPage() {
       <div className="experience-main feedback-hub innovators-experience">
         <header className="hub-page-heading"><h1>The Innovators</h1><nav aria-label="Innovators tools"><button onClick={() => mapDialog.current?.showModal()} type="button"><Map /> Browse by map</button><button onClick={() => directoryRef.current?.scrollIntoView({ behavior: "instant", block: "start" })} type="button"><Building2 /> Browse companies</button><SaveButton video={player.selection.video} watchlist={watchlist} /></nav></header>
         <div className="hub-layout">
-          <section className="hub-core" aria-label="Central video"><ExperiencePlayer {...player} onPlay={player.selectVideo} /></section>
+          <section className="hub-core" aria-label="Central video"><ExperiencePlayer {...player} frame={frameSettings} onPlay={player.selectVideo} /></section>
           <NewsColumn title="News & trending" items={trendingCompanies.slice(0, 4)} onSelect={player.selectVideo} selected={player.selection.video.title} />
           <div className="hub-feeds">
             <VideoRail title="Featured" items={featuredCompanies} onSelect={player.selectVideo} selected={player.selection.video.title} />

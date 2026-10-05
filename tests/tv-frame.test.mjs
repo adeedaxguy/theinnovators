@@ -11,11 +11,34 @@ test("frame settings reject malformed storage, CSS injection and invalid dimensi
   assert.deepEqual(readTVFrame("not JSON"), DEFAULT_TV_FRAME);
   assert.deepEqual(readTVFrame("[]"), DEFAULT_TV_FRAME);
   const value = normalizeTVFrame({ style: "injected", frameColor: "red;display:none", accentColor: "#ffffff", bezel: Infinity, radius: -10, showLive: "true", brand: "x".repeat(100) });
-  assert.equal(value.style, "broadcast"); assert.equal(value.frameColor, DEFAULT_TV_FRAME.frameColor);
-  assert.equal(value.bezel, 16); assert.equal(value.radius, 0); assert.equal(value.showLive, false); assert.equal(value.brand.length, 80);
+  assert.equal(value.style, "radiant"); assert.equal(value.frameColor, DEFAULT_TV_FRAME.frameColor);
+  assert.equal(value.bezel, 24); assert.equal(value.radius, 0); assert.equal(value.showLive, false); assert.equal(value.brand.length, 80);
   const css = frameCSSTokens({ ...DEFAULT_TV_FRAME, brand: '\"; } body { color:red; } /*', bezel: 24 });
   assert.match(css, /--tv-bezel: 1\.5rem/);
   assert.match(css, /--tv-brand: "\\";/);
+});
+
+test("old default upgrades to radiant without overwriting custom frames", () => {
+  const previous = { style: "broadcast", frameColor: "#1b2228", accentColor: "#168bea", bezel: 16, radius: 8, brand: "My brand" };
+  assert.equal(readTVFrame(JSON.stringify(previous)).style, "radiant");
+  assert.equal(readTVFrame(JSON.stringify(previous)).brand, "My brand");
+  assert.equal(readTVFrame(JSON.stringify({ ...previous, frameColor: "#ffeeaa" })).style, "broadcast");
+  assert.equal(normalizeTVFrame({ repeatBrand: false }).repeatBrand, false);
+  assert.equal(normalizeTVFrame({ repeatBrand: "false" }).repeatBrand, true);
+});
+
+test("original Canva controls, all four frame borders and requested profile sections exist", async () => {
+  const page = await read("components/landing/ExperiencePages.tsx");
+  const frame = await read("components/landing/TVFrame.tsx");
+  const profile = await read("components/landing/innovators-profile.ts");
+  assert.match(page, /showroomActions\.map\(\(label, index\)/);
+  assert.match(page, /Innovation demos/);
+  for (let n = 1; n <= 14; n++) {
+    const png = await readFile(new URL("../public/assets/showroom-controls/button-" + String(n).padStart(2, "0") + ".png", import.meta.url));
+    assert.equal(png.subarray(1, 4).toString(), "PNG");
+  }
+  assert.match(frame, /\["top", "bottom", "left", "right"\]/);
+  for (const title of ["Customer Profiles", "Market Position", "Product & Innovation Growth"]) assert.ok(profile.includes(title));
 });
 
 test("accent text meets AA contrast across all grayscale colors", () => {

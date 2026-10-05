@@ -1,6 +1,7 @@
 import "./globals.css";
 import "./styles/typography-admin.css";
 import "./styles/experience-hub.css";
+import "./styles/brand-fonts.css";
 import "./styles/landing-readable.css";
 import "./styles/tv-frame.css";
 import FontSettingsProvider from "./FontSettingsProvider";
@@ -23,6 +24,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link rel="preload" href="/assets/fonts/now/Now-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        <link rel="preload" href="/assets/fonts/Roboto-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
         <FontSettingsProvider>{children}</FontSettingsProvider>

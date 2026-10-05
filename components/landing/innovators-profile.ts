@@ -12,7 +12,9 @@ export const innovatorsProfile = {
   blocks: [
     { title: "Funding", items: ["Investors: not published", "Funding rounds: not published", "Valuation: not published", "Cap table: not published", "Active fundraising: not published"] },
     { title: "Products & Technology", items: ["Technologies: video-led innovation discovery and education", "Products: thought leadership, innovators and emerging-product discovery", "Customers: not published", "Patents: not published", "Industries: innovation media, technology and education", "AI co-pilot is a publicly described offering; this preview is not connected to a live AI service"] },
-    { title: "Growth", items: ["Revenue: not published", "Hiring: not published", "ARR: not published", "Market-growth figures: not published", "Job openings: not published"] },
+    { title: "Product & Innovation Growth", items: ["Revenue: not published", "Hiring: not published", "ARR: not published", "Market-growth figures: not published", "Job openings: not published"] },
+    { title: "Customer Profiles", items: ["Intended audiences: leaders, innovators and innovation stakeholders", "Verified customer companies: not published", "Customer case studies: not supplied"] },
+    { title: "Market Position", items: ["Public positioning: a video-led platform for innovation discovery, education and thought leadership", "Market share: not published", "Competitor benchmarks: not verified"] },
     { title: "Connections", items: ["Platform for leaders, innovators and innovation stakeholders", "Accelerator affiliations: not verified", "University affiliations: not verified", "Industry association affiliations: not verified"] },
   ],
 };
@@ -27,7 +29,7 @@ export const innovatorsVideos: VideoItem[] = [
   ["John Halamka", "A_3pzYNdvOY", "Healthcare innovation"],
   ["Scott Sandell", "t_WAwaZBdaI", "Advice to innovators"],
   ["Nigel Morris", "FK8ubGUbUMQ", "Entrepreneurship"],
-].map(([title, youtubeId, category]) => ({ title, youtubeId, category, image: `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`, source: "The INNOVATORS", sourceUrl: "https://innovators.ventures/leaders/chris-coburn/" }));
+].map(([title, youtubeId, category]) => ({ title, youtubeId, category, image: `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`, source: "The INNOVATORS", sourceUrl: `https://www.youtube.com/watch?v=${youtubeId}` }));
 
 export const innovatorsVideoGroups = [
   { label: "Featured videos", videos: innovatorsVideos },

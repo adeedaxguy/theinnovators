@@ -8,6 +8,7 @@ export function TVFrame({ settings, logo, children, controls, overlays = true }:
   return <div className={`tv-frame tv-frame-${settings.style}`} style={tokens} data-frame-style={settings.style}>
     {settings.style === "retro" && <div className="tv-antenna" aria-hidden="true"><i /><i /></div>}
     <div className="tv-cabinet">
+      {settings.style === "radiant" && settings.repeatBrand && <div className="tv-brand-pattern" aria-hidden="true">{["top", "bottom", "left", "right"].map(side => <div className={"tv-brand-pattern-" + side} key={side}>{Array.from({ length: side === "top" || side === "bottom" ? 3 : 2 }, (_, index) => <span key={index}>{settings.brand}</span>)}</div>)}</div>}
       <div className="tv-screen">
         {children}
         {overlays && <div className="tv-overlays" aria-hidden="true">
