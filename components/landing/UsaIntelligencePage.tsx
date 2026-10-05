@@ -1,4 +1,5 @@
 "use client";
+import { MarketingAnalysisButton } from "./AnalysisDialog";
 
 import { BarChart3, Bot, Database, Search, Send, Sparkles } from "lucide-react";
 import { useState } from "react";
@@ -189,6 +190,7 @@ function AgentTool({
           </button>
         ))}
       </div>
+      <MarketingAnalysisButton />
     </section>
   );
 }

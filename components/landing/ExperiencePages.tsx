@@ -17,6 +17,7 @@ import { innovatorsProfile, innovatorsVideos, innovatorsVideoGroups } from "./in
 import { TVFrameDesigner, useTVFrameSettings } from "./TVFrameDesigner";
 import { TV_FRAME_STORAGE_KEY } from "./tv-frame-settings";
 import { VideoThumbnail } from "./VideoThumbnail";
+import { AnalysisDialog } from "./AnalysisDialog";
 
 type SelectVideo = (video: VideoItem) => void;
 const platformStories = [
@@ -134,12 +135,14 @@ function ResearchTools({ library, onSelect, company = false, viewingHistory = []
   const [query, setQuery] = useState("");
   const [submitted, setSubmitted] = useState<string | null>(null);
   const [activeTool, setActiveTool] = useState("");
+  const analysisDialog = useRef<HTMLDialogElement>(null);
+  function openTool(tool: string) { setActiveTool(tool); analysisDialog.current?.showModal(); }
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const matches = useMemo(() => submitted === null ? [] : Array.from(new globalThis.Map(library.map((video) => [video.title, video])).values()).filter((video) => (video.title + " " + video.category).toLowerCase().includes(submitted.toLowerCase())), [library, submitted]);
   function search(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const term = query.trim(); setSubmitted(term); if (term) setSearchHistory(previous => [term, ...previous.filter(value => value !== term)].slice(0, 20)); }
   function toolResult(tool: string) {
-    if (tool === "Viewing History") return <div className="hub-tool-status"><strong>Viewing History</strong><p>Recent selections in this browser session, not completed views.</p>{viewingHistory.length ? viewingHistory.map((video, index) => <button key={index} onClick={() => onSelect(video)} type="button">{video.title}<Play /></button>) : <p>No videos selected yet.</p>}</div>;
-    if (tool === "Discovery History") return <div className="hub-tool-status"><strong>Discovery History</strong><p>Searches in this panel during this browser session.</p>{searchHistory.length ? searchHistory.map(term => <button key={term} onClick={() => { setQuery(term); setSubmitted(term); }} type="button">{term}<Search /></button>) : <p>No library searches yet.</p>}</div>;
+    if (tool === "Viewing History") return <div className="hub-tool-status"><strong>Viewing History</strong><p>Recent selections in this browser session, not completed views.</p>{viewingHistory.length ? viewingHistory.map((video, index) => <button key={index} onClick={() => { analysisDialog.current?.close(); onSelect(video); }} type="button">{video.title}<Play /></button>) : <p>No videos selected yet.</p>}</div>;
+    if (tool === "Discovery History") return <div className="hub-tool-status"><strong>Discovery History</strong><p>Searches in this panel during this browser session.</p>{searchHistory.length ? searchHistory.map(term => <button key={term} onClick={() => { setQuery(term); setSubmitted(term); analysisDialog.current?.close(); }} type="button">{term}<Search /></button>) : <p>No library searches yet.</p>}</div>;
     if (tool === "Viewership Analysis") return <div className="hub-tool-status"><strong>Viewership Analysis</strong><p>{viewingHistory.length} recent video selections in this browser session. Audience counts, watch duration and aggregate analytics are not connected.</p></div>;
     return <div className="hub-tool-status" role="status"><strong>{tool} | Sample brief</strong><ul>{(company ? companyToolContent : demoToolContent)[tool].map(item => <li key={item}>{item}</li>)}</ul><p>Illustrative content. No live AI analysis or company assessment.</p></div>;
   }
@@ -153,7 +156,8 @@ function ResearchTools({ library, onSelect, company = false, viewingHistory = []
         <button aria-label="Search library" title="Search library" type="submit"><Search /></button>
       </form>
       {submitted !== null && <div className="hub-search-results" aria-live="polite"><p>{matches.length} library results</p>{matches.map((video) => <button key={video.title} onClick={() => onSelect(video)} type="button">{video.title}<ChevronRight /></button>)}{!matches.length && <p>No matching videos. Try a name or topic.</p>}</div>}
-      {company ? <div className="company-tool-groups">{companyToolGroups.map(group => <section key={group.title} aria-label={group.title}><h3>{group.title}</h3><div className="hub-tool-grid">{group.tools.map(tool => <div className="hub-tool-option" key={tool}><button aria-pressed={activeTool === tool} onClick={() => setActiveTool(activeTool === tool ? "" : tool)} type="button"><Bot />{tool}</button>{activeTool === tool && toolResult(tool)}</div>)}</div></section>)}</div> : <><div className="hub-tool-grid">{tools.slice(0, 6).map(tool => <button aria-pressed={activeTool === tool} key={tool} onClick={() => setActiveTool(activeTool === tool ? "" : tool)} type="button"><Bot />{tool}</button>)}</div>{activeTool && toolResult(activeTool)}</>}
+      {company ? <div className="company-tool-groups">{companyToolGroups.map(group => <section key={group.title} aria-label={group.title}><h3>{group.title}</h3><div className="hub-tool-grid">{group.tools.map(tool => <div className="hub-tool-option" key={tool}><button aria-haspopup="dialog" onClick={() => openTool(tool)} type="button"><Bot />{tool}</button></div>)}</div></section>)}</div> : <div className="hub-tool-grid">{tools.slice(0, 6).map(tool => <button aria-haspopup="dialog" key={tool} onClick={() => openTool(tool)} type="button"><Bot />{tool}</button>)}</div>}
+      <AnalysisDialog dialogRef={analysisDialog} title={activeTool} onClose={() => setActiveTool("")}>{activeTool && toolResult(activeTool)}</AnalysisDialog>
     </section>
   );
 }

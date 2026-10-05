@@ -1,9 +1,11 @@
 # Post-release double-check
 
 The user requested another read of JY's latest Upwork messages and correction
-of any concrete UI or interaction defects. No additional client messages or
-edits were present beyond the revisions already documented in
-FEEDBACK_LATEST_2026_10_06.md.
+of any concrete UI or interaction defects. The first read had no additional
+client messages or edits. A subsequent read during release found two new
+messages: story_1d98f46e5d8e159d6774d5ab626f35c2 at 21:22:51 UTC and
+story_04ca74e1418f06e137a5e1ea3f32ef7b at 21:23:10 UTC on October 5.
+JY asked about popup analysis UX and marketing-competition visualizations.
 
 ## Found and fixed
 
@@ -46,3 +48,20 @@ are not edited; native source-video letterboxing can remain.
 
 No client message or milestone is authorized by this QA request. The final
 handoff remains on hold, and the old Oswald-based draft must not be used.
+
+## New feedback follow-up
+
+- AI tool results now open a native dialog on company, AI and innovators
+  pages. The right rail stays compact, the central video stays selected, and
+  closing the dialog returns focus to the invoking control.
+- Marketing, sales and competitive tools include a comparison preview with
+  metric selectors, two sample periods, horizontal bars and an accessible
+  numeric table. Fictional brands and sample values are explicit, not real
+  platform results. Real analytics and AI services remain unconnected.
+- World and USA agent panels have the same marketing-comparison entry point.
+- No new company facts, performance claims or competitor conclusions added.
+- 35 tests, lint and production build passed. The new dialogs were checked
+  on all five affected pages at 1440, 390 and 320px, with no internal or page
+  horizontal overflow. Metric and period controls updated both bars and table;
+  Escape closed the company dialog and restored focus to its invoking button.
+  A final heading override prevents World panel styles shrinking dialog titles.

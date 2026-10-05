@@ -4,6 +4,7 @@ import "./styles/experience-hub.css";
 import "./styles/brand-fonts.css";
 import "./styles/landing-readable.css";
 import "./styles/tv-frame.css";
+import "./styles/analysis-dialog.css";
 import FontSettingsProvider from "./FontSettingsProvider";
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";

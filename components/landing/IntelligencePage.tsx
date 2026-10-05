@@ -15,6 +15,7 @@ import {
 } from "./chrome";
 import { GeographicMap } from "./GeographicMap";
 import { ScrollRail } from "./ScrollRail";
+import { MarketingAnalysisButton } from "./AnalysisDialog";
 import type {
   IntelligenceCard,
   IntelligenceLeader,
@@ -123,6 +124,7 @@ function WorldAgent({
         <button aria-label="Generate country brief" type="submit"><Send aria-hidden="true" /></button>
       </form>
       <p>{answer}</p>
+      <MarketingAnalysisButton />
     </section>
   );
 }

@@ -257,3 +257,21 @@ test("double-check fixes fit the inner toolbar and label image-only videos and e
   assert.match(page, /role="status">No videos found\./);
   assert.match(css, /grid-template-rows: 6rem 6rem/);
 });
+
+test("AI tools open readable native dialogs with explicitly fictional marketing comparisons", async () => {
+  const dialog = await read("components/landing/AnalysisDialog.tsx");
+  const page = await read("components/landing/ExperiencePages.tsx");
+  const world = await read("components/landing/IntelligencePage.tsx");
+  const usa = await read("components/landing/UsaIntelligencePage.tsx");
+  assert.match(dialog, /<dialog.*aria-labelledby=\{titleId\}/);
+  assert.match(dialog, /dialogRef\.current\?\.showModal\(\)/);
+  assert.match(dialog, /Close analysis/);
+  assert.match(dialog, /Demo Brand A/);
+  assert.match(dialog, /Not The INNOVATORS performance or competitor findings/);
+  assert.match(dialog, /No connected AI service or marketing account/);
+  assert.match(dialog, /<caption>\{metric\.label\}/);
+  assert.match(dialog, /aria-pressed=\{metricIndex === index\}/);
+  assert.match(page, /analysisDialog\.current\?\.showModal\(\)/);
+  assert.match(world, /<MarketingAnalysisButton \/>/);
+  assert.match(usa, /<MarketingAnalysisButton \/>/);
+});
