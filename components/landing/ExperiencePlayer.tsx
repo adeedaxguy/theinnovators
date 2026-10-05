@@ -7,6 +7,7 @@ import type { VideoItem } from "./types";
 import { previewMedia } from "./experience-demo";
 import { TVFrame } from "./TVFrame";
 import type { TVFrameSettings } from "./tv-frame-settings";
+import { VideoThumbnail } from "./VideoThumbnail";
 
 export function useExperiencePlayer(initialVideo: VideoItem) {
   const [selection, setSelection] = useState({ video: initialVideo, playing: false, revision: 0 });
@@ -62,7 +63,7 @@ export function ExperiencePlayer({
             onClick={() => onPlay(video)}
             type="button"
           >
-            <img alt="" src={video.image} />
+            <VideoThumbnail src={video.image} />
             <span className="hub-player-play"><Play fill="currentColor" />{media.sampleAttribution ? "Play sample" : "Play video"}</span>
           </button>
         ))}

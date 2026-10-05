@@ -23,7 +23,7 @@ function readSavedSettings(): TypographySettings {
 export default function FontSettingsProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   useEffect(() => {
-    const publicSettings = Object.fromEntries(Object.entries(DEFAULT_TYPOGRAPHY_SETTINGS).map(([key, setting]) => [key, { ...setting, family: key === "top-menu" ? '"Spartan", Arial, sans-serif' : 'Arial, "Helvetica Neue", Helvetica, sans-serif', size: key === "body" || key === "forms-buttons" ? 16 : key === "video-titles" ? 16 : key === "leader-card-text" ? 14 : key.includes("titles") || key === "ai-headings" ? setting.size : Math.max(14, setting.size) }]));
+    const publicSettings = Object.fromEntries(Object.entries(DEFAULT_TYPOGRAPHY_SETTINGS).map(([key, setting]) => [key, { ...setting, family: ["top-menu", "top-actions", "sector-menu", "forms-buttons"].includes(key) ? '"Roboto", Arial, sans-serif' : '"Now", "Roboto", Arial, sans-serif', size: ["body", "forms-buttons", "video-titles", "leader-card-text"].includes(key) ? 16 : key.includes("titles") || key === "ai-headings" ? setting.size : Math.max(14, setting.size) }]));
     const apply = () => applyTypographySettings(pathname.startsWith("/admin") ? readSavedSettings() : publicSettings);
     apply();
 

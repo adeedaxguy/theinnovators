@@ -39,6 +39,7 @@ export function PortalHeader({
       <nav className="module-nav" aria-label="Platform modules">
         {topModules.map(([label, icon]) => (
           <button
+            aria-label={label}
             className={cx(activeModule === label && "is-active")}
             data-testid={`module-${slug(label)}`}
             key={label}

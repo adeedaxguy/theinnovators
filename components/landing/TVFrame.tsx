@@ -19,8 +19,8 @@ export function TVFrame({ settings, logo, children, controls, overlays = true }:
         </div>}
       </div>
       {settings.style === "retro" && <div className="tv-retro-panel" aria-hidden="true"><i className="tv-knob" /><i className="tv-knob" /><i className="tv-speaker" /></div>}
+      {controls && <div className="tv-cabinet-controls">{controls}</div>}
     </div>
     <div className="tv-brand-plate"><span className="tv-led" aria-hidden="true" /><span>{settings.brand}</span></div>
-    {controls}
   </div>;
 }

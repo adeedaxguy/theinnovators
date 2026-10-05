@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Compass, UserPlus } from "lucide-react";
 import type { FormEvent } from "react";
 import {
   aiRows,
@@ -118,11 +119,11 @@ export default function InnovationDashboard() {
         <section className="leaders-panel">
           <div className="panel-heading">
             <h2>Leaders</h2>
-            <button className="mini-action" onClick={() => setActiveModule("Leaders")} type="button">
-              {followed.length ? `${followed.length} followed` : "Follow"}
+            <button aria-label={followed.length ? `${followed.length} leaders followed` : "Follow leaders"} title={followed.length ? `${followed.length} leaders followed` : "Follow leaders"} className="mini-action" onClick={() => setActiveModule("Leaders")} type="button">
+              <UserPlus />
             </button>
           </div>
-          {Object.entries(leaderGroups).map(([group, people]) => (
+          {Object.entries(leaderGroups).filter(([group]) => !["Startups", "Communities"].includes(group)).map(([group, people]) => (
             <div className="leader-row" key={group}>
               <h3>{group}</h3>
               <ScrollRail className="leader-strip" label={`${group} leaders`}>
@@ -155,8 +156,8 @@ export default function InnovationDashboard() {
         <section className="innovators-panel">
           <div className="panel-heading">
             <h2>Innovators</h2>
-            <button className="mini-action" onClick={() => setActiveCategory("AI")} type="button">
-              Discover
+            <button aria-label="Discover innovators" title="Discover innovators" className="mini-action" onClick={() => setActiveCategory("AI")} type="button">
+              <Compass />
             </button>
           </div>
           <div className="innovator-lines">
@@ -171,6 +172,7 @@ export default function InnovationDashboard() {
                     <VideoCard
                       key={`${label}-${video.title}-${index}`}
                       video={video}
+                      layout="editorial"
                       onPlay={(item) => {
                         setActiveVideo(item);
                         setModalVideo(item);

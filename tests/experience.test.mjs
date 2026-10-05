@@ -213,9 +213,32 @@ test("landing text has readable floors without viewport-dependent title sizing",
   const page = await read("components/landing/InnovationDashboard.tsx");
   assert.match(page, /portal-shell landing-readable/);
   assert.match(css, /--portal-body: 1rem/);
-  assert.match(css, /--portal-ui: \.9375rem/);
+  assert.match(css, /--portal-ui: 1rem/);
   assert.match(css, /--portal-meta: \.8125rem/);
   assert.match(css, /font-size: 1rem !important/);
   assert.doesNotMatch(css, /\dvw|font-size:.*clamp/);
   assert.doesNotMatch(adminCss, /clamp\(12px, 0\.78vw, 14px\)/);
+});
+
+test("latest JY feedback keeps Now headings, prominent accessible icons and aligned 16:9 homepage rows", async () => {
+  const css = await read("app/styles/landing-readable.css");
+  const chrome = await read("components/landing/chrome.tsx");
+  const home = await read("components/landing/InnovationDashboard.tsx");
+  const frame = await read("app/styles/tv-frame.css");
+  const thumbnail = await read("components/landing/VideoThumbnail.tsx");
+  assert.match(css, /--portal-heading-font: "Now"/);
+  assert.doesNotMatch(css, /Oswald/);
+  assert.match(chrome, /aria-label=\{label\}/);
+  assert.match(css, /--module-icon-size: 6\.25rem/);
+  assert.match(css, /\.module-label \{ opacity: 0/);
+  assert.match(css, /button:is\(:hover, :focus-visible\) \.module-label \{ opacity: 1/);
+  assert.match(home, /filter\(\(\[group\]\) => !\["Startups", "Communities"\]\.includes\(group\)\)/);
+  assert.match(css, /aspect-ratio: 16 \/ 9/);
+  assert.match(css, /\.video-copy\) \{ height: 4\.75rem; min-height: 4\.75rem/);
+  assert.match(css, /grid-auto-columns: calc\(\(100% - 1\.5rem\) \/ 3\)/);
+  const tv = await read("components/landing/TVFrame.tsx");
+  assert.match(tv, /tv-cabinet-controls/);
+  assert.match(frame, /minmax\(14rem, \.85fr\) minmax\(0, 2\.8fr\)/);
+  assert.match(thumbnail, /is-letterboxed/);
+  assert.match(frame, /\.video-thumbnail\.is-letterboxed > img \{ transform: scale\(1\.12\)/);
 });
